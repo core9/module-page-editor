@@ -31,12 +31,12 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 		// System.out.println("Content: " + content.toString());
-		return content.toString();
+		return content.toString().substring(0,content.toString().length()-2);
 	}
 
 	public static Path writeToFile(Path file, String string) {
 		try {
-			Files.write(file, ImmutableList.of("hello world"), StandardCharsets.UTF_8);
+			Files.write(file, ImmutableList.of(string), StandardCharsets.UTF_8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

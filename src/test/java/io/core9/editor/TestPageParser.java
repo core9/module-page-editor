@@ -55,9 +55,21 @@ public class TestPageParser {
 		Path file = FileUtils.getFile("/foo", "new-front-page.html");
 		file = FileUtils.writeToFile(file, "hello world");
 		String string = FileUtils.readFileToString(file);
-		assertTrue(string.equals("hello world/n"));
+		assertTrue(string.equals("hello world"));
 	}
 
+	@Test
+	public void testIfSavedFileIsRestoredCorrect() {
+		setupBlocksFromPage();
+		Path file = FileUtils.getFile("/fooo", "new-front-page.html");
 
+		String content = FileUtils.readFileToString(parser.getOriginalFile().toPath());
+
+		file = FileUtils.writeToFile(file, content);
+
+		String string = FileUtils.readFileToString(file);
+		assertTrue(string.equals(content));
+
+	}
 
 }

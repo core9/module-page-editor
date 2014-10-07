@@ -14,9 +14,10 @@ public class PageParserImpl implements Parser {
 
 	private Document doc;
 	private List<Block> blockRegistry = new ArrayList<Block>();
+	private File page;
 
 	public PageParserImpl(File page, String blockClassName) {
-
+		this.page = page;
 		doc = parseHtml(page);
 		parseBlocks(blockClassName);
 
@@ -63,6 +64,13 @@ public class PageParserImpl implements Parser {
 	@Override
 	public Block getBlock(int i) {
 		return blockRegistry.get(i);
+	}
+
+
+
+	@Override
+	public File getOriginalFile() {
+		return page;
 	}
 
 }
