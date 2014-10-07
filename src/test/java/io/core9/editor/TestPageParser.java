@@ -62,41 +62,12 @@ public class TestPageParser {
 
 	@Test
 	public void testWriteFile() {
-		// For a simple file system with Unix-style paths and behavior:
-		FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
-		Path foo = fs.getPath("/foo");
-		try {
-			Files.createDirectory(foo);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		Path hello = foo.resolve("new-front-page.html"); // /foo/new-front-page.html
-		try {
-			Files.write(hello, ImmutableList.of("hello world"), StandardCharsets.UTF_8);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = Files.newBufferedReader(hello, Charset.defaultCharset());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		StringBuilder content = new StringBuilder();
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				content.append(line).append("/n");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("Content: " + content.toString());
-
+		Path file = FileUtils.getFile("/foo", "new-front-page.html");
+		file = FileUtils.writeToFile(file, "hello world");
+		String string = FileUtils.readFileToString(file);
+		assertTrue(string.equals("hello world/n"));
 	}
+
+
 
 }
