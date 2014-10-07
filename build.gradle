@@ -1,0 +1,68 @@
+// $ ./gradlew --refresh-dependencies clean installApp
+apply from: 'http://www.core9.io/buildfiles/gradle/source.gradle'
+apply from: 'http://www.core9.io/buildfiles/gradle/publish.gradle'
+
+apply plugin: 'application'
+
+mainClassName = "io.core9.core.boot.BootstrapFramework"
+
+buildscript {
+	apply from: 'http://www.core9.io/buildfiles/gradle/publish-build.gradle'
+}
+
+repositories {
+  jcenter()
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '1.12'
+}
+
+dependencies {
+  // Core
+  compile 'io.core9:core:+'
+
+  // Server
+  compile 'io.core9:module-hostmanager:+'
+  compile 'io.core9:module-server:+'
+  compile 'io.core9:module-server-undertow:1.+'
+
+  // Authentication
+  compile 'io.core9:module-authentication:+'
+  compile 'io.core9:module-authentication-standard:+'
+
+  // Template engine
+  compile 'io.core9:module-template-engine-closure:+'
+
+  // Features
+  compile 'io.core9:module-features:+'
+
+  // Git
+  compile 'io.core9:module-git:+'
+
+  // Widgets
+  compile 'io.core9:module-widgets:+'
+  compile 'io.core9:module-widgets-toolkit:+'
+
+  // Database
+  compile 'io.core9:module-database:+'
+  compile 'io.core9:module-database-mongodb:+'
+
+  // Admin
+  compile 'io.core9:module-admin:+'
+  compile 'io.core9:module-admin-dashboard:+'
+  compile 'io.core9:module-files-manager:+'
+
+  // Rest
+  compile 'io.core9:module-rest-api:+'
+
+  // Thumbnails
+  //compile 'io.core9:module-thumbnails:+'
+
+  // Commerce
+  //compile 'io.core9:module-commerce:+'
+  //compile 'io.core9:module-ogone:+'
+
+  // Mail
+  //compile 'io.core9:module-mail:+'
+}
