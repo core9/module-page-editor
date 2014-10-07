@@ -6,4 +6,8 @@ public interface Parser {
 
 	List<Block> getBlocks();
 
+	void switchBlocks(int i, int j);
+
+	Block getBlock(int i);
+
 }

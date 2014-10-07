@@ -19,6 +19,11 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
+  // project dependencies
+
+  compile 'org.jsoup:jsoup:1.7.3'
+
+
   // Core
   compile 'io.core9:core:+'
 
