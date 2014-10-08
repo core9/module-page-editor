@@ -76,7 +76,6 @@ public class TestPageParser {
 		parser.replaceBlock(0, block);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
-		System.out.println(content);
 	}
 
 	@Test
@@ -86,11 +85,9 @@ public class TestPageParser {
 		Block block = parser.getBlock(2);
 		parser.appendBlock(block);
 		String content = parser.getPage();
-		assertTrue(!originalContent.equals(content));
-		System.out.println(content);
+		assertTrue(originalContent.equals(content));
 	}
-	
-	
+
 	@Test
 	public void testAssemblePageFromBlocksAfterInsertBlock() {
 		setupBlocksFromPage();
@@ -99,8 +96,15 @@ public class TestPageParser {
 		parser.insertBlock(4, block);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
-		System.out.println(content);
 	}
-	
+
+	@Test
+	public void testAssemblePageFromBlocksAfterDeleteBlock() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteBlock(0);
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+	}
 
 }

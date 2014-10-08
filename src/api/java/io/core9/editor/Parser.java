@@ -20,4 +20,6 @@ public interface Parser {
 
 	void insertBlock(int i, Block block);
 
+	void deleteBlock(int i);
+
 }

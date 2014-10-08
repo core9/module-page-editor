@@ -19,6 +19,7 @@ public class PageParserImpl implements Parser {
 	private String blockClassName;
 	private List<Block> originalBlockRegistry = new ArrayList<Block>();
 	private File originalPage;
+	private List<Integer> deletedBlocks = new ArrayList<Integer>();
 
 	public PageParserImpl(File page, String blockClassName) {
 
@@ -35,12 +36,22 @@ public class PageParserImpl implements Parser {
 
 	}
 
+	@Override
+	public void deleteBlock(int x) {
+
+		// check for out of bound
+		blockRegistry.remove(x);
+		deletedBlocks.add(x);
+
+		System.out.println("");
+	}
 
 	@Override
 	public void insertBlock(int i, Block block) {
+		// check for out of bound
 		blockRegistry.add(i, block);
 	}
-	
+
 	@Override
 	public void appendBlock(Block block) {
 		blockRegistry.add(block);
@@ -58,6 +69,7 @@ public class PageParserImpl implements Parser {
 
 	@Override
 	public Block getBlock(int i) {
+		// check for out of bound
 		return blockRegistry.get(i);
 	}
 
@@ -68,26 +80,48 @@ public class PageParserImpl implements Parser {
 
 	@Override
 	public void switchBlocks(int i, int j) {
+		// check for out of bound
 		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
 	}
 
 	@Override
 	public void replaceBlock(int i, Block block) {
+		// check for out of bound
 		blockRegistry.set(i, block);
 	}
 
 	private String writeBlocksToString(Document document, File file, List<Block> registry) {
+		Elements blocks = document.select(blockClassName);
 		int i = 0;
-		for (Element block : document.select(blockClassName)) {
-			block.wrap("<wrap></wrap>");
-			Elements wrap = document.select("wrap");
-			wrap.empty();
-			Element elem = registry.get(i).getElement();
-			wrap.html(elem.toString());
-			wrap.unwrap();
+		for (Element block : blocks) {
+			if (!deletedBlocks.contains(i) && blocks.size() > i) {
+				changeBlock(document, registry, i, block);
+			} else if (blockRegistry.size() > blocks.size()) {
+				Element blk = blocks.get(blocks.size() - 1);
+				if (blockRegistry.size() > blocks.size()) {
+					for (int x = blocks.size() - 1; x < blockRegistry.size(); x++) {
+						Block elem = blockRegistry.get(x);
+						blk.after(elem.getElement());
+					}
+				}
+			} else {
+				block.remove();
+			}
 			i++;
 		}
 		return document.toString();
+	}
+
+	private void changeBlock(Document document, List<Block> registry, int i, Element block) {
+		if (i == registry.size()) {
+			return;
+		}
+		block.wrap("<wrap></wrap>");
+		Elements wrap = document.select("wrap");
+		wrap.empty();
+		Element elem = registry.get(i).getElement();
+		wrap.html(elem.toString());
+		wrap.unwrap();
 	}
 
 	private List<Block> parseBlocks(Document document, String blockClassName) {
@@ -112,6 +146,5 @@ public class PageParserImpl implements Parser {
 		}
 		return document;
 	}
-
 
 }
