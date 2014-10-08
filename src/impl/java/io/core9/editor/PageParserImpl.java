@@ -21,33 +21,75 @@ public class PageParserImpl implements Parser {
 	private File originalPage;
 
 	public PageParserImpl(File page, String blockClassName) {
-		
+
 		this.blockClassName = blockClassName;
-		
+
 		this.originalPage = page;
 		this.page = page;
-		
+
 		doc = parseHtml(this.page);
 		orgDoc = parseHtml(originalPage);
-		
+
 		blockRegistry = parseBlocks(doc, blockClassName);
 		originalBlockRegistry = parseBlocks(orgDoc, blockClassName);
 
 	}
-	
 
+
+	@Override
+	public void insertBlock(int i, Block block) {
+		blockRegistry.add(i, block);
+	}
+	
+	@Override
+	public void appendBlock(Block block) {
+		blockRegistry.add(block);
+	}
 
 	@Override
 	public String getOriginalFile() {
 		return writeBlocksToString(orgDoc, originalPage, originalBlockRegistry);
 	}
 
-
 	@Override
 	public String getPage() {
 		return writeBlocksToString(doc, page, blockRegistry);
 	}
-	
+
+	@Override
+	public Block getBlock(int i) {
+		return blockRegistry.get(i);
+	}
+
+	@Override
+	public List<Block> getBlocks() {
+		return blockRegistry;
+	}
+
+	@Override
+	public void switchBlocks(int i, int j) {
+		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
+	}
+
+	@Override
+	public void replaceBlock(int i, Block block) {
+		blockRegistry.set(i, block);
+	}
+
+	private String writeBlocksToString(Document document, File file, List<Block> registry) {
+		int i = 0;
+		for (Element block : document.select(blockClassName)) {
+			block.wrap("<wrap></wrap>");
+			Elements wrap = document.select("wrap");
+			wrap.empty();
+			Element elem = registry.get(i).getElement();
+			wrap.html(elem.toString());
+			wrap.unwrap();
+			i++;
+		}
+		return document.toString();
+	}
+
 	private List<Block> parseBlocks(Document document, String blockClassName) {
 
 		Elements elems = document.select(blockClassName);
@@ -61,16 +103,6 @@ public class PageParserImpl implements Parser {
 		return registry;
 	}
 
-	@Override
-	public Block getBlock(int i) {
-		return blockRegistry.get(i);
-	}
-	
-	@Override
-	public List<Block> getBlocks() {
-		return blockRegistry;
-	}
-
 	private Document parseHtml(File page) {
 		Document document = null;
 		try {
@@ -81,37 +113,5 @@ public class PageParserImpl implements Parser {
 		return document;
 	}
 
-	public void switchBlocks(int i, int j) {
-		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
-	}
-
-	
-	@Override
-	public void replaceBlock(int i, Block block) {
-		blockRegistry.set(i, block);
-	}
-
-
-
-	private String writeBlocksToString(Document document, File file, List<Block> registry) {
-		// original document parse original blocklist
-		// for original blocklist in replace with modified blocklist in document
-		// write out document
-		// List<Block> originalBlocks = parseBlocks(originalDocument,
-		// blockClassName);
-
-		int i = 0;
-		for (Element block : document.select(blockClassName)) {
-			block.wrap("<wrap></wrap>");
-			Elements wrap = document.select("wrap");
-			wrap.empty();
-			Element elem = registry.get(i).getElement();
-			wrap.html(elem.toString());
-			wrap.unwrap();
-			i++;
-		}
-
-		return document.toString();
-	}
 
 }

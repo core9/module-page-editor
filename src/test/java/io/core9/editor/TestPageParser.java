@@ -73,18 +73,34 @@ public class TestPageParser {
 		setupBlocksFromPage();
 		String originalContent = parser.getOriginalFile();
 		Block block = parser.getBlock(2);
-		parser.replaceBlock(1, block);
+		parser.replaceBlock(0, block);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
+		System.out.println(content);
 	}
 
 	@Test
-	public void testAssemblePageFromBlocks() {
-
+	public void testAssemblePageFromBlocksAfterAppendingBlock() {
 		setupBlocksFromPage();
-
-		// System.out.println(parser.getPage());
-
+		String originalContent = parser.getOriginalFile();
+		Block block = parser.getBlock(2);
+		parser.appendBlock(block);
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		System.out.println(content);
 	}
+	
+	
+	@Test
+	public void testAssemblePageFromBlocksAfterInsertBlock() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		Block block = parser.getBlock(2);
+		parser.insertBlock(4, block);
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		System.out.println(content);
+	}
+	
 
 }

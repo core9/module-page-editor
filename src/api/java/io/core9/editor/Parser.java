@@ -16,4 +16,8 @@ public interface Parser {
 
 	String getPage();
 
+	void appendBlock(Block block);
+
+	void insertBlock(int i, Block block);
+
 }
