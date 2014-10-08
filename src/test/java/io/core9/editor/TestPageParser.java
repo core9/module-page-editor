@@ -54,7 +54,7 @@ public class TestPageParser {
 	public void testWriteFile() {
 		Path file = FileUtils.getFile("/foo", "new-front-page.html");
 		file = FileUtils.writeToFile(file, "hello world");
-		String string = FileUtils.readFileToString(file);
+		String string = FileUtils.readPathToString(file);
 		assertTrue(string.equals("hello world"));
 	}
 
@@ -62,19 +62,62 @@ public class TestPageParser {
 	public void testIfSavedFileIsRestoredCorrect() {
 		setupBlocksFromPage();
 		Path file = FileUtils.getFile("/fooo", "new-front-page.html");
-
-		String content = FileUtils.readFileToString(parser.getOriginalFile().toPath());
-
+		String content = parser.getOriginalFile();
 		file = FileUtils.writeToFile(file, content);
-
-		String string = FileUtils.readFileToString(file);
-		assertTrue(string.equals(content));
-
+		String string = FileUtils.readPathToString(file);
+		assertTrue(string.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim()));
 	}
 
 	@Test
 	public void testReplaceElementWithNewElement(){
 		//http://stackoverflow.com/questions/12419056/i-am-looking-for-an-html-parser-that-can-replace-the-small-tag-with-spans
+		setupBlocksFromPage();
+		//String originalContent = parser.getOriginalFile();
+		//Block block = parser.getBlock(1);
+		//parser.replaceBlock(1, block);
+		
+		//System.out.println(originalContent);
+		
+		//assertTrue(originalContent.equals(originalContent));
 	}
 
+	
+	
+	@Test
+	public void testAssemblePageFromBlocks(){
+		
+		setupBlocksFromPage();
+		
+		//System.out.println(parser.getPage());
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

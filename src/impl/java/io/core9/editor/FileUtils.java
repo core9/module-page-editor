@@ -14,7 +14,7 @@ import com.google.common.jimfs.Jimfs;
 
 public class FileUtils {
 
-	public static String readFileToString(Path file) {
+	public static String readPathToString(Path file) {
 		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(file, Charset.defaultCharset());
@@ -25,13 +25,13 @@ public class FileUtils {
 		String line = null;
 		try {
 			while ((line = reader.readLine()) != null) {
-				content.append(line).append("/n");
+				content.append(line);//.append("/n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		// System.out.println("Content: " + content.toString());
-		return content.toString().substring(0, content.toString().length() - 2);
+		return content.toString();//.substring(0, content.toString().length() - 2);
 	}
 
 	public static Path writeToFile(Path file, String string) {

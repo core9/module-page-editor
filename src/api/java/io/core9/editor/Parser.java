@@ -1,6 +1,5 @@
 package io.core9.editor;
 
-import java.io.File;
 import java.util.List;
 
 public interface Parser {
@@ -11,6 +10,10 @@ public interface Parser {
 
 	Block getBlock(int i);
 
-	File getOriginalFile();
+	String getOriginalFile();
+
+	void replaceBlock(int i, Block block);
+
+	String getPage();
 
 }
