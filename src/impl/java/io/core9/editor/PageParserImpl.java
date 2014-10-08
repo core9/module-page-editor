@@ -23,26 +23,21 @@ public class PageParserImpl implements Parser {
 
 	}
 
-
-
 	private void parseBlocks(String blockClassName) {
 
 		Elements elems = doc.select(blockClassName);
 
-		for(Element elem : elems){
+		for (Element elem : elems) {
 			Block block = new BlockImpl();
 			block.addElement(elem);
 			blockRegistry.add(block);
 		}
 	}
 
-
-
 	@Override
 	public List<Block> getBlocks() {
 		return blockRegistry;
 	}
-
 
 	private Document parseHtml(File page) {
 		try {
@@ -53,20 +48,14 @@ public class PageParserImpl implements Parser {
 		return doc;
 	}
 
-
-
 	public void switchBlocks(int i, int j) {
 		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
 	}
-
-
 
 	@Override
 	public Block getBlock(int i) {
 		return blockRegistry.get(i);
 	}
-
-
 
 	@Override
 	public File getOriginalFile() {

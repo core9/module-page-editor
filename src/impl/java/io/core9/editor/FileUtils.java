@@ -31,7 +31,7 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 		// System.out.println("Content: " + content.toString());
-		return content.toString().substring(0,content.toString().length()-2);
+		return content.toString().substring(0, content.toString().length() - 2);
 	}
 
 	public static Path writeToFile(Path file, String string) {
