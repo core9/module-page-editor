@@ -72,4 +72,9 @@ public class TestPageParser {
 
 	}
 
+	@Test
+	public void testReplaceElementWithNewElement(){
+		//http://stackoverflow.com/questions/12419056/i-am-looking-for-an-html-parser-that-can-replace-the-small-tag-with-spans
+	}
+
 }
