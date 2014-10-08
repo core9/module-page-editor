@@ -69,55 +69,22 @@ public class TestPageParser {
 	}
 
 	@Test
-	public void testReplaceElementWithNewElement(){
-		//http://stackoverflow.com/questions/12419056/i-am-looking-for-an-html-parser-that-can-replace-the-small-tag-with-spans
+	public void testReplaceElementWithNewElement() {
 		setupBlocksFromPage();
-		//String originalContent = parser.getOriginalFile();
-		//Block block = parser.getBlock(1);
-		//parser.replaceBlock(1, block);
-		
-		//System.out.println(originalContent);
-		
-		//assertTrue(originalContent.equals(originalContent));
+		String originalContent = parser.getOriginalFile();
+		Block block = parser.getBlock(2);
+		parser.replaceBlock(1, block);
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
 	}
 
-	
-	
 	@Test
-	public void testAssemblePageFromBlocks(){
-		
+	public void testAssemblePageFromBlocks() {
+
 		setupBlocksFromPage();
-		
-		//System.out.println(parser.getPage());
-		
-		
-		
+
+		// System.out.println(parser.getPage());
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
