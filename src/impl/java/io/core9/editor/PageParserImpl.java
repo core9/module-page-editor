@@ -91,23 +91,22 @@ public class PageParserImpl implements Parser {
 	}
 
 	private String writeBlocksToString(Document document, List<Block> registry) {
-		Elements blocks = document.select(blockClassName);
+		Elements elements = document.select(blockClassName);
 		int i = 0;
-		for (Element block : blocks) {
-			if (!deletedBlocks.contains(i) && blocks.size() > i) {
+		for (Element block : elements) {
+			if (!deletedBlocks.contains(i) && elements.size() > i + 1) {
 				changeBlock(document, registry, i, block);
-			} else if (blockRegistry.size() > blocks.size()) {
-				Element blk = blocks.get(blocks.size() - 1);
-				if (blockRegistry.size() > blocks.size()) {
-					for (int x = blocks.size() - 1; x < blockRegistry.size(); x++) {
-						Block elem = blockRegistry.get(x);
-						blk.after(elem.getElement());
-					}
-				}
 			} else {
 				block.remove();
 			}
 			i++;
+		}
+		if (registry.size() > elements.size()) {
+			Element blk = elements.get(elements.size() - 1);
+			for (int x = elements.size() - 1; x < registry.size(); x++) {
+				Block elem = registry.get(x);
+				blk.after(elem.getElement());
+			}
 		}
 		return document.toString();
 	}
