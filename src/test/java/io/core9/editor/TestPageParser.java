@@ -85,7 +85,7 @@ public class TestPageParser {
 		Block block = parser.getBlock(2);
 		parser.appendBlock(block);
 		String content = parser.getPage();
-		printContent(originalContent, content);
+
 		assertTrue(!isEqual(originalContent, content));
 	}
 
@@ -105,6 +105,7 @@ public class TestPageParser {
 		String originalContent = parser.getOriginalFile();
 		parser.deleteBlock(0);
 		String content = parser.getPage();
+		printContent(originalContent, content);
 		assertTrue(!originalContent.equals(content));
 	}
 

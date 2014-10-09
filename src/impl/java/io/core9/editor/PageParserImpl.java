@@ -99,6 +99,7 @@ public class PageParserImpl implements Parser {
 				changeBlock(document, registry, i, block);
 			} else {
 				block.remove();
+				deletedBlocks.remove(i);
 				i--;
 			}
 			i++;
