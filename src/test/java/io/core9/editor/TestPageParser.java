@@ -39,15 +39,11 @@ public class TestPageParser {
 		setupBlocksFromPage();
 		Block block1 = parser.getBlock(1);
 		Block block4 = parser.getBlock(4);
-
 		parser.switchBlocks(1, 4);
-
 		Block newBlock1 = parser.getBlock(1);
 		Block newBlock4 = parser.getBlock(4);
-
 		assertTrue(block1.getElement().toString().equals(newBlock4.getElement().toString()));
 		assertTrue(block4.getElement().toString().equals(newBlock1.getElement().toString()));
-
 		assertTrue(!block1.getElement().toString().equals(newBlock1.getElement().toString()));
 		assertTrue(!block4.getElement().toString().equals(newBlock4.getElement().toString()));
 	}
@@ -78,7 +74,6 @@ public class TestPageParser {
 		parser.replaceBlock(0, block);
 		String content = parser.getPage();
 		assertTrue(!isEqual(originalContent, content));
-
 		assertTrue(findBlockContaining("1 block", content) == 0);
 		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
@@ -90,9 +85,7 @@ public class TestPageParser {
 		Block block = parser.getBlock(2);
 		parser.appendBlock(block);
 		String content = parser.getPage();
-
 		assertTrue(!isEqual(originalContent, content));
-
 		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
 
@@ -105,9 +98,7 @@ public class TestPageParser {
 		parser.appendBlock(block);
 		parser.appendBlock(block);
 		String content = parser.getPage();
-
 		assertTrue(!isEqual(originalContent, content));
-
 		assertTrue(findBlockContaining("3 block", content) == 4);
 	}
 
@@ -120,7 +111,6 @@ public class TestPageParser {
 		parser.insertBlock(4, block);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
-
 		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
 
@@ -130,9 +120,7 @@ public class TestPageParser {
 		String originalContent = parser.getOriginalFile();
 		parser.deleteBlock(0);
 		String content = parser.getPage();
-		printContent(originalContent, content);
 		assertTrue(!originalContent.equals(content));
-
 		assertTrue(findBlockContaining("1 block", content) == 0);
 	}
 
@@ -144,7 +132,6 @@ public class TestPageParser {
 		parser.deleteBlock(2);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
-
 		assertTrue(findBlockContaining("1 block", content) == 0);
 		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
 	}
@@ -164,6 +151,7 @@ public class TestPageParser {
 		return originalContent.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim());
 	}
 
+	@SuppressWarnings("unused")
 	private void printContent(String originalContent, String content){
 		System.out.println(originalContent);
 		System.out.println(content);
