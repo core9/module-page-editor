@@ -3,6 +3,7 @@ package io.core9.editor;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -98,8 +99,7 @@ public class PageParserImpl implements Parser {
 			if (!deletedBlocks.contains(i) && elements.size() >= n) {
 				changeBlock(document, registry, i, block);
 			} else {
-				block.remove();
-				deletedBlocks.remove(i);
+				removeBlockFromList(i, block);
 				i--;
 			}
 			i++;
@@ -114,6 +114,16 @@ public class PageParserImpl implements Parser {
 			}
 		}
 		return document.toString();
+	}
+
+	private void removeBlockFromList(int i, Element block) {
+		block.remove();
+		for (Iterator<Integer> iter = deletedBlocks.listIterator(); iter.hasNext();) {
+			Integer a = iter.next();
+			if (a == i) {
+				iter.remove();
+			}
+		}
 	}
 
 	private void changeBlock(Document document, List<Block> registry, int i, Element block) {

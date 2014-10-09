@@ -78,6 +78,9 @@ public class TestPageParser {
 		parser.replaceBlock(0, block);
 		String content = parser.getPage();
 		assertTrue(!isEqual(originalContent, content));
+
+		assertTrue(findBlockContaining("1 block", content) == 0);
+		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
 
 	@Test
@@ -89,7 +92,25 @@ public class TestPageParser {
 		String content = parser.getPage();
 
 		assertTrue(!isEqual(originalContent, content));
+
+		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
+
+	@Test
+	public void testAssemblePageFromBlocksAfterAppendingThreeBlocks() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		Block block = parser.getBlock(2);
+		parser.appendBlock(block);
+		parser.appendBlock(block);
+		parser.appendBlock(block);
+		String content = parser.getPage();
+
+		assertTrue(!isEqual(originalContent, content));
+
+		assertTrue(findBlockContaining("3 block", content) == 4);
+	}
+
 
 	@Test
 	public void testAssemblePageFromBlocksAfterInsertBlock() {
@@ -114,6 +135,21 @@ public class TestPageParser {
 
 		assertTrue(findBlockContaining("1 block", content) == 0);
 	}
+
+	@Test
+	public void testAssemblePageFromBlocksAfterDeletingMultipleBlocks() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteBlock(0);
+		parser.deleteBlock(2);
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+
+		assertTrue(findBlockContaining("1 block", content) == 0);
+		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
+	}
+
+
 
 	private int findBlockContaining(String string, String content) {
         Pattern pattern = Pattern.compile(string.toLowerCase());
