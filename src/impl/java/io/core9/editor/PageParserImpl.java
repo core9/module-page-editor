@@ -94,7 +94,8 @@ public class PageParserImpl implements Parser {
 		Elements elements = document.select(blockClassName);
 		int i = 0;
 		for (Element block : elements) {
-			if (!deletedBlocks.contains(i) && elements.size() > i + 1) {
+			int n = i + 1;
+			if (!deletedBlocks.contains(i) && elements.size() >= n) {
 				changeBlock(document, registry, i, block);
 			} else {
 				block.remove();
@@ -105,16 +106,15 @@ public class PageParserImpl implements Parser {
 			Element blk = elements.get(elements.size() - 1);
 			for (int x = elements.size() - 1; x < registry.size(); x++) {
 				Block elem = registry.get(x);
-				blk.after(elem.getElement());
+				Element newElem = elem.getElement();
+				blk.after(newElem);
+				System.out.println("");
 			}
 		}
 		return document.toString();
 	}
 
 	private void changeBlock(Document document, List<Block> registry, int i, Element block) {
-		if (i == registry.size()) {
-			return;
-		}
 		block.wrap("<wrap></wrap>");
 		Elements wrap = document.select("wrap");
 		wrap.empty();
