@@ -59,12 +59,12 @@ public class PageParserImpl implements Parser {
 
 	@Override
 	public String getOriginalFile() {
-		return writeBlocksToString(orgDoc, originalPage, originalBlockRegistry);
+		return writeBlocksToString(orgDoc, originalBlockRegistry);
 	}
 
 	@Override
 	public String getPage() {
-		return writeBlocksToString(doc, page, blockRegistry);
+		return writeBlocksToString(doc, blockRegistry);
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class PageParserImpl implements Parser {
 		blockRegistry.set(i, block);
 	}
 
-	private String writeBlocksToString(Document document, File file, List<Block> registry) {
+	private String writeBlocksToString(Document document, List<Block> registry) {
 		Elements blocks = document.select(blockClassName);
 		int i = 0;
 		for (Element block : blocks) {

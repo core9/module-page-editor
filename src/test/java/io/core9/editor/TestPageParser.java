@@ -62,10 +62,10 @@ public class TestPageParser {
 	public void testIfSavedFileIsRestoredCorrect() {
 		setupBlocksFromPage();
 		Path file = FileUtils.getFile("/fooo", "new-front-page.html");
-		String content = parser.getOriginalFile();
-		file = FileUtils.writeToFile(file, content);
-		String string = FileUtils.readPathToString(file);
-		assertTrue(string.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim()));
+		String originalContent = parser.getOriginalFile();
+		file = FileUtils.writeToFile(file, originalContent);
+		String content = FileUtils.readPathToString(file);
+		assertTrue(isEqual(originalContent, content));
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class TestPageParser {
 		Block block = parser.getBlock(2);
 		parser.replaceBlock(0, block);
 		String content = parser.getPage();
-		assertTrue(!originalContent.equals(content));
+		assertTrue(!isEqual(originalContent, content));
 	}
 
 	@Test
@@ -85,7 +85,8 @@ public class TestPageParser {
 		Block block = parser.getBlock(2);
 		parser.appendBlock(block);
 		String content = parser.getPage();
-		assertTrue(originalContent.equals(content));
+		printContent(originalContent, content);
+		assertTrue(!isEqual(originalContent, content));
 	}
 
 	@Test
@@ -107,4 +108,12 @@ public class TestPageParser {
 		assertTrue(!originalContent.equals(content));
 	}
 
+	private boolean isEqual(String originalContent, String content){
+		return originalContent.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim());
+	}
+
+	private void printContent(String originalContent, String content){
+		System.out.println(originalContent);
+		System.out.println(content);
+	}
 }
