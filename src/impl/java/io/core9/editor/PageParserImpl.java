@@ -103,11 +103,11 @@ public class PageParserImpl implements Parser {
 			i++;
 		}
 		if (registry.size() > elements.size()) {
-			Element blk = elements.get(elements.size() - 1);
-			for (int x = elements.size() - 1; x < registry.size(); x++) {
+			for (int x = elements.size(); x < registry.size(); x++) { // correct
 				Block elem = registry.get(x);
 				Element newElem = elem.getElement();
-				blk.after(newElem);
+				Element element = document.select(blockClassName).last();
+				element.after(newElem.toString());
 				System.out.println("");
 			}
 		}
