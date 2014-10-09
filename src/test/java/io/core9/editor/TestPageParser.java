@@ -6,6 +6,8 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 
@@ -97,6 +99,8 @@ public class TestPageParser {
 		parser.insertBlock(4, block);
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
+
+		assertTrue(findBlockContaining("3 block", content) == 2);
 	}
 
 	@Test
@@ -107,6 +111,17 @@ public class TestPageParser {
 		String content = parser.getPage();
 		printContent(originalContent, content);
 		assertTrue(!originalContent.equals(content));
+
+		assertTrue(findBlockContaining("1 block", content) == 0);
+	}
+
+	private int findBlockContaining(String string, String content) {
+        Pattern pattern = Pattern.compile(string.toLowerCase());
+        Matcher  matcher = pattern.matcher(content.toLowerCase());
+        int count = 0;
+        while (matcher.find())
+            count++;
+        return count;
 	}
 
 	private boolean isEqual(String originalContent, String content){
