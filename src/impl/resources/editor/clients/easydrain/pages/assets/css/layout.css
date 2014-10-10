@@ -1,0 +1,13 @@
+
+#main-section {
+  min-height:900px;
+}
+
+#menu {
+	
+	  position: absolute;
+	  margin-left:-480px;
+	  left:50%;
+	  margin-top: 0px;
+	  
+}

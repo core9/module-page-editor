@@ -1,0 +1,11 @@
+{
+  "basic":{
+    "steps":"wizards/basic/steps.json"
+  },
+    "video":{
+    "steps":"../clients/easydrain/wizards/video/steps/steps.json"
+  },
+    "slider":{
+    "steps":"wizards/basic/steps.json"
+  }
+}

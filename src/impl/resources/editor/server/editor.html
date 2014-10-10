@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>iFrame message passing test</title>
+<meta name="description" content="iFrame message passing test">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css" href="assets/css/editor.css"
+	media="screen" />
+<script type="text/javascript" src="assets/js/jquery.js"></script>
+<script type="text/javascript" src="assets/js/doT.min.js"></script>
+
+
+<link rel="stylesheet" href="assets/css/wizard-engine.css">
+<script src="assets/js/jsoneditor.min.js"></script>
+<script src="assets/js/promise.min.js"></script>
+<script src="assets/js/LAB.min.js"></script>
+
+<script>
+	function t(s, d) {
+		for ( var p in d)
+			s = s.replace(new RegExp('{' + p + '}', 'g'), d[p]);
+		return s;
+	}
+</script>
+</head>
+<body>
+
+	<header>
+		<div id="variants"
+			style="float: right; width: 20px; height: 20px; background-color: red; margin-right: 20px;"></div>
+		<div id="placeholder-page-selector"></div>
+
+		<script>
+			promise
+					.get('ui/page-selector.html')
+					.then(
+							function(error, text, xhr) {
+								if (error) {
+									alert('Error ' + xhr.status);
+									return;
+								}
+								document
+										.querySelector('#placeholder-page-selector').innerHTML = text;
+							});
+		</script>
+
+
+	</header>
+
+	<form style="display: none;" name="form">
+		<input type="text" name="msg" style="width: 600px"
+			value="js/action-alert.js" /> <input type="submit" />
+		<button class="add-block">show modal (debug)</button>
+	</form>
+
+
+
+	<div id="modal"></div>
+	<div id="wizard-wrapper">
+	<button class="add-block" style="float:right;">close</button>
+		<div id="tab-container">
+		<ul id="tab-ul">
+         <li class="step"><a href="#">Choose</a>
+        <div id="choose-div" class="main-container form-container">
+          <input type="text" id="data-list" list="widgets">
+          <datalist id="widgets">
+          </datalist>
+          <button id="choose-button">select</button>
+          <button onclick="location.reload();">reset</button>
+        </div></li>
+		</ul>
+	</div>
+
+	<script src="assets/js/wizard-engine.js"></script>
+	<script>
+		var WizardConfig = {
+			widgets : '../clients/easydrain/wizards/widgets.json'
+		}
+		Wizard.init(WizardConfig);
+	</script>
+
+	</div>
+	<div style="margin: 20px; text-align: right;">
+
+		<iframe id="iframe" src="../clients/easydrain/pages/frontpage.html" width="100%" scrolling="no" frameBorder="0"></iframe>
+
+
+	</div>
+	<p id="callback"></p>
+
+	<script>
+		var win = document.getElementById("iframe").contentWindow
+		document.forms.form.onsubmit = function() {
+			win.postMessage(this.elements.msg.value,
+			//'http://kennispark.localhost' //
+			location.origin)
+			return false
+		}
+	</script>
+
+	<script type="text/javascript" src="assets/js/iframeResizer.min.js"></script>
+	<script type="text/javascript">
+		iFrameResize({
+			log : false, // Enable console logging
+			enablePublicMethods : true, // Enable methods within iframe hosted page
+			resizedCallback : function(messageData) { // Callback fn when resize is received
+				console.log(messageData);
+			},
+			messageCallback : function(messageData) { // Callback fn when message is received
+				console.log(messageData);
+				//alert(messageData.message);
+				//'edit-block::selected='
+				var data = JSON.parse(messageData.message);
+				console.log(data);
+				if (data.action == 'edit-block') {
+					window.location = "#state=edit-block-" + data.block + "-type-" + data.type;
+					$('#wizard-wrapper').toggle();
+					$('#modal').toggle();
+				}
+			},
+			closedCallback : function(id) { // Callback fn when iFrame is closed
+				console.log(id);
+			}
+		});
+	</script>
+
+
+
+	<!-- experimental -->
+	<div id="tmp"></div>
+
+
+
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			/*
+			* if submit refresh iframe behind the scene
+			* document.getElementById('iframe').contentWindow.location.reload();
+			*/
+
+
+			if (typeof String.prototype.startsWith != 'function') {
+				  // see below for better implementation!
+				  String.prototype.startsWith = function (str){
+				    return this.indexOf(str) == 0;
+				  };
+				}
+
+
+			if(location.hash.startsWith("#state=edit-block-")){
+		        $('#wizard-wrapper').toggle();
+		        $('#modal').toggle();
+			}
+
+
+			$('.add-block, .mega-hoverlink').click(function() {
+
+				$('#wizard-wrapper').toggle();
+				$('#modal').toggle();
+
+			});
+
+			$('#variants').click(function() {
+				$('#page-selector').toggle();
+			});
+
+
+
+
+		});
+	</script>
+</body>
+</html>
