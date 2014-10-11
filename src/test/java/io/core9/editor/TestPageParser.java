@@ -139,6 +139,18 @@ public class TestPageParser {
 	}
 
 
+	//@Test
+	public void testAssemblePageFromBlocksAfterDeletingAllBlocks() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteAllBlocks();
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		assertTrue(findBlockContaining("1 block", content) == 0);
+		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
+	}
+
+
 
 	private int findBlockContaining(String string, String content) {
         Pattern pattern = Pattern.compile(string.toLowerCase());

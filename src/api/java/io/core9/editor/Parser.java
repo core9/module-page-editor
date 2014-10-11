@@ -22,4 +22,6 @@ public interface Parser {
 
 	void deleteBlock(int i);
 
+	void deleteAllBlocks();
+
 }
