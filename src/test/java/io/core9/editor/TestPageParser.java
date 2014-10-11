@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.junit.Test;
 
 public class TestPageParser {
 
 	private String blockClassName;
-	private Parser parser;
+	private PageParser parser;
 	private List<Block> blocks;
 	private String blockContainer;
 
@@ -104,7 +107,6 @@ public class TestPageParser {
 		assertTrue(findBlockContaining("3 block", content) == 4);
 	}
 
-
 	@Test
 	public void testAssemblePageFromBlocksAfterInsertBlock() {
 		setupBlocksFromPage();
@@ -135,9 +137,11 @@ public class TestPageParser {
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
 		assertTrue(findBlockContaining("1 block", content) == 0);
-		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
+		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but
+																	// block 4
+																	// since it
+																	// is a list
 	}
-
 
 	@Test
 	public void testAssemblePageFromBlocksAfterDeletingAllBlocks() {
@@ -146,6 +150,28 @@ public class TestPageParser {
 		parser.deleteAllBlocks();
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
+		assertAllBlocksAreDeleted(content);
+
+	}
+
+	@Test
+	public void testAddBlockToEmptyContainer() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteAllBlocks();
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		assertAllBlocksAreDeleted(content);
+		String string = "<figure class=\"5 block\"><img src=\"placeholders/txt_(620x430).jpg\"></figure>";
+		Element element = Jsoup.parse(string, "", Parser.xmlParser());
+		Block block = new BlockImpl();
+		block.addElement(element);
+		parser.insertBlock(0, block);
+		String newContent = parser.getPage();
+		assertTrue(findBlockContaining("5 block", newContent) == 1);
+	}
+
+	private void assertAllBlocksAreDeleted(String content) {
 		assertTrue(findBlockContaining("1 block", content) == 0);
 		assertTrue(findBlockContaining("2 block", content) == 0);
 		assertTrue(findBlockContaining("3 block", content) == 0);
@@ -155,23 +181,21 @@ public class TestPageParser {
 		assertTrue(findBlockContaining("7 block", content) == 0);
 	}
 
-
-
 	private int findBlockContaining(String string, String content) {
-        Pattern pattern = Pattern.compile(string.toLowerCase());
-        Matcher  matcher = pattern.matcher(content.toLowerCase());
-        int count = 0;
-        while (matcher.find())
-            count++;
-        return count;
+		Pattern pattern = Pattern.compile(string.toLowerCase());
+		Matcher matcher = pattern.matcher(content.toLowerCase());
+		int count = 0;
+		while (matcher.find())
+			count++;
+		return count;
 	}
 
-	private boolean isEqual(String originalContent, String content){
+	private boolean isEqual(String originalContent, String content) {
 		return originalContent.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim());
 	}
 
 	@SuppressWarnings("unused")
-	private void printContent(String originalContent, String content){
+	private void printContent(String originalContent, String content) {
 		System.out.println(originalContent);
 		System.out.println(content);
 	}

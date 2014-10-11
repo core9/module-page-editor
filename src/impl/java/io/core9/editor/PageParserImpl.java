@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class PageParserImpl implements Parser {
+public class PageParserImpl implements PageParser {
 
 	private Document container;
 	private Document originalContainer;
@@ -143,8 +143,13 @@ public class PageParserImpl implements Parser {
 			i++;
 		}
 		if (registry.size() > elements.size()) {
-			for (int x = elements.size(); x < registry.size(); x++) { // correct
-				document.select(blockClassName).last().after(registry.get(x).getElement().toString());
+			for (int x = elements.size(); x < registry.size(); x++) {
+				if(registry.size() == 1){
+					document.select(blockContainerId).append(registry.get(x).getElement().toString());
+				}else{
+					document.select(blockClassName).last().after(registry.get(x).getElement().toString());
+				}
+
 			}
 		}
 		return document.toString();
