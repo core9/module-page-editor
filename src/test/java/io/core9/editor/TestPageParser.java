@@ -16,13 +16,15 @@ public class TestPageParser {
 	private String blockClassName;
 	private Parser parser;
 	private List<Block> blocks;
+	private String blockContainer;
 
 	public void setupBlocksFromPage() {
 		blockClassName = ".block";
+		blockContainer = "#main-section";
 		URL url = this.getClass().getResource("/editor/front-page.html");
 		File testPage = new File(url.getFile());
 		assertTrue(testPage.exists());
-		parser = new PageParserImpl(testPage, blockClassName);
+		parser = new PageParserImpl(testPage, blockContainer, blockClassName);
 		blocks = parser.getBlocks();
 		assertTrue(blocks.size() > 1);
 	}

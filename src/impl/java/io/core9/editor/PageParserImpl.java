@@ -13,28 +13,37 @@ import org.jsoup.select.Elements;
 
 public class PageParserImpl implements Parser {
 
-	private Document doc;
-	private Document orgDoc;
+	private Document container;
+	private Document originalContainer;
+
 	private List<Block> blockRegistry = new ArrayList<Block>();
 	private File page;
 	private String blockClassName;
 	private List<Block> originalBlockRegistry = new ArrayList<Block>();
 	private File originalPage;
 	private List<Integer> deletedBlocks = new ArrayList<Integer>();
+	private String blockContainerId;
 
-	public PageParserImpl(File page, String blockClassName) {
 
+	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
+
+		this.blockContainerId = blockContainerId;
 		this.blockClassName = blockClassName;
 
 		this.originalPage = page;
 		this.page = page;
 
-		doc = parseHtml(this.page);
-		orgDoc = parseHtml(originalPage);
+		container = getContainerFromHtml(this.page);
+		originalContainer = getContainerFromHtml(originalPage);
 
-		blockRegistry = parseBlocks(doc, blockClassName);
-		originalBlockRegistry = parseBlocks(orgDoc, blockClassName);
+		blockRegistry = parseBlocks(container, blockClassName);
+		originalBlockRegistry = parseBlocks(originalContainer, blockClassName);
 
+	}
+
+	private Document getContainerFromHtml(File page) {
+		Document document = parseHtml(page);
+		return Jsoup.parse(document.select(blockContainerId).toString(), "UTF-8");
 	}
 
 	@Override
@@ -60,12 +69,12 @@ public class PageParserImpl implements Parser {
 
 	@Override
 	public String getOriginalFile() {
-		return writeBlocksToString(orgDoc, originalBlockRegistry);
+		return writeBlocksToString(originalContainer, originalBlockRegistry);
 	}
 
 	@Override
 	public String getPage() {
-		return writeBlocksToString(doc, blockRegistry);
+		return writeBlocksToString(container, blockRegistry);
 	}
 
 	@Override
