@@ -23,6 +23,8 @@ public class PageParserImpl implements Parser {
 	private File originalPage;
 	private List<Integer> deletedBlocks = new ArrayList<Integer>();
 	private String blockContainerId;
+	private Document doc;
+	private Document originalDoc;
 
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
@@ -31,6 +33,9 @@ public class PageParserImpl implements Parser {
 
 		this.originalPage = page;
 		this.page = page;
+
+		doc = parseHtml(this.page);
+		originalDoc = parseHtml(originalPage);
 
 		container = getContainerFromHtml(this.page);
 		originalContainer = getContainerFromHtml(originalPage);
@@ -54,22 +59,44 @@ public class PageParserImpl implements Parser {
 	@Override
 	public void insertBlock(int i, Block block) {
 		// check for out of bound
-		getBlocks().add(i, block);
+		blockRegistry.add(i, block);
 	}
 
 	@Override
 	public void appendBlock(Block block) {
-		getBlocks().add(block);
+		blockRegistry.add(block);
 	}
 
 	@Override
 	public String getOriginalFile() {
-		return writeBlocksToString(originalContainer, originalBlockRegistry);
+
+		String result = restoreHtmlPage(originalDoc, originalContainer, originalContainer);
+
+		return result;
+
+//		/return writeBlocksToString(originalContainer, originalBlockRegistry);
 	}
 
 	@Override
 	public String getPage() {
-		return writeBlocksToString(container, getBlocks());
+
+		//String pg = writeBlocksToString(container, getBlocks());
+
+		String result = restoreHtmlPage(doc, originalContainer, container);
+		return result;
+		//return pg;
+	}
+
+	private String restoreHtmlPage(Document doc, Document originalContainer, Document container){
+
+		Element orgC = doc.select(blockContainerId).get(0);
+
+		String pg = writeBlocksToString(container, blockRegistry);
+		Document newDocument = Jsoup.parse(pg, "UTF-8");
+		Element newC = newDocument.select(blockContainerId).get(0);
+		changeBlock(doc, orgC, newC);
+		String result = doc.toString();
+		return result;
 	}
 
 	@Override
@@ -86,13 +113,13 @@ public class PageParserImpl implements Parser {
 	@Override
 	public void switchBlocks(int i, int j) {
 		// check for out of bound
-		getBlocks().set(i, getBlocks().set(j, getBlocks().get(i)));
+		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
 	}
 
 	@Override
 	public void replaceBlock(int i, Block block) {
 		// check for out of bound
-		getBlocks().set(i, block);
+		blockRegistry.set(i, block);
 	}
 
 	private String writeBlocksToString(Document document, List<Block> registry) {
