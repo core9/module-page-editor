@@ -19,6 +19,7 @@ public class PageParserImpl implements Parser {
 	private List<Block> blockRegistry = new ArrayList<Block>();
 	private File page;
 	private String blockClassName;
+	@SuppressWarnings("unused")
 	private List<Block> originalBlockRegistry = new ArrayList<Block>();
 	private File originalPage;
 	private List<Integer> deletedBlocks = new ArrayList<Integer>();
@@ -52,8 +53,12 @@ public class PageParserImpl implements Parser {
 	@Override
 	public void deleteBlock(int x) {
 		// check for out of bound
-		getBlocks().remove(x);
-		deletedBlocks.add(x);
+		try{
+			blockRegistry.remove(x);
+			deletedBlocks.add(x);
+		}catch(Exception e){
+
+		}
 	}
 
 	@Override
@@ -74,22 +79,24 @@ public class PageParserImpl implements Parser {
 
 		return result;
 
-//		/return writeBlocksToString(originalContainer, originalBlockRegistry);
+		// /return writeBlocksToString(originalContainer,
+		// originalBlockRegistry);
 	}
 
 	@Override
 	public String getPage() {
 
-		//String pg = writeBlocksToString(container, getBlocks());
+		// String pg = writeBlocksToString(container, getBlocks());
 
 		String result = restoreHtmlPage(doc, originalContainer, container);
 		return result;
-		//return pg;
+		// return pg;
 	}
 
-	private String restoreHtmlPage(Document doc, Document originalContainer, Document container){
+	private String restoreHtmlPage(Document doc, Document originalContainer, Document container) {
 
 		Element orgC = doc.select(blockContainerId).get(0);
+
 
 		String pg = writeBlocksToString(container, blockRegistry);
 		Document newDocument = Jsoup.parse(pg, "UTF-8");
@@ -127,8 +134,8 @@ public class PageParserImpl implements Parser {
 		int i = 0;
 		for (Element block : elements) {
 			int n = i + 1;
-			if (!deletedBlocks.contains(i) && elements.size() >= n) {
-				changeBlock(document, block, registry.get(i).getElement());
+			if (!deletedBlocks.contains(i) && elements.size() >= n && !registry.isEmpty()) {
+					changeBlock(document, block, registry.get(i).getElement());
 			} else {
 				removeBlockFromList(i, block);
 				i--;
@@ -184,7 +191,16 @@ public class PageParserImpl implements Parser {
 
 	@Override
 	public void deleteAllBlocks() {
-		// TODO Auto-generated method stub
+
+
+
+		while( ! blockRegistry.isEmpty() ) {
+			int size = blockRegistry.size();
+			for (int i = 0; i < size; i++) {
+				deleteBlock(i);
+				deleteBlock(i);
+			}
+		}
 
 	}
 

@@ -139,7 +139,7 @@ public class TestPageParser {
 	}
 
 
-	//@Test
+	@Test
 	public void testAssemblePageFromBlocksAfterDeletingAllBlocks() {
 		setupBlocksFromPage();
 		String originalContent = parser.getOriginalFile();
@@ -147,7 +147,12 @@ public class TestPageParser {
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
 		assertTrue(findBlockContaining("1 block", content) == 0);
-		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
+		assertTrue(findBlockContaining("2 block", content) == 0);
+		assertTrue(findBlockContaining("3 block", content) == 0);
+		assertTrue(findBlockContaining("4 block", content) == 0);
+		assertTrue(findBlockContaining("5 block", content) == 0);
+		assertTrue(findBlockContaining("6 block", content) == 0);
+		assertTrue(findBlockContaining("7 block", content) == 0);
 	}
 
 
