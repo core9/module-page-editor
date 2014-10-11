@@ -24,7 +24,6 @@ public class PageParserImpl implements Parser {
 	private List<Integer> deletedBlocks = new ArrayList<Integer>();
 	private String blockContainerId;
 
-
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
 		this.blockContainerId = blockContainerId;
@@ -42,18 +41,14 @@ public class PageParserImpl implements Parser {
 	}
 
 	private Document getContainerFromHtml(File page) {
-		Document document = parseHtml(page);
-		return Jsoup.parse(document.select(blockContainerId).toString(), "UTF-8");
+		return Jsoup.parse(parseHtml(page).select(blockContainerId).toString(), "UTF-8");
 	}
 
 	@Override
 	public void deleteBlock(int x) {
-
 		// check for out of bound
 		blockRegistry.remove(x);
 		deletedBlocks.add(x);
-
-		System.out.println("");
 	}
 
 	@Override
@@ -115,11 +110,7 @@ public class PageParserImpl implements Parser {
 		}
 		if (registry.size() > elements.size()) {
 			for (int x = elements.size(); x < registry.size(); x++) { // correct
-				Block elem = registry.get(x);
-				Element newElem = elem.getElement();
-				Element element = document.select(blockClassName).last();
-				element.after(newElem.toString());
-				System.out.println("");
+				document.select(blockClassName).last().after(registry.get(x).getElement().toString());
 			}
 		}
 		return document.toString();
@@ -139,15 +130,12 @@ public class PageParserImpl implements Parser {
 		block.wrap("<wrap></wrap>");
 		Elements wrap = document.select("wrap");
 		wrap.empty();
-		Element elem = registry.get(i).getElement();
-		wrap.html(elem.toString());
+		wrap.html(registry.get(i).getElement().toString());
 		wrap.unwrap();
 	}
 
 	private List<Block> parseBlocks(Document document, String blockClassName) {
-
 		Elements elems = document.select(blockClassName);
-
 		List<Block> registry = new ArrayList<Block>();
 		for (Element elem : elems) {
 			Block block = new BlockImpl();
