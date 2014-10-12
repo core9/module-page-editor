@@ -137,6 +137,17 @@ var Wizard = {
 		document.getElementById('widgets').innerHTML = options;
 	},
 
+	getMetaData : function(){
+		var hash = location.hash.split('=');
+		var data = hash[1].split('-');
+		var meta = {
+				"absolute-url" : document.getElementById('iframe').getAttribute('src'),
+				"state" : data[0],
+				"block" : data[2],
+				"type" : data[4]
+		}
+	},
+
 	init : function(config) {
 		promise.get(config.widgets).then(function(error, text, xhr) {
 			if (error) {
