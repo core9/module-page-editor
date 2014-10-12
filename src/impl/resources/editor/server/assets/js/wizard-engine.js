@@ -87,6 +87,7 @@ var Wizard = {
 	activateWidget : function(widget, widgets) {
 		console.log('activating : ' + widget);
 		var stepFile = widgets[widget].steps;
+		stepFile = Wizard.config.baseUrl + stepFile;
 		if (!Wizard.endsWith(stepFile, ".json")) {
 			console.log("Oops wrong file : " + stepFile);
 			return;
