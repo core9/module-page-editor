@@ -1,5 +1,6 @@
 var Wizard = {
-	json : {},
+	widgetJson : {},
+	config : {},
 	getStep : function(step, label) {
 		var li = document.createElement("li");
 		li.setAttribute("class", "step");
@@ -21,6 +22,7 @@ var Wizard = {
 	},
 
 	getScript : function(script, step) {
+		script = Wizard.config.baseUrl + script;
 		$LAB.script(script).wait(function() {
 			init(step);
 		});
@@ -140,7 +142,8 @@ var Wizard = {
 				return;
 			}
 			var json = JSON.parse(text);
-			Wizard.json = json;
+			Wizard.widgetJson = json;
+			Wizard.config = config;
 			Wizard.setUpChooseOptions(json);
 			Wizard.activateChooseButtons(json);
 		});
