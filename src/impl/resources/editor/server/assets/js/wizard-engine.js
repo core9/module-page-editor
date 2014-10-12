@@ -5,7 +5,7 @@ var Wizard = {
 		var li = document.createElement("li");
 		li.setAttribute("class", "step");
 		var a = document.createElement("a");
-		a.setAttribute("href", "#");
+		a.setAttribute("href", "javascript:Wizard.restoreUrl();");
 		a.appendChild(document.createTextNode(label));
 		li.appendChild(a);
 		var div = document.createElement("div");
@@ -19,6 +19,10 @@ var Wizard = {
 		div.appendChild(button);
 		li.appendChild(div);
 		return li;
+	},
+
+	restoreUrl : function(){
+		location = location.href;
 	},
 
 	getScript : function(script, step) {
