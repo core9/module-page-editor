@@ -34,8 +34,10 @@ var Wizard = {
 
 	goToNextStep : function(event){
   	  var selectedLi = Wizard.getParentElementWithClass(event.target, 'step');
-	  Wizard.hideAllDivs();
-	  selectedLi.nextSibling.querySelector('.main-container').style.display = "block";
+  	  if(selectedLi.nextSibling != null){
+  		  Wizard.hideAllDivs();
+  		  selectedLi.nextSibling.querySelector('.main-container').style.display = "block";
+  	  }
 	},
 
 	createWizard : function(steps) {
