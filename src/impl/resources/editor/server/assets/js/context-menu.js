@@ -174,6 +174,11 @@ Core9.menu = {
 
 			Core9.menu.selectedBlock = Core9.menu.getParentElementWithClass(event.target,Core9.menu.blockClassName());
 
+			if(Core9.menu.selectedBlock == null){
+				Core9.menu.selectedBlock = event.target;
+			}
+
+
 			console.log(Core9.menu.selectedBlock);
 			var current;
 			for(var i = 0; i < blocks.length;i++)
