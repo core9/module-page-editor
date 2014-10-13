@@ -62,7 +62,6 @@
 	<div id="delete-form" style="display:none;position: fixed;top: 100px;background-color: #fff;z-index: 9999;width: 768px;left: 50%;margin-left: -384px;padding: 20px;">
 	<p>Weet u zeker dat u dit block wilt verwijderen?</p>
 	 <button class="delete-block" style="">bevestig</button>
-	 <button class="add-block" style="float:right;">close</button>
 	</div>
 
 	<div id="wizard-wrapper">
@@ -163,6 +162,14 @@
 
 			  $('#delete-form').click(function() {
 
+				  var tpl = "";
+				  try{
+					  tpl = Wizard.widgetJson[data[4]].template;
+				  }catch(e){
+
+				  }
+
+
 	                var hash = location.hash.split('=');
 	                var data = hash[1].split('-');
 	                var meta = {
@@ -170,7 +177,7 @@
 	                "state" : data[0],
 	                "block" : data[2],
 	                "type" : data[4],
-	                "template" : Wizard.widgetJson[data[4]].template
+	                "template" : tpl
 	                }
 	                console.log(meta);
 
@@ -193,6 +200,7 @@
 	                            return;
 	                          }
 	                          console.log(text);
+	                          location = location.href.split('#')[0];
 	                        });
 
 			      });
