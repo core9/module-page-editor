@@ -51,11 +51,22 @@
 
 .form-container {
   position: absolute;
-  min-height: 300px;
-  min-width: 400px;
+  min-height: 500px;
+  min-width: 594px;
   background-color: #fff;
   top: 60px;
   left: 26px;
 }
+
+div.sceditor-toolbar {
+	width:594px;
+}
+.sceditor-container iframe, .sceditor-container textarea {
+  width:594px;
+  min-height:400px;
+}
+
+
+
 
 
