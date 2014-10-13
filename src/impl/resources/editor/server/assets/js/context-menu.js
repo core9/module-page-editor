@@ -21,7 +21,7 @@ Core9.menu = {
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertBefore}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertAfter}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{switchblock}</button></li>';
-			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{removeblock}</button></li>';
+			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="Core9.menu.deleteBlock()">{removeblock}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{newblock}</button></li>';
 			menu += '</ul>';
 			return menu;
@@ -57,6 +57,23 @@ Core9.menu = {
 
 			var jsonData = {
 					"action": "edit-block",
+					"block": Core9.menu.selectedBlockPosition,
+					"type" : Core9.menu.selectedBlock.dataset.type
+			}
+
+			console.log(event);
+			if ('parentIFrame' in window) window.parentIFrame.sendMessage(JSON.stringify(jsonData));return false;
+		},
+
+		deleteBlock : function (event){
+			console.log('sending edit message');
+			console.log('selected block position : ' + Core9.menu.selectedBlockPosition);
+			console.log('selected block : ');
+			console.log(Core9.menu.selectedBlock);
+			console.log('data attribute type :  ' + Core9.menu.selectedBlock.dataset.type);
+
+			var jsonData = {
+					"action": "delete-block",
 					"block": Core9.menu.selectedBlockPosition,
 					"type" : Core9.menu.selectedBlock.dataset.type
 			}
