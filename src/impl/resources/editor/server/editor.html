@@ -132,6 +132,11 @@
 		       $('#wizard-wrapper').toggle();
 		       $('#modal').toggle();
 		    }
+	      if (data.action == 'insertafter-block') {
+	        window.location = "#state=insertafter-block-" + data.block + "-type-" + data.type;
+	        $('#wizard-wrapper').toggle();
+	        $('#modal').toggle();
+	      }
 		    if (data.action == 'delete-block') {
 		      window.location = "#state=delete-block-" + data.block + "-type-" + data.type;
 		      $('#delete-form').toggle();
