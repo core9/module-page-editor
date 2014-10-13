@@ -127,6 +127,11 @@
 					$('#wizard-wrapper').toggle();
 					$('#modal').toggle();
 				}
+		    if (data.action == 'insertbefore-block') {
+		       window.location = "#state=insertbefore-block-" + data.block + "-type-" + data.type;
+		       $('#wizard-wrapper').toggle();
+		       $('#modal').toggle();
+		    }
 		    if (data.action == 'delete-block') {
 		      window.location = "#state=delete-block-" + data.block + "-type-" + data.type;
 		      $('#delete-form').toggle();

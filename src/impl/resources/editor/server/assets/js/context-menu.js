@@ -18,8 +18,8 @@ Core9.menu = {
 			var menu = "";
 			menu += '<ul id="context-menu" style="position:absolute; top:{y}px; left:{x}px;background-color:#fff;width: 70px;color:#fff;z-index: 9999999;list-style: none;padding: 20px;">';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="Core9.menu.editBlock()">Edit</button></li>';
-			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertBefore}</button></li>';
-			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertAfter}</button></li>';
+			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="Core9.menu.insertBeforeBlock()">{insertBefore}</button></li>';
+			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="Core9.menu.insertAfterBlock()">{insertAfter}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{switchblock}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="Core9.menu.deleteBlock()">{removeblock}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{newblock}</button></li>';
@@ -57,6 +57,40 @@ Core9.menu = {
 
 			var jsonData = {
 					"action": "edit-block",
+					"block": Core9.menu.selectedBlockPosition,
+					"type" : Core9.menu.selectedBlock.dataset.type
+			}
+
+			console.log(event);
+			if ('parentIFrame' in window) window.parentIFrame.sendMessage(JSON.stringify(jsonData));return false;
+		},
+
+		insertBeforeBlock : function (){
+			console.log('sending edit message');
+			console.log('selected block position : ' + Core9.menu.selectedBlockPosition);
+			console.log('selected block : ');
+			console.log(Core9.menu.selectedBlock);
+			console.log('data attribute type :  ' + Core9.menu.selectedBlock.dataset.type);
+
+			var jsonData = {
+					"action": "insertbefore-block",
+					"block": Core9.menu.selectedBlockPosition,
+					"type" : Core9.menu.selectedBlock.dataset.type
+			}
+
+			console.log(event);
+			if ('parentIFrame' in window) window.parentIFrame.sendMessage(JSON.stringify(jsonData));return false;
+		},
+
+		insertAfterBlock : function (){
+			console.log('sending edit message');
+			console.log('selected block position : ' + Core9.menu.selectedBlockPosition);
+			console.log('selected block : ');
+			console.log(Core9.menu.selectedBlock);
+			console.log('data attribute type :  ' + Core9.menu.selectedBlock.dataset.type);
+
+			var jsonData = {
+					"action": "insertafter-block",
 					"block": Core9.menu.selectedBlockPosition,
 					"type" : Core9.menu.selectedBlock.dataset.type
 			}
