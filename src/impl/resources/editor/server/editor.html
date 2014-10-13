@@ -58,6 +58,13 @@
 
 
 	<div id="modal"></div>
+
+	<div id="delete-form" style="display:none;position: fixed;top: 100px;background-color: #fff;z-index: 9999;width: 768px;left: 50%;margin-left: -384px;padding: 20px;">
+	<p>Weet u zeker dat u dit block wilt verwijderen?</p>
+	 <button class="delete-block" style="">bevestig</button>
+	 <button class="add-block" style="float:right;">close</button>
+	</div>
+
 	<div id="wizard-wrapper">
 	<button class="add-block" style="float:right;">close</button>
 		<div id="tab-container">
@@ -120,6 +127,11 @@
 					$('#wizard-wrapper').toggle();
 					$('#modal').toggle();
 				}
+		    if (data.action == 'delete-block') {
+		      window.location = "#state=delete-block-" + data.block + "-type-" + data.type;
+		      $('#delete-form').toggle();
+		      $('#modal').toggle();
+		    }
 			},
 			closedCallback : function(id) { // Callback fn when iFrame is closed
 				console.log(id);
@@ -138,6 +150,42 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+
+			  $('#delete-form').click(function() {
+
+	                var hash = location.hash.split('=');
+	                var data = hash[1].split('-');
+	                var meta = {
+	                "absolute-url" : document.getElementById('iframe').getAttribute('src'),
+	                "state" : data[0],
+	                "block" : data[2],
+	                "type" : data[4],
+	                "template" : Wizard.widgetJson[data[4]].template
+	                }
+	                console.log(meta);
+
+	                var fullData = {
+	                  "meta" : meta
+	                }
+
+	                var jsonString = JSON.stringify(fullData);
+
+	                var data = {
+	                    "id" : 112,
+	                    "data" : jsonString
+	                  };
+
+
+	                promise.post('http://localhost:8080/api/block', data).then(
+	                        function(error, text, xhr) {
+	                          if (error) {
+	                            alert('Error ' + xhr.status);
+	                            return;
+	                          }
+	                          console.log(text);
+	                        });
+
+			      });
 
 			/*
 			* if submit refresh iframe behind the scene
