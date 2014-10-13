@@ -21,6 +21,8 @@ Core9.menu = {
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertBefore}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{insertAfter}</button></li>';
 			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{switchblock}</button></li>';
+			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{removeblock}</button></li>';
+			menu += '<li><button style="border: 0 rgba(0,0,0,0); background-color: transparent; width: 125px; text-decoration: none; color:#000; text-align:left;"  onclick="if (\'parentIFrame\' in window) window.parentIFrame.sendMessage(\'edit-block\');return false;">{newblock}</button></li>';
 			menu += '</ul>';
 			return menu;
 		},
@@ -133,6 +135,8 @@ Core9.menu = {
 				insertBefore : "insert before",
 				insertAfter : "insert after",
 				switchblock : "verwissel",
+				removeblock : "verwijder",
+				newBlock : "nieuwe block",
 				x : x,
 				y : y
 			});
