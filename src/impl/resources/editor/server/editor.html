@@ -6,14 +6,25 @@
 <meta name="description" content="iFrame message passing test">
 <meta name="viewport" content="width=device-width">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" type="text/css" href="assets/css/editor.css"
-	media="screen" />
+<link rel="stylesheet" type="text/css" href="assets/css/editor.css" media="screen" />
 <script type="text/javascript" src="assets/js/jquery.js"></script>
-<!--     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-    <script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.bbcode.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.default.min.css">
-    <script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.xhtml.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/themes/default.min.css">
+<script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.bbcode.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.default.min.css">
+<script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.xhtml.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/themes/default.min.css">
+<script src="//cdn.jsdelivr.net/select2/3.4.8/select2.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.8/select2.css">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+
 <script type="text/javascript" src="assets/js/doT.min.js"></script>
 
 
@@ -22,6 +33,24 @@
 <script src="assets/js/jsoneditor.min.js"></script>
 <script src="assets/js/promise.min.js"></script>
 <script src="assets/js/LAB.min.js"></script>
+
+<script>
+
+JSONEditor.defaults.theme = 'bootstrap3';
+JSONEditor.defaults.iconlib = 'fontawesome4';
+
+	JSONEditor.plugins.sceditor = {
+		// Options go here
+
+		// Option 1
+		plugins : "bbcode",
+
+		// Option 2
+		toolbar : "bold,italic,underline,strike,subscript,superscript|left,center,right,justify|font,size,color,removeformat",
+
+		width : "570px",
+	};
+</script>
 
 <script>
 	function t(s, d) {
@@ -34,8 +63,7 @@
 <body>
 
 	<header>
-		<div id="variants"
-			style="float: right; width: 20px; height: 20px; background-color: red; margin-right: 20px;"></div>
+		<div id="variants" style="float: right; width: 20px; height: 20px; background-color: red; margin-right: 20px;"></div>
 		<div id="placeholder-page-selector"></div>
 
 		<script>
@@ -56,8 +84,7 @@
 	</header>
 
 	<form style="display: none;" name="form">
-		<input type="text" name="msg" style="width: 600px"
-			value="js/action-alert.js" /> <input type="submit" />
+		<input type="text" name="msg" style="width: 600px" value="js/action-alert.js" /> <input type="submit" />
 		<button class="add-block">show modal (debug)</button>
 	</form>
 
@@ -65,37 +92,39 @@
 
 	<div id="modal"></div>
 
-	<div id="delete-form" style="display:none;position: fixed;top: 100px;background-color: #fff;z-index: 9999;width: 768px;left: 50%;margin-left: -384px;padding: 20px;">
-	<p>Weet u zeker dat u dit block wilt verwijderen?</p>
-	 <button class="delete-block" style="">bevestig</button>
+	<div id="delete-form"
+		style="display: none; position: fixed; top: 100px; background-color: #fff; z-index: 9999; width: 768px; left: 50%; margin-left: -384px; padding: 20px;"
+	>
+		<p>Weet u zeker dat u dit block wilt verwijderen?</p>
+		<button class="delete-block" style="">bevestig</button>
 	</div>
 
 	<div id="wizard-wrapper">
-	<button class="add-block" style="float:right;">close</button>
 		<div id="tab-container">
-		<ul id="tab-ul">
-         <li class="step"><a href="javascript:Wizard.restoreUrl();">Choose</a>
-        <div id="choose-div" class="main-container form-container">
-          <input type="text" id="data-list" list="widgets">
-          <datalist id="widgets">
-          </datalist>
-          <button id="choose-button">select</button>
-          <button onclick="location.reload();">reset</button>
-        </div></li>
-		</ul>
-	</div>
+			<ul id="tab-ul">
+				<li class="step"><a href="javascript:Wizard.restoreUrl();">Choose</a>
+					<div id="choose-div" class="main-container form-container">
+						<input type="text" id="data-list" list="widgets">
+						<datalist id="widgets">
+						</datalist>
+						<button id="choose-button">select</button>
+						<button onclick="location.reload();">reset</button>
+				    <button class="add-block" style="float: right;">close</button>
+					</div></li>
+			</ul>
+		</div>
 
-	<script src="assets/js/wizard-engine.js"></script>
-	<script>
-		var WizardConfig = {
-			baseUrl : 'http://localhost/module-page-editor/data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/',
-			widgets : 'http://localhost/module-page-editor/data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/widgets.json'
-		}
-		Wizard.init(WizardConfig);
-	</script>
+		<script src="assets/js/wizard-engine.js"></script>
+		<script>
+			var WizardConfig = {
+				baseUrl : 'http://localhost/module-page-editor/data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/',
+				widgets : 'http://localhost/module-page-editor/data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/widgets.json'
+			}
+			Wizard.init(WizardConfig);
+		</script>
 
 	</div>
-	<div style="margin-top: 20px; text-align: right;">
+	<div style="margin-top: 0px; text-align: right;">
 
 		<iframe id="iframe" src="http://localhost:8080/nl/" width="100%" scrolling="no" frameBorder="0"></iframe>
 
@@ -128,25 +157,29 @@
 				var data = JSON.parse(messageData.message);
 				console.log(data);
 				if (data.action == 'edit-block') {
-					window.location = "#state=edit-block-" + data.block + "-type-" + data.type;
+					window.location = "#state=edit-block-" + data.block
+							+ "-type-" + data.type;
 					$('#wizard-wrapper').toggle();
 					$('#modal').toggle();
 				}
-		    if (data.action == 'insertbefore-block') {
-		       window.location = "#state=insertbefore-block-" + data.block + "-type-" + data.type;
-		       $('#wizard-wrapper').toggle();
-		       $('#modal').toggle();
-		    }
-	      if (data.action == 'insertafter-block') {
-	        window.location = "#state=insertafter-block-" + data.block + "-type-" + data.type;
-	        $('#wizard-wrapper').toggle();
-	        $('#modal').toggle();
-	      }
-		    if (data.action == 'delete-block') {
-		      window.location = "#state=delete-block-" + data.block + "-type-" + data.type;
-		      $('#delete-form').toggle();
-		      $('#modal').toggle();
-		    }
+				if (data.action == 'insertbefore-block') {
+					window.location = "#state=insertbefore-block-" + data.block
+							+ "-type-" + data.type;
+					$('#wizard-wrapper').toggle();
+					$('#modal').toggle();
+				}
+				if (data.action == 'insertafter-block') {
+					window.location = "#state=insertafter-block-" + data.block
+							+ "-type-" + data.type;
+					$('#wizard-wrapper').toggle();
+					$('#modal').toggle();
+				}
+				if (data.action == 'delete-block') {
+					window.location = "#state=delete-block-" + data.block
+							+ "-type-" + data.type;
+					$('#delete-form').toggle();
+					$('#modal').toggle();
+				}
 			},
 			closedCallback : function(id) { // Callback fn when iFrame is closed
 				console.log(id);
@@ -164,89 +197,84 @@
 
 
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(document).ready(
+				function() {
 
-			  $('#delete-form').click(function() {
+					$('#delete-form').click(
+							function() {
 
-				  var tpl = "";
-				  try{
-					  tpl = Wizard.widgetJson[data[4]].template;
-				  }catch(e){
+								var tpl = "";
+								try {
+									tpl = Wizard.widgetJson[data[4]].template;
+								} catch (e) {
 
-				  }
+								}
 
+								var hash = location.hash.split('=');
+								var data = hash[1].split('-');
+								var meta = {
+									"absolute-url" : document.getElementById(
+											'iframe').getAttribute('src'),
+									"state" : data[0],
+									"block" : data[2],
+									"type" : data[4],
+									"template" : tpl
+								}
+								console.log(meta);
 
-	                var hash = location.hash.split('=');
-	                var data = hash[1].split('-');
-	                var meta = {
-	                "absolute-url" : document.getElementById('iframe').getAttribute('src'),
-	                "state" : data[0],
-	                "block" : data[2],
-	                "type" : data[4],
-	                "template" : tpl
-	                }
-	                console.log(meta);
+								var fullData = {
+									"meta" : meta
+								}
 
-	                var fullData = {
-	                  "meta" : meta
-	                }
+								var jsonString = JSON.stringify(fullData);
 
-	                var jsonString = JSON.stringify(fullData);
+								var data = {
+									"id" : 112,
+									"data" : jsonString
+								};
 
-	                var data = {
-	                    "id" : 112,
-	                    "data" : jsonString
-	                  };
+								promise.post('http://localhost:8080/api/block',
+										data).then(function(error, text, xhr) {
+									if (error) {
+										alert('Error ' + xhr.status);
+										return;
+									}
+									console.log(text);
+									location = location.href.split('#')[0];
+								});
 
+							});
 
-	                promise.post('http://localhost:8080/api/block', data).then(
-	                        function(error, text, xhr) {
-	                          if (error) {
-	                            alert('Error ' + xhr.status);
-	                            return;
-	                          }
-	                          console.log(text);
-	                          location = location.href.split('#')[0];
-	                        });
+					/*
+					 * if submit refresh iframe behind the scene
+					 * document.getElementById('iframe').contentWindow.location.reload();
+					 */
 
-			      });
+					if (typeof String.prototype.startsWith != 'function') {
+						// see below for better implementation!
+						String.prototype.startsWith = function(str) {
+							return this.indexOf(str) == 0;
+						};
+					}
 
-			/*
-			* if submit refresh iframe behind the scene
-			* document.getElementById('iframe').contentWindow.location.reload();
-			*/
+					if (location.hash.startsWith("#state=edit-block-")) {
+						$('#wizard-wrapper').toggle();
+						$('#modal').toggle();
+					}
 
+					$('.add-block, .mega-hoverlink').click(function() {
 
-			if (typeof String.prototype.startsWith != 'function') {
-				  // see below for better implementation!
-				  String.prototype.startsWith = function (str){
-				    return this.indexOf(str) == 0;
-				  };
-				}
+						location = location.href.split('#')[0];
+						//$('#wizard-wrapper').toggle();
+						//$('#modal').toggle();
 
+					});
 
-			if(location.hash.startsWith("#state=edit-block-")){
-		        $('#wizard-wrapper').toggle();
-		        $('#modal').toggle();
-			}
+					$('#variants').click(function() {
+						$('#page-selector').toggle();
+					});
 
-
-			$('.add-block, .mega-hoverlink').click(function() {
-
-				location = location.href.split('#')[0];
-				//$('#wizard-wrapper').toggle();
-				//$('#modal').toggle();
-
-			});
-
-			$('#variants').click(function() {
-				$('#page-selector').toggle();
-			});
-
-
-
-
-		});
+				});
 	</script>
 </body>
 </html>

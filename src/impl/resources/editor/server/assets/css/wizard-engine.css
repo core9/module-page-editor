@@ -2,8 +2,8 @@
 
 #tab-container {
   float: left;
-  margin: 50px 0 0 0;
-  width: 126px;
+  margin: 32px 0 0 0;
+  width: 136px;
 }
 
 #tab-container ul {
@@ -41,6 +41,10 @@
   border-left: 8px solid #006699;
 }
 
+#tab-ul {
+	_background-color:#fff;
+}
+
 .main-container {
   min-height: 400px;
   margin: 0 0 0 125px;
@@ -57,16 +61,15 @@
   top: 60px;
   left: 26px;
 }
+/* sceditor */
 
-div.sceditor-toolbar {
-	width:594px;
+a.sceditor-button {
+	padding:0px !important;
 }
-.sceditor-container iframe, .sceditor-container textarea {
-  width:594px;
-  min-height:400px;
+.sceditor-dropdown {
+	z-index:99999 !important;
 }
 
-
-
-
-
+.form-control > input {
+	width:100%;
+}
