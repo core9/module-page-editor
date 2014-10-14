@@ -51,6 +51,7 @@
   padding: 20px;
   background-color: #fff;
   border: 1px solid #888;
+  min-width: 635px !important;
 }
 
 .form-container {

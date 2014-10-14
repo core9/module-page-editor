@@ -7,7 +7,7 @@ body {
 #wizard-wrapper {
 	display: none;
 	position: fixed;
-	top: 100px;
+	_top: 100px;
 	_background-color: #fff;
 	z-index: 9999;
 	width: 802px;
