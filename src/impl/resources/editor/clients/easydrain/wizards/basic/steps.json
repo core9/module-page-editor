@@ -1,0 +1,12 @@
+[
+	
+	{			
+			"label":"Step 1",
+			"file":"wizards/basic/step-1.js"
+	},
+	{
+			"label":"Step 2",
+			"file":"wizards/basic/step-2.js"
+	}
+
+]

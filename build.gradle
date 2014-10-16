@@ -18,11 +18,14 @@ task wrapper(type: Wrapper) {
   gradleVersion = '1.12'
 }
 
+
 dependencies {
   // project dependencies
 
   compile 'org.jsoup:jsoup:1.7.3'
   compile 'com.google.jimfs:jimfs:1.0'
+  compile 'com.google.code.gson:gson:2.3'
+
 
 
   // Core
