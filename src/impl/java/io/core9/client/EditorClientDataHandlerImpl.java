@@ -53,9 +53,9 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 	@Override
 	public DataHandler<EditorClientDataHandlerConfig> createDataHandler(DataHandlerFactoryConfig options) {
-		
+
 		final EditorClientDataHandlerConfig config = (EditorClientDataHandlerConfig) options;
-		
+
 		return new DataHandler<EditorClientDataHandlerConfig>() {
 
 			private Document doc;

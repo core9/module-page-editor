@@ -34,7 +34,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 	private static final String pathPrefix = "data/editor";
 	private AssetsManager assetsManager;
 	private RequestImpl request;
-	private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-core9.git";
+	private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-kennispark.git";
 	private String httpsBlockRepositoryUrl = "https://github.com/jessec/block-video.git";
 	private ClientRepository clientRepository;
 
