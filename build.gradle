@@ -27,6 +27,8 @@ dependencies {
   compile 'com.google.code.gson:gson:2.3'
 
 
+  testCompile 'junit:junit:4.11'
+
 
   // Core
   compile 'io.core9:core:+'
