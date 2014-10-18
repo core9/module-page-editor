@@ -119,11 +119,11 @@ public class JsonSoyUtils {
         	//FIXME quick hack need investigation
             Number number = node.getAsNumber();
             if (number instanceof Integer) {
-              map.put(key, "\"" + number.intValue() + "\"");
+              map.put(key, number.toString());
             } else if (number instanceof Double) {
-              map.put(key, "\"" + number.doubleValue() + "\"");
+              map.put(key, number.doubleValue());
             } else {
-              map.put(key, "\"" + number + "\"");
+              map.put(key, number.toString() );
             }
           }
         } else {
