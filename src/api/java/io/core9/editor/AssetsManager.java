@@ -57,6 +57,8 @@ public interface AssetsManager {
 
 	String getStaticFilePath(String filename);
 
+	void saveBlockData(JSONObject meta, JSONObject editorData);
+
 
 
 }

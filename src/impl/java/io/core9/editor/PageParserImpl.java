@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minidev.json.JSONObject;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -209,12 +207,6 @@ public class PageParserImpl implements PageParser {
 			}
 		}
 
-	}
-
-	@Override
-	public void saveBlockData(JSONObject meta, JSONObject editorData) {
-		System.out.println(meta);
-		System.out.println(editorData);
 	}
 
 }

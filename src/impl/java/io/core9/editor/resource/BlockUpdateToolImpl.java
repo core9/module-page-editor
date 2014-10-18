@@ -140,7 +140,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 				String htmlTemplate = parser.getPage();
 
 				if(!htmlTemplate.isEmpty()){
-					parser.saveBlockData(meta, editorData);
+					assetsManager.saveBlockData(meta, editorData);
 				}
 
 				System.out.println(htmlTemplate);

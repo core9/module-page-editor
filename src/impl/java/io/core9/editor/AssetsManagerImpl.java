@@ -306,5 +306,20 @@ public class AssetsManagerImpl implements AssetsManager {
 		return pathPrefix + "/" + getClientId() + "/site/assets/";
 	}
 
+	@Override
+	public void saveBlockData(JSONObject meta, JSONObject editorData) {
+		System.out.println(meta);
+		System.out.println(editorData);
+		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + meta.getAsString("block") + "-type-" + meta.getAsString("type") + ".json";
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("meta", meta);
+		jsonObject.put("data", editorData);
+
+		System.out.println(pageDataFile);
+		writeToFile(pageDataFile, jsonObject.toJSONString());
+
+	}
+
 
 }
