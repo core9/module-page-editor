@@ -2,6 +2,8 @@ package io.core9.editor;
 
 import java.util.List;
 
+import net.minidev.json.JSONObject;
+
 public interface PageParser {
 
 	List<Block> getBlocks();
@@ -23,5 +25,7 @@ public interface PageParser {
 	void deleteBlock(int i);
 
 	void deleteAllBlocks();
+
+	void saveBlockData(JSONObject meta, JSONObject editorData);
 
 }
