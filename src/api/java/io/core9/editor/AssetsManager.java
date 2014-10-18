@@ -59,6 +59,8 @@ public interface AssetsManager {
 
 	void saveBlockData(JSONObject meta, JSONObject editorData);
 
+	JSONObject getBlockData(String blockPosition, String blockType);
+
 
 
 }

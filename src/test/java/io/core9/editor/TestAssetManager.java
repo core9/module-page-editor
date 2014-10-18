@@ -4,7 +4,15 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -162,10 +170,31 @@ public class TestAssetManager {
 
 	@Test
 	public void testWriteReadPageData(){
+		setupWorkingDirectory();
+		setUpRequest();
+		assetsManager.setRequest(request);
+		assetsManager.getPageTemplate();
 		String testJsonFileName = "/editor/client/site/pages/test-json-data.json";
 		URL url = this.getClass().getResource(testJsonFileName);
 		File testJsonFile = new File(url.getFile());
 		assertTrue(testJsonFile.exists());
+		String jsonString = readFile(testJsonFile.getAbsolutePath(), StandardCharsets.UTF_8);
+
+		JSONObject jsonData = (JSONObject) JSONValue.parse(jsonString);
+		JSONObject meta = (JSONObject) jsonData.get("meta");
+		JSONObject editorData = (JSONObject) jsonData.get("data");
+		assetsManager.saveBlockData(meta, editorData);
+		JSONObject data = assetsManager.getBlockData(meta.getAsString("block"), meta.getAsString("type"));
+		assertTrue(jsonData.toJSONString().equals(data.toJSONString()));
 	}
 
+	private static String readFile(String path, Charset encoding) {
+		byte[] encoded = null;
+		try {
+			encoded = Files.readAllBytes(Paths.get(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new String(encoded, encoding);
+	}
 }

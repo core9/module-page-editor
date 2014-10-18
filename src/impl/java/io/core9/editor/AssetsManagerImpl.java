@@ -30,6 +30,7 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String siteDir = "site";
 	private String siteConfigFile;
 
+
 	public AssetsManagerImpl(String pathPrefix) {
 		this.pathPrefix = pathPrefix;
 	}
@@ -205,6 +206,13 @@ public class AssetsManagerImpl implements AssetsManager {
 
 
 	private void writeToFile(String fileName, String content) {
+
+		File targetFile = new File(fileName);
+		File parent = targetFile.getParentFile();
+		if(!parent.exists() && !parent.mkdirs()){
+		    throw new IllegalStateException("Couldn't create dir: " + parent);
+		}
+
 		Writer writer = null;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
@@ -308,17 +316,19 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void saveBlockData(JSONObject meta, JSONObject editorData) {
-		System.out.println(meta);
-		System.out.println(editorData);
 		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + meta.getAsString("block") + "-type-" + meta.getAsString("type") + ".json";
-
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("meta", meta);
 		jsonObject.put("data", editorData);
-
-		System.out.println(pageDataFile);
 		writeToFile(pageDataFile, jsonObject.toJSONString());
+	}
 
+	@Override
+	public JSONObject getBlockData(String blockPosition, String blockType) {
+		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + blockPosition + "-type-" + blockType + ".json";
+		String data = readFile(pageDataFile, StandardCharsets.UTF_8);
+		JSONObject jsonData = (JSONObject) JSONValue.parse(data);
+		return jsonData;
 	}
 
 
