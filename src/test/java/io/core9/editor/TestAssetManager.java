@@ -2,7 +2,9 @@ package io.core9.editor;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -156,6 +158,14 @@ public class TestAssetManager {
 		assertTrue(shouldBeBlockFilename.equals(blockFilePath));
 
 
+	}
+
+	@Test
+	public void testWriteReadPageData(){
+		String testJsonFileName = "/editor/client/site/pages/test-json-data.json";
+		URL url = this.getClass().getResource(testJsonFileName);
+		File testJsonFile = new File(url.getFile());
+		assertTrue(testJsonFile.exists());
 	}
 
 }
