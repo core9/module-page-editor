@@ -213,7 +213,8 @@ public class PageParserImpl implements PageParser {
 
 	@Override
 	public void saveBlockData(JSONObject meta, JSONObject editorData) {
-
+		System.out.println(meta);
+		System.out.println(editorData);
 	}
 
 }
