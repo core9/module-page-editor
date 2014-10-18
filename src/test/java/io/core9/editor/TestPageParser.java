@@ -16,19 +16,17 @@ import org.junit.Test;
 
 public class TestPageParser {
 
-	private String blockClassName;
+	private String blockClassName = ".block";
+	private String blockContainer = "#main-section";
 	private PageParser parser;
-	private List<Block> blocks;
-	private String blockContainer;
+	private String fullHtmlTestPage = "/editor/client/site/pages/full-test-page.html";
 
 	public void setupBlocksFromPage() {
-		blockClassName = ".block";
-		blockContainer = "#main-section";
-		URL url = this.getClass().getResource("/editor/full-test-page.html");
+		URL url = this.getClass().getResource(fullHtmlTestPage );
 		File testPage = new File(url.getFile());
 		assertTrue(testPage.exists());
 		parser = new PageParserImpl(testPage, blockContainer, blockClassName);
-		blocks = parser.getBlocks();
+		List<Block> blocks = parser.getBlocks();
 		assertTrue(blocks.size() > 1);
 	}
 

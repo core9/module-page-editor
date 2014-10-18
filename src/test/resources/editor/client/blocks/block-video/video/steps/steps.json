@@ -1,0 +1,12 @@
+[
+
+	{
+			"label":"Step 1",
+			"file":"../clients/easydrain/wizards/video/steps/step-1.js"
+	},
+	{
+			"label":"Step 2",
+			"file":"../clients/easydrain/wizards/video/steps/step-2.js"
+	}
+
+]
