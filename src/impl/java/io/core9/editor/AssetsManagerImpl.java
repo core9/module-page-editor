@@ -324,10 +324,16 @@ public class AssetsManagerImpl implements AssetsManager {
 	public void saveBlockData(JSONObject meta, JSONObject editorData) {
 		//String pageDataFile = "data/git/" +getPagePath() + "data/block-" + meta.getAsString("block") + "-type-" + meta.getAsString("type") + ".json";
 
-		Map<String, String> params = request.getParams();
-		String[] state = params.get("state").split("-");
+/*		Map<String, String> params = request.getParams();
+		String[] state = params.get("state").split("-");*/
 
-		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + params.get("page") + "/data/block-"+state[2]+"-type-"+state[4]+".json";
+		String page = request.getPath();
+
+		String block = meta.getAsString("block");
+
+		String type = meta.getAsString("type");
+
+		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + page + "/data/block-"+block+"-type-"+type+".json";
 
 
 		JSONObject jsonObject = new JSONObject();
