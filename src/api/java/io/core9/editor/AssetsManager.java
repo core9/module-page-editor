@@ -14,7 +14,7 @@ public interface AssetsManager {
 
 	void deleteWorkingDirectory();
 
-	void setRequest(Request request);
+	void setRequest(EditorRequest request);
 
 	String getUrlId();
 
@@ -60,10 +60,7 @@ public interface AssetsManager {
 
 	void saveBlockData(JSONObject meta, JSONObject editorData);
 
-	JSONObject getBlockData(String blockPosition, String blockType);
-
-	Map<String, String> parsePageDataRequest(String path);
-
+	String getPageDataRequest();
 
 
 }

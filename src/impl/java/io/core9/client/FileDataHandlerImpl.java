@@ -3,6 +3,7 @@ package io.core9.client;
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.ClientRepositoryImpl;
+import io.core9.editor.EditorRequest;
 import io.core9.editor.FileDataHandler;
 import io.core9.editor.RequestImpl;
 import io.core9.plugin.admin.plugins.AdminConfigRepository;
@@ -15,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -43,6 +46,27 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 		return FileDataHandlerConfig.class;
 	}
 
+    static String urlEncodeUTF8(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new UnsupportedOperationException(e);
+        }
+    }
+    static String urlEncodeUTF8(Map<?,?> map) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<?,?> entry : map.entrySet()) {
+            if (sb.length() > 0) {
+                sb.append("&");
+            }
+            sb.append(String.format("%s=%s",
+                urlEncodeUTF8(entry.getKey().toString()),
+                urlEncodeUTF8(entry.getValue().toString())
+            ));
+        }
+        return sb.toString();
+    }
+
 	@Override
 	public DataHandler<FileDataHandlerConfig> createDataHandler(final DataHandlerFactoryConfig options) {
 		return new DataHandler<FileDataHandlerConfig>() {
@@ -57,10 +81,13 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 				clientRepository = new ClientRepositoryImpl();
 				clientRepository.addDomain("www.easydrain.nl", "easydrain");
 				clientRepository.addDomain("localhost", "easydrain");
-				RequestImpl request = new RequestImpl();
+				EditorRequest request = new RequestImpl();
 				request.setClientRepository(clientRepository);
-				String absoluteUrl = "http://" + req.getHostname() + req.getPath();
+
+				String absoluteUrl = "http://" + req.getHostname() + req.getPath() + "?" + urlEncodeUTF8(req.getParams());
 				request.setAbsoluteUrl(absoluteUrl);
+
+
 				assetsManager.setRequest(request);
 
 				Map<String, Object> result = new HashMap<String, Object>();

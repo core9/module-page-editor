@@ -1,6 +1,9 @@
 package io.core9.editor;
 
-public interface Request {
+import java.util.Map;
+
+
+public interface EditorRequest {
 
 	void setAbsoluteUrl(String absoluteUrl);
 
@@ -13,5 +16,8 @@ public interface Request {
 	String getClient();
 
 	void setClientRepository(ClientRepository clientRepository);
+
+	Map<String, String> getParams();
+
 
 }

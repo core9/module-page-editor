@@ -26,12 +26,13 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String pathPrefix;
 	private String healthFile = "health.txt";
 	private String blockDir = "blocks";
-	private Request request;
+	private EditorRequest request;
 	private String blockRepositoryDirectory;
 	private String siteRepositoryDirectory;
 	private String siteDir = "site";
 	private String siteConfigFile;
-	private String dataPrefix = "/site/data/page_";
+	private String dataPrefix = "/site/data.json";
+
 
 
 	public AssetsManagerImpl(String pathPrefix) {
@@ -82,7 +83,7 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
-	public void setRequest(Request request) {
+	public void setRequest(EditorRequest request) {
 		this.request = request;
 	}
 
@@ -314,9 +315,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		}else if(filename.startsWith("/site/blocks/")){
 			return pathPrefix + "/" + getClientId() + "/" + filename.substring("/site/".length()) ;
 		}else if(filename.startsWith(dataPrefix)){
-			///site/data/page_/jaarplan_state=edit-block-0-type-icon
-			HashMap<String, String> data = parsePageDataRequest(filename);
-			String path = "data/git/" + getPagePath() + "data/block-" + data.get("block") + "-type-" + data.get("type") + ".json";
+			String path = getPageDataRequest();
 			return path;
 		}
 		return pathPrefix + "/" + getClientId() + "/site/assets/";
@@ -331,8 +330,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		writeToFile(pageDataFile, jsonObject.toJSONString());
 	}
 
-	@Override
-	public JSONObject getBlockData(String blockPosition, String blockType) {
+	private JSONObject getBlockData(String blockPosition, String blockType) {
 		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + blockPosition + "-type-" + blockType + ".json";
 		String data = readFile(pageDataFile, StandardCharsets.UTF_8);
 		JSONObject jsonData = (JSONObject) JSONValue.parse(data);
@@ -340,20 +338,23 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
-	public HashMap<String,String> parsePageDataRequest(String path){
+	public String getPageDataRequest(){
 
 
-		String reqPath = path.substring(dataPrefix.length());
-		String[] dataSplit = reqPath.split("=");
-		String dataPath = dataSplit[0].replace("_state", "");
-		String[] blockData = dataSplit[1].split("-");
-		HashMap<String, String> result = new HashMap<>();
+		Map<String, String> params = request.getParams();
+		String[] state = params.get("state").split("-");
 
-		result.put("path", dataPath);
-		result.put("block", blockData[2]);
-		result.put("type", blockData[4]);
+		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + params.get("page") + "/data/block-"+state[2]+"-type-"+state[4]+".json";
 
-		return result;
+		System.out.println("");
+
+/*		String result = "";
+
+		if(new File(pageDataPath).exists()){
+			result = readFile(pageDataPath, StandardCharsets.UTF_8);
+		}*/
+
+		return pageDataPath;
 	}
 
 }
