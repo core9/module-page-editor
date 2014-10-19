@@ -322,11 +322,18 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void saveBlockData(JSONObject meta, JSONObject editorData) {
-		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + meta.getAsString("block") + "-type-" + meta.getAsString("type") + ".json";
+		//String pageDataFile = "data/git/" +getPagePath() + "data/block-" + meta.getAsString("block") + "-type-" + meta.getAsString("type") + ".json";
+
+		Map<String, String> params = request.getParams();
+		String[] state = params.get("state").split("-");
+
+		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + params.get("page") + "/data/block-"+state[2]+"-type-"+state[4]+".json";
+
+
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("meta", meta);
 		jsonObject.put("data", editorData);
-		writeToFile(pageDataFile, jsonObject.toJSONString());
+		writeToFile(pageDataPath, jsonObject.toJSONString());
 	}
 
 

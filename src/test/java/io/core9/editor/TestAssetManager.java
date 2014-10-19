@@ -165,11 +165,6 @@ public class TestAssetManager {
 		String blockFilePath = assetsManager.getStaticFilePath(blockFilename);
 		assertTrue(shouldBeBlockFilename.equals(blockFilePath));
 
-		String shouldBeJsonFilename = "data/git/../../data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
-		String jsonFilename = "/site/data/page_/jaarplan_state=edit-block-0-type-icon";
-		String jsonFilePath = assetsManager.getStaticFilePath(jsonFilename);
-		assertTrue(shouldBeJsonFilename.equals(jsonFilePath));
-
 	}
 
 	@Test
@@ -184,12 +179,21 @@ public class TestAssetManager {
 		assertTrue(testJsonFile.exists());
 		String jsonString = readFile(testJsonFile.getAbsolutePath(), StandardCharsets.UTF_8);
 
+		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
+
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
+
+		assetsManager.setRequest(request);
+
 		JSONObject jsonData = (JSONObject) JSONValue.parse(jsonString);
 		JSONObject meta = (JSONObject) jsonData.get("meta");
 		JSONObject editorData = (JSONObject) jsonData.get("data");
 		assetsManager.saveBlockData(meta, editorData);
-		//JSONObject data = assetsManager.getBlockData(meta.getAsString("block"), meta.getAsString("type"));
-		//assertTrue(jsonData.toJSONString().equals(data.toJSONString()));
+
+		String dataStr = assetsManager.getPageDataRequest();
+
+		assertTrue(expected.equals(dataStr));
+
 	}
 
 	private static String readFile(String path, Charset encoding) {
@@ -207,20 +211,21 @@ public class TestAssetManager {
 		setupWorkingDirectory();
 		setUpRequest();
 
-
 		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
+
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
 
 		assetsManager.setRequest(request);
 		String dataStr = assetsManager.getPageDataRequest();
 
+		assertTrue(expected.equals(dataStr));
+		System.out.println("");
 
-
-
-/*		assertTrue("/easydrain".equals(data.get("path")));
-		assertTrue("0".equals(data.get("block")));
-		assertTrue("icon".equals(data.get("type")));*/
+		/*
+		 * assertTrue("/easydrain".equals(data.get("path")));
+		 * assertTrue("0".equals(data.get("block")));
+		 * assertTrue("icon".equals(data.get("type")));
+		 */
 	}
-
-
 
 }
