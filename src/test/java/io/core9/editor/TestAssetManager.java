@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -154,9 +155,9 @@ public class TestAssetManager {
 		setupWorkingDirectory();
 		setUpRequest();
 		assetsManager.setRequest(request);
+
 		String filename =  "/site/assets/css/core.css";
 		String filePath = assetsManager.getStaticFilePath(filename);
-
 		String shouldbe = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/assets/css/core.css";
 		assertTrue(shouldbe.equals(filePath));
 
@@ -164,6 +165,11 @@ public class TestAssetManager {
 		String blockFilename = "/site/blocks/block-video/video/assets/css/style.css";
 		String blockFilePath = assetsManager.getStaticFilePath(blockFilename );
 		assertTrue(shouldBeBlockFilename.equals(blockFilePath));
+
+		String shouldBeJsonFilename =  "data/git/../../data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
+		String jsonFilename = "/site/data/page_/jaarplan_state=edit-block-0-type-icon";
+		String jsonFilePath = assetsManager.getStaticFilePath(jsonFilename);
+		assertTrue(shouldBeJsonFilename.equals(jsonFilePath));
 
 
 	}
@@ -197,4 +203,18 @@ public class TestAssetManager {
 		}
 		return new String(encoded, encoding);
 	}
+
+	@Test
+	public void testGetPageDataFromUrl(){
+		setupWorkingDirectory();
+		setUpRequest();
+		assetsManager.setRequest(request);
+		String path = "/site/data/page_/jaarplan_state=edit-block-0-type-icon";
+		Map<String, String> data = assetsManager.parsePageDataRequest(path);
+		assertTrue("/jaarplan".equals(data.get("path")));
+		assertTrue("0".equals(data.get("block")));
+		assertTrue("icon".equals(data.get("type")));
+	}
+
+
 }

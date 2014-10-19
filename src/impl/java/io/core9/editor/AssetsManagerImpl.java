@@ -14,6 +14,8 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -29,6 +31,7 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String siteRepositoryDirectory;
 	private String siteDir = "site";
 	private String siteConfigFile;
+	private String dataPrefix = "/site/data/page_";
 
 
 	public AssetsManagerImpl(String pathPrefix) {
@@ -310,6 +313,11 @@ public class AssetsManagerImpl implements AssetsManager {
 			return pathPrefix + "/" + getClientId() + "/site/pages/assets/" + filename.substring("/site/assets/".length()) ;
 		}else if(filename.startsWith("/site/blocks/")){
 			return pathPrefix + "/" + getClientId() + "/" + filename.substring("/site/".length()) ;
+		}else if(filename.startsWith(dataPrefix)){
+			///site/data/page_/jaarplan_state=edit-block-0-type-icon
+			HashMap<String, String> data = parsePageDataRequest(filename);
+			String path = "data/git/" + getPagePath() + "data/block-" + data.get("block") + "-type-" + data.get("type") + ".json";
+			return path;
 		}
 		return pathPrefix + "/" + getClientId() + "/site/assets/";
 	}
@@ -331,5 +339,21 @@ public class AssetsManagerImpl implements AssetsManager {
 		return jsonData;
 	}
 
+	@Override
+	public HashMap<String,String> parsePageDataRequest(String path){
+
+
+		String reqPath = path.substring(dataPrefix.length());
+		String[] dataSplit = reqPath.split("=");
+		String dataPath = dataSplit[0].replace("_state", "");
+		String[] blockData = dataSplit[1].split("-");
+		HashMap<String, String> result = new HashMap<>();
+
+		result.put("path", dataPath);
+		result.put("block", blockData[2]);
+		result.put("type", blockData[4]);
+
+		return result;
+	}
 
 }

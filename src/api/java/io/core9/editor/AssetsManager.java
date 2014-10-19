@@ -1,6 +1,7 @@
 package io.core9.editor;
 
 import java.io.FileNotFoundException;
+import java.util.Map;
 
 import net.minidev.json.JSONObject;
 
@@ -60,6 +61,8 @@ public interface AssetsManager {
 	void saveBlockData(JSONObject meta, JSONObject editorData);
 
 	JSONObject getBlockData(String blockPosition, String blockType);
+
+	Map<String, String> parsePageDataRequest(String path);
 
 
 
