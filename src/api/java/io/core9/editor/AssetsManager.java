@@ -1,7 +1,6 @@
 package io.core9.editor;
 
 import java.io.FileNotFoundException;
-import java.util.Map;
 
 import net.minidev.json.JSONObject;
 

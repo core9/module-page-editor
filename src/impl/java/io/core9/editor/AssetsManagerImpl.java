@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.minidev.json.JSONObject;
@@ -330,12 +329,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		writeToFile(pageDataFile, jsonObject.toJSONString());
 	}
 
-	private JSONObject getBlockData(String blockPosition, String blockType) {
-		String pageDataFile = "data/git/" +getPagePath() + "data/block-" + blockPosition + "-type-" + blockType + ".json";
-		String data = readFile(pageDataFile, StandardCharsets.UTF_8);
-		JSONObject jsonData = (JSONObject) JSONValue.parse(data);
-		return jsonData;
-	}
+
 
 	@Override
 	public String getPageDataRequest(){
