@@ -1,4 +1,4 @@
-package io.core9.client;
+package io.core9.editor;
 
 import java.util.HashMap;
 import java.util.Map;

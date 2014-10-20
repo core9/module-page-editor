@@ -61,7 +61,7 @@ public class TestSoyJsonTemplates {
 	}
 
 
-	@Test
+	//@Test
 	public void setupSiteAndBlocksFromGit() {
 		setupWorkingDirectory();
 		setupBlocksFromPage();
