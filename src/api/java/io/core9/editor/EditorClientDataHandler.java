@@ -1,4 +1,4 @@
-package io.core9.client;
+package io.core9.editor;
 
 import io.core9.core.plugin.Core9Plugin;
 import io.core9.plugin.widgets.datahandler.DataHandlerFactory;

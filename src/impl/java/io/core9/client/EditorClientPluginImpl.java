@@ -1,5 +1,6 @@
 package io.core9.client;
 
+import io.core9.editor.EditorClientPlugin;
 import io.core9.plugin.database.repository.CrudRepository;
 import io.core9.plugin.database.repository.NoCollectionNamePresentException;
 import io.core9.plugin.database.repository.RepositoryFactory;

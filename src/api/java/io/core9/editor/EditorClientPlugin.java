@@ -1,5 +1,6 @@
-package io.core9.client;
+package io.core9.editor;
 
+import io.core9.client.EditorClientProfile;
 import io.core9.core.plugin.Core9Plugin;
 import io.core9.plugin.server.VirtualHost;
 

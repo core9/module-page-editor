@@ -1,6 +1,7 @@
 package io.core9.client;
 
 import io.core9.editor.FileDataHandler;
+import io.core9.editor.FileWidget;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.widgets.datahandler.DataHandler;
 import io.core9.plugin.widgets.datahandler.DataHandlerGlobal;

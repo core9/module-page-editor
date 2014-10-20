@@ -4,6 +4,8 @@ import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.ClientRepository;
 import io.core9.editor.ClientRepositoryImpl;
+import io.core9.editor.EditorClientDataHandler;
+import io.core9.editor.EditorClientPlugin;
 import io.core9.editor.RequestImpl;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.template.closure.ClosureTemplateEngine;
