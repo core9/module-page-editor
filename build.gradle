@@ -14,6 +14,19 @@ repositories {
   jcenter()
 }
 
+repositories {
+  flatDir {
+    dirs 'libs'
+  }
+}
+
+compileJava {
+  options.compilerArgs << '-parameters'
+  //options.fork = true
+  //options.forkOptions.executable = 'javac'
+}
+
+
 task wrapper(type: Wrapper) {
   gradleVersion = '1.12'
 }
