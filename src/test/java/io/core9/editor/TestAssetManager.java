@@ -90,7 +90,7 @@ public class TestAssetManager {
 		assertFalse(assetsManager.checkClientDirectory());
 	}
 
-	@Test
+	//@Test
 	public void testDownloadBlockFromGit() throws FileNotFoundException, InterruptedException {
 		setupWorkingDirectory();
 		setUpRequest();
@@ -122,7 +122,7 @@ public class TestAssetManager {
 		assertFalse(assetsManager.checkSiteDirectory());
 	}
 
-	@Test
+	//@Test
 	public void testCloneSiteFromGit() {
 		setupWorkingDirectory();
 		setUpRequest();
