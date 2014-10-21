@@ -1,6 +1,7 @@
 package io.core9.client;
 
 import io.core9.editor.EditorServerPlugin;
+import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.widgets.datahandler.DataHandler;
 import io.core9.plugin.widgets.datahandler.DataHandlerFactoryConfig;
@@ -41,6 +42,10 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 			@Override
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
+				VirtualHost vhost = req.getVirtualHost();
+				
+				result.put("vhost", vhost.getHostname());
+				
 				return result ;
 			}
 
