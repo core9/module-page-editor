@@ -7,6 +7,7 @@ import io.core9.plugin.widgets.datahandler.DataHandlerFactoryConfig;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -39,12 +40,27 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 
 			@Override
 			public Map<String, Object> handle(Request req) {
-				return null;
+				Map<String, Object> result = new HashMap<String, Object>();
+				return result ;
 			}
 
 			@Override
 			public DataHandlerFactoryConfig getOptions() {
-				return null;
+				DataHandlerFactoryConfig options = new DataHandlerFactoryConfig() {
+					
+					private String componentName;
+
+					@Override
+					public void setComponentName(String componentName) {
+						this.componentName = componentName;
+					}
+					
+					@Override
+					public String getComponentName() {
+						return componentName;
+					}
+				};
+				return options ;
 			}
 		};
 		return handler ;
