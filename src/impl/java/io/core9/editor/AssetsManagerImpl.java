@@ -11,9 +11,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Formatter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,40 +89,16 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getClientId() {
-		return getShaId(request.getClient());
+		return request.getClient();
 	}
 
 	@Override
 	public String getUrlId() {
-		return getShaId(Integer.toString(request.hashCode()));
+		return ClientRepositoryImpl.getShaId(Integer.toString(request.hashCode()));
 	}
 
-	private static String getShaId(String hashCode) {
-		String sha1 = "";
-		try {
-			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-			crypt.reset();
-			crypt.update(hashCode.getBytes(StandardCharsets.UTF_8));
-			sha1 = byteToHex(crypt.digest());
-		} catch (NoSuchAlgorithmException e) {
-			logger.log(Level.INFO, e.getMessage());
-		}
-		return sha1;
-	}
 
-	private static String byteToHex(final byte[] hash) {
-		Formatter formatter = new Formatter();
-		for (byte b : hash) {
-			formatter.format("%02x", b);
-		}
-		String result = formatter.toString();
-		formatter.close();
-		return result;
-	}
 
-	public void downloadBlockFromGit() {
-
-	}
 
 	@Override
 	public void createClientDirectory() {

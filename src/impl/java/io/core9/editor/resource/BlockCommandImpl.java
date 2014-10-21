@@ -2,10 +2,12 @@ package io.core9.editor.resource;
 
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
+import io.core9.editor.ClientRepository;
 import io.core9.editor.RequestImpl;
 import io.core9.editor.data.ClientData;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import net.minidev.json.JSONObject;
 
@@ -25,7 +27,7 @@ public class BlockCommandImpl implements BlockTool {
 
 	private void process(JSONObject data) {
 		assetsManager = new AssetsManagerImpl(pathPrefix);
-		assetsManager.deleteWorkingDirectory();
+		//assetsManager.deleteWorkingDirectory();
 		if (!assetsManager.checkWorkingDirectory()) {
 			assetsManager.createWorkingDirectory();
 		}
@@ -40,13 +42,25 @@ public class BlockCommandImpl implements BlockTool {
 		assetsManager.setRequest(request);
 
 		assetsManager.createClientDirectory();
+		
+		String clientId = assetsManager.getClientId();
 
-		assetsManager.clonePublicSiteFromGit(httpsSiteRepositoryUrl);
+		ClientRepository repository = ClientData.getRepository();
+		
+		String siteRepoUrl = repository.getSiteRepository(clientId);
+		
+		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 		JSONObject config = assetsManager.getSiteConfig();
 		System.out.println(config);
 
 		try {
-			assetsManager.cloneBlocksFromGit(httpsBlockRepositoryUrl);
+			
+			List<String> blockRepos = repository.getBlockRepository(clientId);
+			for(String repo : blockRepos){
+				assetsManager.cloneBlocksFromGit(repo);
+			}
+			
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
