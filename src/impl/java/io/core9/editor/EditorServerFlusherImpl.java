@@ -27,19 +27,13 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 				BlockTool blockTool = new BlockCommandImpl();
 				JSONObject data = new JSONObject();
 
-				data.put("host", cleanHost(host));
+				data.put("host", ClientRepositoryImpl.cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
 				blockTool.setData(data);
 
 			}
 
-			private Object cleanHost(String host) {
-				String[] splitHost = host.split(":");
-				if (splitHost.length > 1) {
-					host = splitHost[0];
-				}
-				return host;
-			}
+
 		});
 
 	}

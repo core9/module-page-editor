@@ -15,16 +15,17 @@ public class ClientRepositoryImpl implements ClientRepository {
 	private Map<String, String> domainRepository = new HashMap<>();
 	private Map<String, String> siteGitRepository = new HashMap<>();
 	private Map<String, List<String>> blockGitRepository = new HashMap<>();
+	private Map<String, String> pageRepository = new HashMap<>();;
 
 
 	@Override
 	public void addDomain(String domain, String client){
-		domainRepository.put(domain, getShaId(client));
+		domainRepository.put(cleanHost(domain), getShaId(client));
 	}
 
 	@Override
 	public String getClientForDomain(String domain){
-		return domainRepository.get(domain);
+		return domainRepository.get(cleanHost(domain));
 	}
 
 	@Override
@@ -73,6 +74,25 @@ public class ClientRepositoryImpl implements ClientRepository {
 		String result = formatter.toString();
 		formatter.close();
 		return result;
+	}
+	
+	
+	public static String cleanHost(String host) {
+		String[] splitHost = host.split(":");
+		if (splitHost.length > 1) {
+			host = splitHost[0];
+		}
+		return host;
+	}
+
+	@Override
+	public void addPage(String domain, String page){
+		pageRepository.put(cleanHost(domain), page);
+	}
+	
+	@Override
+	public String getPage(String hostname) {
+		return pageRepository.get(cleanHost(hostname));
 	}
 
 

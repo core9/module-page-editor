@@ -17,5 +17,9 @@ public interface ClientRepository {
 
 	List<String> getBlockRepository(String client);
 
+	String getPage(String hostname);
+
+	void addPage(String domain, String page);
+
 
 }

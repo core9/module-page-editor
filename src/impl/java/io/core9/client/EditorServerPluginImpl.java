@@ -1,6 +1,9 @@
 package io.core9.client;
 
+import io.core9.editor.ClientRepository;
+import io.core9.editor.ClientRepositoryImpl;
 import io.core9.editor.EditorServerPlugin;
+import io.core9.editor.data.ClientData;
 import io.core9.plugin.server.VirtualHost;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.widgets.datahandler.DataHandler;
@@ -44,7 +47,14 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 				Map<String, Object> result = new HashMap<String, Object>();
 				VirtualHost vhost = req.getVirtualHost();
 				
-				result.put("vhost", vhost.getHostname());
+				String hostname = vhost.getHostname();
+				result.put("vhost", hostname);
+				
+				ClientRepository clientRepository = ClientData.getRepository();
+				
+				String page = clientRepository.getPage(hostname);
+				
+				result.put("page", page);
 				
 				return result ;
 			}

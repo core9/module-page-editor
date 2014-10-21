@@ -1,7 +1,8 @@
 {namespace io.core9.editor}
 
 /**
- *
+ * @param vhost
+ * @param page
  */
 {template .editor}
 <!DOCTYPE html>
@@ -133,9 +134,9 @@ function t(s, d) {
 		<script>
         {literal}
 			var WizardConfig = {
-				baseUrl : 'http://easydrain.localhost:8080/',
-  				pageUrl : 'http://easydrain.localhost:8080/nl/',
-				widgets : 'http://easydrain.localhost:8080/site/assets/json/widgets.json'
+				baseUrl : 'http://{/literal}{$vhost}{literal}/',
+  				pageUrl : 'http://{/literal}{$vhost}{$page}{literal}',
+				widgets : 'http://{/literal}{$vhost}{literal}/site/assets/json/widgets.json'
 			}
 			Wizard.init(WizardConfig);
 		{/literal}
@@ -144,7 +145,7 @@ function t(s, d) {
 	</div>
 	<div style="margin-top: 0px; text-align: right;">
 
-		<iframe id="iframe" src="http://easydrain.localhost:8080/nl/" width="100%" scrolling="no" frameBorder="0"></iframe>
+		<iframe id="iframe" src="http://{$vhost}{$page}" width="100%" scrolling="no" frameBorder="0"></iframe>
 
 
 	</div>
