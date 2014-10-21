@@ -36,14 +36,17 @@ public class BlockCommandImpl implements BlockTool {
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("easydrain.docker.trimm.net", "easydrain");
 		clientRepository.addDomain("easydrain.localhost", "easydrain");
+		clientRepository.addDomain("easydrain.localhost:8080", "easydrain");
+
 		clientRepository.addDomain("www.kennispark.nl", "kennispark");
 		clientRepository.addDomain("kennispark.editor.docker.trimm.net", "kennispark");
 		clientRepository.addDomain("kennispark.localhost", "kennispark");
+		clientRepository.addDomain("kennispark.localhost:8080", "kennispark");
 		
 		
 		request = new RequestImpl();
 		request.setClientRepository(clientRepository);
-		String absoluteUrl = "http://localhost:8080/nl/";
+		String absoluteUrl = data.getAsString("url");
 		request.setAbsoluteUrl(absoluteUrl);
 
 		assetsManager.setRequest(request);

@@ -21,13 +21,14 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 		server.use("/plugins/editor/flush", new Middleware() {
 			@Override
-			public void handle(Request request) {
-				String host = request.getVirtualHost().getHostname();
-				request.getResponse().end("hi from : " + host);
+			public void handle(Request req) {
+				String host = req.getVirtualHost().getHostname();
+				req.getResponse().end("hi from : " + host);
 				
 				BlockTool blockTool = new BlockCommandImpl();
 				JSONObject data = new JSONObject();
 				data.put("host", host);
+				data.put("url", "http://" + host + req.getPath());
 				blockTool.setData(data);
 				
 			}
