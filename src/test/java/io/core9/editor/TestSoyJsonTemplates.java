@@ -11,7 +11,6 @@ import java.util.List;
 import net.minidev.json.JSONObject;
 
 import org.junit.AfterClass;
-import org.junit.Test;
 
 public class TestSoyJsonTemplates {
 

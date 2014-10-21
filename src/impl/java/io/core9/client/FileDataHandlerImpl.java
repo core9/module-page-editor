@@ -2,10 +2,10 @@ package io.core9.client;
 
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
-import io.core9.editor.ClientRepositoryImpl;
 import io.core9.editor.EditorRequest;
 import io.core9.editor.FileDataHandler;
 import io.core9.editor.RequestImpl;
+import io.core9.editor.data.ClientData;
 import io.core9.plugin.admin.plugins.AdminConfigRepository;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.widgets.datahandler.DataHandler;
@@ -71,25 +71,15 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 	public DataHandler<FileDataHandlerConfig> createDataHandler(final DataHandlerFactoryConfig options) {
 		return new DataHandler<FileDataHandlerConfig>() {
 
-			private ClientRepositoryImpl clientRepository;
 			private String contentType;
 
 			@Override
 			public Map<String, Object> handle(Request req) {
 
 				AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
-				clientRepository = new ClientRepositoryImpl();
-				
-				clientRepository.addDomain("www.easydrain.nl", "easydrain");
-				clientRepository.addDomain("easydrain.docker.trimm.net", "easydrain");
-				clientRepository.addDomain("easydrain.localhost", "easydrain");
-				clientRepository.addDomain("www.kennispark.nl", "kennispark");
-				clientRepository.addDomain("kennispark.editor.docker.trimm.net", "kennispark");
-				clientRepository.addDomain("kennispark.localhost", "kennispark");
-				
-				
+
 				EditorRequest request = new RequestImpl();
-				request.setClientRepository(clientRepository);
+				request.setClientRepository(ClientData.getRepository());
 
 				String absoluteUrl = "http://" + req.getHostname() + req.getPath() + "?" + urlEncodeUTF8(req.getParams());
 				request.setAbsoluteUrl(absoluteUrl);

@@ -14,8 +14,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 	@InjectPlugin
 	private Server server;
-	
-	
+
 	@Override
 	public void execute() {
 
@@ -24,17 +23,25 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 			public void handle(Request req) {
 				String host = req.getVirtualHost().getHostname();
 				req.getResponse().end("hi from : " + host);
-				
+
 				BlockTool blockTool = new BlockCommandImpl();
 				JSONObject data = new JSONObject();
-				data.put("host", host);
+
+				data.put("host", cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
 				blockTool.setData(data);
-				
+
+			}
+
+			private Object cleanHost(String host) {
+				String[] splitHost = host.split(":");
+				if (splitHost.length > 1) {
+					host = splitHost[0];
+				}
+				return host;
 			}
 		});
-		
-		
+
 	}
 
 }
