@@ -20,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
@@ -30,6 +32,8 @@ import org.jsoup.nodes.Document;
 @PluginImplementation
 public class EditorClientDataHandlerImpl implements EditorClientDataHandler<EditorClientDataHandlerConfig> {
 
+	private static Logger logger = Logger.getLogger(EditorClientDataHandlerImpl.class.getName());
+	
 	private static final String pathPrefix = "data/editor";
 
 	@InjectPlugin
@@ -110,9 +114,15 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				try {
 					encoded = Files.readAllBytes(Paths.get(path));
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.log(Level.INFO, e.getMessage());
 				}
-				return new String(encoded, encoding);
+				String result = "";
+				if(encoded == null){
+					logger.log(Level.INFO, "File does not exists");
+				}else{
+					result = new String(encoded, encoding);
+				}
+				return result;
 			}
 
 			@SuppressWarnings("unused")
@@ -124,7 +134,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				try {
 					doc = Jsoup.connect(url).get();
 				} catch (IOException e) {
-					e.printStackTrace();
+					logger.log(Level.INFO, e.getMessage());
 				}
 
 				result.put("head", doc.head().toString());
@@ -139,7 +149,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 					try {
 						yourFile.createNewFile();
 					} catch (IOException e) {
-						e.printStackTrace();
+						logger.log(Level.INFO, e.getMessage());
 					}
 				}
 			}

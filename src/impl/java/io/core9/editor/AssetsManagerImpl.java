@@ -15,12 +15,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
 
 public class AssetsManagerImpl implements AssetsManager {
+	
+	private static Logger logger = Logger.getLogger(AssetsManagerImpl.class.getName());
 
 	private String pathPrefix;
 	private String healthFile = "health.txt";
@@ -46,7 +50,7 @@ public class AssetsManagerImpl implements AssetsManager {
 			try {
 				yourFile.createNewFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.log(Level.INFO, e.getMessage());
 			}
 		}
 	}
@@ -104,7 +108,7 @@ public class AssetsManagerImpl implements AssetsManager {
 			crypt.update(hashCode.getBytes(StandardCharsets.UTF_8));
 			sha1 = byteToHex(crypt.digest());
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage());
 		}
 		return sha1;
 	}
@@ -197,7 +201,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		try {
 			obj = (JSONObject) JSONValue.parseStrict(config);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage());
 		}
 		return obj;
 	}
@@ -220,12 +224,13 @@ public class AssetsManagerImpl implements AssetsManager {
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
 			writer.write(content);
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		} catch (IOException e) {
+			logger.log(Level.INFO, e.getMessage());
 		} finally {
 			try {
 				writer.close();
-			} catch (Exception ex) {
+			} catch (Exception e) {
+				logger.log(Level.INFO, e.getMessage());
 			}
 		}
 	}
@@ -235,7 +240,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		try {
 			encoded = Files.readAllBytes(Paths.get(path));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.INFO, e.getMessage());
 		}
 		return new String(encoded, encoding);
 	}
