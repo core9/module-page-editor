@@ -16,8 +16,6 @@ public class BlockCommandImpl implements BlockTool {
 	private static final String pathPrefix = "data/editor";
 	private AssetsManager assetsManager;
 	private RequestImpl request;
-	private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-kennispark.git";
-	private String httpsBlockRepositoryUrl = "https://github.com/jessec/block-video.git";
 
 
 	@Override
@@ -33,7 +31,7 @@ public class BlockCommandImpl implements BlockTool {
 		}
 
 
-		
+
 		request = new RequestImpl();
 		request.setClientRepository(ClientData.getRepository());
 		String absoluteUrl = data.getAsString("url");
@@ -41,26 +39,28 @@ public class BlockCommandImpl implements BlockTool {
 
 		assetsManager.setRequest(request);
 
+		assetsManager.deleteClientDirectory();
+
 		assetsManager.createClientDirectory();
-		
+
 		String clientId = assetsManager.getClientId();
 
 		ClientRepository repository = ClientData.getRepository();
-		
+
 		String siteRepoUrl = repository.getSiteRepository(clientId);
-		
+
 		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 		JSONObject config = assetsManager.getSiteConfig();
 		System.out.println(config);
 
 		try {
-			
+
 			List<String> blockRepos = repository.getBlockRepository(clientId);
 			for(String repo : blockRepos){
 				assetsManager.cloneBlocksFromGit(repo);
 			}
-			
-			
+
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
