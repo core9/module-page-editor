@@ -178,10 +178,10 @@ function t(s, d) {
 				//'edit-block::selected='
 				var data = JSON.parse(messageData.message);
 				console.log(data);
-                
+
                 //screen.height
                 document.getElementById('iframe').style.height=(screen.height - 110) + "px";
-                
+
 				if (data.action == 'edit-block') {
 					window.location = "#state=edit-block-" + data.block
 							+ "-type-" + data.type;
@@ -261,7 +261,7 @@ function t(s, d) {
 									"data" : jsonString
 								};
 
-								promise.post('http://easydrain.localhost:8080/api/block',
+								promise.post('http://{/literal}{$vhost}{literal}/api/block',
 										data).then(function(error, text, xhr) {
 									if (error) {
 										alert('Error ' + xhr.status);
