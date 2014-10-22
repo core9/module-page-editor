@@ -15,27 +15,27 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <script type="text/javascript" src="/static/plugins/editor/server/assets/js/jquery.js"></script>
-<script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.bbcode.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.default.min.css">
-<script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.xhtml.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/themes/default.min.css">
+<script src="/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.bbcode.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.default.min.css">
+<script src="/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.xhtml.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editor/server/assets/plugins/sceeditor/minified/themes/default.min.css">
 
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/css/bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 
-<script src="//cdn.jsdelivr.net/select2/3.4.8/select2.min.js"></script>
-<link rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.8/select2.css">
+<script src="/static/plugins/editor/server/assets/plugins/select2/select2.min.js"></script>
+<link rel="stylesheet" href="/static/plugins/editor/server/assets/plugins/select2/select2.css">
 
 
-<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+<link rel='stylesheet' href='/static/plugins/editor/server/assets/plugins/font-awesome-4.2.0/css/font-awesome.min.css'>
 
 
 
@@ -156,7 +156,6 @@ function t(s, d) {
 		var win = document.getElementById("iframe").contentWindow
 		document.forms.form.onsubmit = function() {
 			win.postMessage(this.elements.msg.value,
-			//'http://kennispark.localhost' //
 			location.origin)
 			return false
 		}

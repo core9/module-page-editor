@@ -1,7 +1,6 @@
 package io.core9.client;
 
 import io.core9.editor.ClientRepository;
-import io.core9.editor.ClientRepositoryImpl;
 import io.core9.editor.EditorServerPlugin;
 import io.core9.editor.data.ClientData;
 import io.core9.plugin.server.VirtualHost;
@@ -23,8 +22,8 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 
 	@Override
 	public void handle(Request request) {
-		
-		
+
+
 	}
 
 	@Override
@@ -46,30 +45,30 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
 				VirtualHost vhost = req.getVirtualHost();
-				
+
 				String hostname = vhost.getHostname();
 				result.put("vhost", hostname);
-				
+
 				ClientRepository clientRepository = ClientData.getRepository();
-				
+
 				String page = clientRepository.getPage(hostname);
-				
+
 				result.put("page", page);
-				
+
 				return result ;
 			}
 
 			@Override
 			public DataHandlerFactoryConfig getOptions() {
 				DataHandlerFactoryConfig options = new DataHandlerFactoryConfig() {
-					
+
 					private String componentName;
 
 					@Override
 					public void setComponentName(String componentName) {
 						this.componentName = componentName;
 					}
-					
+
 					@Override
 					public String getComponentName() {
 						return componentName;
@@ -98,13 +97,13 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 
 	@Override
 	public void setId(String id) {
-		
-		
+
+
 	}
 
 	@Override
 	public Map<String, Object> retrieveDefaultQuery() {
-		
+
 		return null;
 	}
 
