@@ -4,6 +4,7 @@ import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.Block;
 import io.core9.editor.BlockImpl;
+import io.core9.editor.ClientRepository;
 import io.core9.editor.JsonSoyUtils;
 import io.core9.editor.PageParser;
 import io.core9.editor.PageParserImpl;
@@ -12,6 +13,7 @@ import io.core9.editor.data.ClientData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 import net.minidev.json.JSONObject;
 
@@ -33,8 +35,8 @@ public class BlockUpdateToolImpl implements BlockTool {
 	private static final String pathPrefix = "data/editor";
 	private AssetsManager assetsManager;
 	private RequestImpl request;
-	private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-kennispark.git";
-	private String httpsBlockRepositoryUrl = "https://github.com/jessec/block-video.git";
+	//private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-kennispark.git";
+	//private String httpsBlockRepositoryUrl = "https://github.com/jessec/block-video.git";
 
 
 	@Override
@@ -67,14 +69,27 @@ public class BlockUpdateToolImpl implements BlockTool {
 		File siteConfig = new File(assetsManager.getSiteConfigFile());
 		if (!siteConfig.exists()) {
 
+			//FIXME same code in block command
+			assetsManager.deleteClientDirectory();
 			assetsManager.createClientDirectory();
+			String clientId = assetsManager.getClientId();
 
-			assetsManager.clonePublicSiteFromGit(httpsSiteRepositoryUrl);
+			ClientRepository repository = ClientData.getRepository();
+			String siteRepoUrl = repository.getSiteRepository(clientId);
+
+			assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 			JSONObject config = assetsManager.getSiteConfig();
 			System.out.println(config);
 
+
 			try {
-				assetsManager.cloneBlocksFromGit(httpsBlockRepositoryUrl);
+
+				List<String> blockRepos = repository.getBlockRepository(clientId);
+				for(String repo : blockRepos){
+					assetsManager.cloneBlocksFromGit(repo);
+				}
+
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
