@@ -42,16 +42,10 @@ JSONEditor.defaults.theme = 'bootstrap3';
 JSONEditor.defaults.iconlib = 'fontawesome4';
 
 	JSONEditor.plugins.sceditor = {
-		// Options go here
-
-		// Option 1
-		plugins : "bbcode",
-
-		// Option 2
-		toolbar : "bold,italic,underline,strike,subscript,superscript|left,center,right,justify|font,size,color,removeformat",
-
+		toolbar : "bold,italic,underline,strike,subscript,superscript|left,center,right,justify|font,size,color,removeformat|table|source",
 		width : "560px",
 	};
+	JSONEditor.plugins.select2.width = "300px";
 {/literal}
 </script>
 
@@ -105,35 +99,49 @@ function t(s, d) {
 		<p>Weet u zeker dat u dit block wilt verwijderen?</p>
 		<button class="delete-block" style="">bevestig</button>
 	</div>
-
-	<div id="wizard-wrapper">
-		<div id="tab-container">
-			<ul id="tab-ul">
-				<li class="step"><a href="javascript:Wizard.restoreUrl();">Choose</a>
-					<div id="choose-div" class="main-container form-container">
-						<input type="text" id="data-list" list="widgets">
-						<datalist id="widgets">
-						</datalist>
-						<button id="choose-button">select</button>
-						<button onclick="location.reload();">reset</button>
-				    <button class="add-block" style="float: right;">close</button>
-					</div></li>
-			</ul>
+	
+	<div class="modal fade" id="wizard-wrapper">
+	    <div class="modal-dialog modal-lg">
+	    	<div class="modal-content">
+				<div class="modal-header">
+					Blok bewerken
+				</div>
+				<div class="modal-body">
+					<div id="tab-container">
+						<ul id="tab-ul">
+							<li class="step"><a href="javascript:Wizard.restoreUrl();">Maak keuze</a>
+								<div id="choose-div" class="main-container form-container">
+									<input type="text" id="data-list" list="widgets">
+									<datalist id="widgets">
+									</datalist>
+									<button class="btn btn-success" id="choose-button">Selecteer</button>
+									<button class="btn btn-danger" onclick="location.reload();">Reset</button>
+							    	<button class="btn btn-success add-block" style="float: right;">Opslaan</button>
+								</div>
+							</li>
+						</ul>
+					</div>
+			
+					<script src="/static/plugins/editor/server/assets/js/wizard-engine.js"></script>
+					<script>
+			        {literal}
+						var WizardConfig = {
+							baseUrl : 'http://{/literal}{$vhost}{literal}/',
+			  				pageUrl : 'http://{/literal}{$vhost}{$page}{literal}',
+							widgets : 'http://{/literal}{$vhost}{literal}/site/assets/json/widgets.json'
+						}
+						Wizard.init(WizardConfig);
+					{/literal}
+			        </script>
+			
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Sluiten (zonder opslaan)</button>
+				</div>
+			</div>
 		</div>
-
-		<script src="/static/plugins/editor/server/assets/js/wizard-engine.js"></script>
-		<script>
-        {literal}
-			var WizardConfig = {
-				baseUrl : 'http://{/literal}{$vhost}{literal}/',
-  				pageUrl : 'http://{/literal}{$vhost}{$page}{literal}',
-				widgets : 'http://{/literal}{$vhost}{literal}/site/assets/json/widgets.json'
-			}
-			Wizard.init(WizardConfig);
-		{/literal}
-        </script>
-
-	</div>
+	</div> <!-- END MODAL -->
+			
 	<div style="margin-top: 0px; text-align: right;">
 
 		<iframe id="iframe" src="http://{$vhost}{$page}" width="100%" scrolling="no" frameBorder="0"></iframe>
@@ -175,19 +183,19 @@ function t(s, d) {
 				if (data.action == 'edit-block') {
 					window.location = "#state=edit-block-" + data.block
 							+ "-type-" + data.type;
-					$('#wizard-wrapper').toggle();
+					$('#wizard-wrapper').modal("show");
 					$('#modal').toggle();
 				}
 				if (data.action == 'insertbefore-block') {
 					window.location = "#state=insertbefore-block-" + data.block
 							+ "-type-" + data.type;
-					$('#wizard-wrapper').toggle();
+					$('#wizard-wrapper').modal("show");
 					$('#modal').toggle();
 				}
 				if (data.action == 'insertafter-block') {
 					window.location = "#state=insertafter-block-" + data.block
 							+ "-type-" + data.type;
-					$('#wizard-wrapper').toggle();
+					$('#wizard-wrapper').modal("show");
 					$('#modal').toggle();
 				}
 				if (data.action == 'delete-block') {
@@ -276,14 +284,14 @@ function t(s, d) {
 					}
 
 					if (location.hash.startsWith("#state=edit-block-")) {
-						$('#wizard-wrapper').toggle();
+						$('#wizard-wrapper').modal("show");
 						$('#modal').toggle();
 					}
 
 					$('.add-block, .mega-hoverlink').click(function() {
 
 						location = location.href.split('#')[0];
-						//$('#wizard-wrapper').toggle();
+						//$('#wizard-wrapper').modal("show");
 						//$('#modal').toggle();
 
 					});
