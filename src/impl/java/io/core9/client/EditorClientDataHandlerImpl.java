@@ -32,7 +32,7 @@ import org.jsoup.nodes.Document;
 public class EditorClientDataHandlerImpl implements EditorClientDataHandler<EditorClientDataHandlerConfig> {
 
 	private static Logger logger = Logger.getLogger(EditorClientDataHandlerImpl.class.getName());
-	
+
 	private static final String pathPrefix = "data/editor";
 
 	@InjectPlugin
@@ -66,8 +66,20 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 			@Override
 			public Map<String, Object> handle(Request req) {
-
 				Map<String, Object> result = new HashMap<String, Object>();
+
+
+
+				String path = req.getPath();
+				String host = req.getHostname();
+				if(!path.startsWith("/scraper/nl") && host.indexOf("easydrain") != -1){
+					result.put("head", "");
+					result.put("body", "");
+					return result;
+				}
+
+
+
 
 				assetsManager = new AssetsManagerImpl(pathPrefix);
 				//assetsManager.deleteWorkingDirectory();
@@ -76,9 +88,9 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				}
 
 
-				
 
-				
+
+
 				request = new RequestImpl();
 				request.setClientRepository(ClientData.getRepository());
 				String absoluteUrl = "http://" + req.getHostname() + req.getPath();
