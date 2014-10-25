@@ -26,7 +26,8 @@ import com.google.template.soy.data.restricted.StringData;
 
 public class JsonSoyUtils {
 
-  public static JsonElement SoyToJson(SoyData data) {
+  @SuppressWarnings("deprecation")
+public static JsonElement SoyToJson(SoyData data) {
 
     JsonElement root = null;
     if (data instanceof SoyMapData) {
