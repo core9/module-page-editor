@@ -26,4 +26,8 @@ public class GitHandlerImpl implements GitHandler {
 		gitManager.init(repo);
 	}
 
+	public static void clonePublicGitRepository(String httpsRepositoryUrl, String repositoryDirectory) {
+		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repositoryDirectory);
+		git.init();
+	}
 }
