@@ -61,6 +61,18 @@ public class AssetsManagerImpl implements AssetsManager {
 		this.siteRepositoryDirectory = "../.." + File.separator + siteDirectory;
 	}
 
+	private String getTemplateFilePath(){
+		return gitModulePrefix + getPagePath() + templateFileName;
+	}
+
+	private String getOrgTemplateFilePath(){
+		return gitModulePrefix + getPagePath() + orgTemplateFileName ;
+	}
+
+	private String getTemplateCacheFilePath(){
+		return gitModulePrefix + getPagePath() + templateCacheFileName ;
+	}
+
 	@Override
 	public String getClientId() {
 		return request.getClient();
@@ -139,14 +151,18 @@ public class AssetsManagerImpl implements AssetsManager {
 		deleteDirectory(new File(siteDirectory));
 	}
 
+	private String getBlockRepositoryDirectory(String httpsRepositoryUrl){
+		String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
+		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
+		blockRepositoryDirectory = "../.." + File.separator + blockDirectory + File.separator + fileNameWithoutExtn;
+		return blockRepositoryDirectory;
+	}
+
 	@Override
 	public void cloneBlocksFromGit(String httpsRepositoryUrl) throws FileNotFoundException {
 		createBlockDirectory();
 		if (checkBlockDirectoryIfExists()) {
-			String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
-			String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
-			blockRepositoryDirectory = "../.." + File.separator + blockDirectory + File.separator + fileNameWithoutExtn;
-			clonePublicGitRepository(httpsRepositoryUrl, blockRepositoryDirectory);
+			clonePublicGitRepository(httpsRepositoryUrl, getBlockRepositoryDirectory(httpsRepositoryUrl));
 		} else {
 			throw new FileNotFoundException(blockDirectory);
 		}
@@ -249,24 +265,25 @@ public class AssetsManagerImpl implements AssetsManager {
 		return getSiteRepositoryDirectory() + File.separator + pageDir  + File.separator + request.getHost() + path + fileSeperator;
 	}
 
+
+
 	@Override
 	public boolean checkIfPageTemplateExists() {
-		String path = gitModulePrefix + getPagePath() + templateFileName ;
-		return new File(path).exists();
+		return new File(getTemplateFilePath()).exists();
 	}
 
 	@Override
 	public String getPageTemplate() {
-		return gitModulePrefix + getPagePath() + templateFileName;
+		return getTemplateFilePath();
 	}
+
+
+
 
 	@Override
 	public void writePageCache(String content) {
-		String templateFile = gitModulePrefix + getPagePath() + templateFileName;
-		String orgTemplateFile = gitModulePrefix + getPagePath() + orgTemplateFileName ;
-		String cacheFile = gitModulePrefix + getPagePath() + templateCacheFileName ;
-		File oldfile = new File(templateFile);
-		File newfile = new File(orgTemplateFile);
+		File oldfile = new File(getTemplateFilePath());
+		File newfile = new File(getOrgTemplateFilePath());
 		if (!newfile.exists()) {
 			if (oldfile.renameTo(newfile)) {
 				System.out.println("Rename succesful");
@@ -274,14 +291,13 @@ public class AssetsManagerImpl implements AssetsManager {
 				System.out.println("Rename failed");
 			}
 		}
-		writeToFile(templateFile, content);
-		writeToFile(cacheFile, content);
+		writeToFile(getTemplateFilePath(), content);
+		writeToFile(getTemplateCacheFilePath(), content);
 	}
 
 	@Override
 	public String getCachedPage() {
-		String cacheFile = gitModulePrefix + getPagePath() + templateCacheFileName;
-		return readFile(cacheFile, StandardCharsets.UTF_8);
+		return readFile(getTemplateCacheFilePath(), StandardCharsets.UTF_8);
 	}
 
 	@Override
