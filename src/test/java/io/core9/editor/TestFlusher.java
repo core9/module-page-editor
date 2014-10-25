@@ -2,8 +2,6 @@ package io.core9.editor;
 
 import org.junit.Test;
 
-import io.core9.editor.resource.BlockCommandImpl;
-import io.core9.editor.resource.BlockTool;
 import net.minidev.json.JSONObject;
 
 public class TestFlusher {

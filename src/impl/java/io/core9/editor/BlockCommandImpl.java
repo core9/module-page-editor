@@ -1,9 +1,7 @@
-package io.core9.editor.resource;
+package io.core9.editor;
 
 import io.core9.editor.AssetsManager;
-import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.ClientRepository;
-import io.core9.editor.RequestImpl;
 import io.core9.editor.data.ClientData;
 
 import java.io.FileNotFoundException;

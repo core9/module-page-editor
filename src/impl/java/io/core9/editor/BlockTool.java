@@ -1,4 +1,4 @@
-package io.core9.editor.resource;
+package io.core9.editor;
 
 import net.minidev.json.JSONObject;
 

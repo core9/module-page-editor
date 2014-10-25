@@ -1,7 +1,5 @@
 package io.core9.editor;
 
-import io.core9.editor.resource.BlockCommandImpl;
-import io.core9.editor.resource.BlockTool;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
