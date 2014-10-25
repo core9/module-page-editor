@@ -23,7 +23,13 @@ public class BlockCommandImpl implements BlockTool {
 	}
 
 	private void process(JSONObject data) {
-		assetsManager = new AssetsManagerImpl(pathPrefix);
+
+		request = new RequestImpl();
+		request.setClientRepository(ClientData.getRepository());
+		String absoluteUrl = data.getAsString("url");
+		request.setAbsoluteUrl(absoluteUrl);
+
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		//assetsManager.deleteWorkingDirectory();
 		if (!assetsManager.checkWorkingDirectory()) {
 			assetsManager.createWorkingDirectory();
@@ -31,12 +37,7 @@ public class BlockCommandImpl implements BlockTool {
 
 
 
-		request = new RequestImpl();
-		request.setClientRepository(ClientData.getRepository());
-		String absoluteUrl = data.getAsString("url");
-		request.setAbsoluteUrl(absoluteUrl);
 
-		assetsManager.setRequest(request);
 
 		assetsManager.deleteClientDirectory();
 

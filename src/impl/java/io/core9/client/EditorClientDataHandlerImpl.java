@@ -79,9 +79,12 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				}
 
 
+				request = new RequestImpl();
+				request.setClientRepository(ClientData.getRepository());
+				String absoluteUrl = "http://" + req.getHostname() + req.getPath();
+				request.setAbsoluteUrl(absoluteUrl);
 
-
-				assetsManager = new AssetsManagerImpl(pathPrefix);
+				assetsManager = new AssetsManagerImpl(pathPrefix, request);
 				//assetsManager.deleteWorkingDirectory();
 				if (!assetsManager.checkWorkingDirectory()) {
 					assetsManager.createWorkingDirectory();
@@ -91,11 +94,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 
 
-				request = new RequestImpl();
-				request.setClientRepository(ClientData.getRepository());
-				String absoluteUrl = "http://" + req.getHostname() + req.getPath();
-				request.setAbsoluteUrl(absoluteUrl);
-				assetsManager.setRequest(request);
+
 
 
 				Document document;

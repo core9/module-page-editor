@@ -76,8 +76,6 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 			@Override
 			public Map<String, Object> handle(Request req) {
 
-				AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
-
 				EditorRequest request = new RequestImpl();
 				request.setClientRepository(ClientData.getRepository());
 
@@ -85,7 +83,10 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 				request.setAbsoluteUrl(absoluteUrl);
 
 
-				assetsManager.setRequest(request);
+
+				AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
+
+
 
 				Map<String, Object> result = new HashMap<String, Object>();
 				Map<String, Object> menu = configRepository.readConfig(req.getVirtualHost(), ((FileDataHandlerConfig) options).getClientId(req));

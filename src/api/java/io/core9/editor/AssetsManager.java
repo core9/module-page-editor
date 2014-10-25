@@ -13,9 +13,6 @@ public interface AssetsManager {
 
 	void deleteWorkingDirectory();
 
-	void setRequest(EditorRequest request);
-
-
 	String getClientId();
 
 	void cloneBlocksFromGit(String httpsRepositoryUrl) throws FileNotFoundException;

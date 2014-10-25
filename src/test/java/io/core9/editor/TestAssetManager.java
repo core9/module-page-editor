@@ -31,8 +31,7 @@ public class TestAssetManager {
 
 	private void setupWorkingDirectory() {
 		setUpRequest();
-		assetsManager = new AssetsManagerImpl(pathPrefix);
-		assetsManager.setRequest(request);
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 		assetsManager.createWorkingDirectory();
@@ -50,14 +49,14 @@ public class TestAssetManager {
 
 	@AfterClass
 	public static void cleanup() {
-		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
+
 		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
 		EditorRequest request = new RequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/easydrain");
-		assetsManager.setRequest(request);
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 	}
@@ -125,8 +124,7 @@ public class TestAssetManager {
 	@Test
 	public void testCreateWorkingDirectory() {
 		setUpRequest();
-		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
-		assetsManager.setRequest(request);
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
 	}
@@ -134,8 +132,7 @@ public class TestAssetManager {
 	@Test
 	public void testDeleteWorkingDirectory() {
 		setUpRequest();
-		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
-		assetsManager.setRequest(request);
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
 		assetsManager.deleteWorkingDirectory();
@@ -171,7 +168,7 @@ public class TestAssetManager {
 
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
 
-		assetsManager.setRequest(request);
+
 
 		JSONObject jsonData = (JSONObject) JSONValue.parse(jsonString);
 		JSONObject meta = (JSONObject) jsonData.get("meta");
@@ -196,13 +193,14 @@ public class TestAssetManager {
 
 	@Test
 	public void testGetPageDataFromUrl() throws MalformedURLException, UnsupportedEncodingException {
-		setupWorkingDirectory();
+		setUpRequest();
+
 
 		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
 
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
 
-		assetsManager.setRequest(request);
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		String dataStr = assetsManager.getPageDataRequest();
 
 		assertTrue(expected.equals(dataStr));

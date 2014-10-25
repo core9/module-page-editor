@@ -42,12 +42,6 @@ public class BlockUpdateToolImpl implements BlockTool {
 	}
 
 	private void processData() {
-		assetsManager = new AssetsManagerImpl(pathPrefix);
-		// assetsManager.deleteWorkingDirectory();
-		if (!assetsManager.checkWorkingDirectory()) {
-			assetsManager.createWorkingDirectory();
-		}
-
 
 		request = new RequestImpl();
 		request.setClientRepository(ClientData.getRepository());
@@ -60,7 +54,15 @@ public class BlockUpdateToolImpl implements BlockTool {
 
 		request.setAbsoluteUrl(absoluteUrl);
 
-		assetsManager.setRequest(request);
+
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
+		// assetsManager.deleteWorkingDirectory();
+		if (!assetsManager.checkWorkingDirectory()) {
+			assetsManager.createWorkingDirectory();
+		}
+
+
+
 
 		File siteConfig = new File(assetsManager.getSiteConfigFile());
 		if (!siteConfig.exists()) {

@@ -18,15 +18,13 @@ public class TestPageData {
 	@Test
 	public void testCreateClientDirectory() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
-
 		assetsManager.getPageData();
 
 	}
 
 	private void setupWorkingDirectory() {
-		assetsManager = new AssetsManagerImpl(pathPrefix);
+		setUpRequest();
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 		assetsManager.createWorkingDirectory();
@@ -44,7 +42,13 @@ public class TestPageData {
 
 	@AfterClass
 	public static void cleanup() {
-		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
+		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+		clientRepository.addDomain("www.easydrain.nl", "easydrain");
+		clientRepository.addDomain("localhost", "easydrain");
+		EditorRequest request = new RequestImpl();
+		request.setClientRepository(clientRepository);
+		request.setAbsoluteUrl("http://localhost:8080/easydrain");
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 	}

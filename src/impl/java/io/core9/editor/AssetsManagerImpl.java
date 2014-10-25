@@ -42,12 +42,8 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String orgTemplateFileName = "org.template.html";
 	private String templateCacheFileName = "cache.html";
 
-	public AssetsManagerImpl(String pathPrefix) {
+	public AssetsManagerImpl(String pathPrefix, EditorRequest request) {
 		this.pathPrefix = pathPrefix;
-	}
-
-	@Override
-	public void setRequest(EditorRequest request) {
 		this.request = request;
 		createPaths(request);
 	}
@@ -61,16 +57,41 @@ public class AssetsManagerImpl implements AssetsManager {
 		this.siteRepositoryDirectory = "../.." + File.separator + siteDirectory;
 	}
 
-	private String getTemplateFilePath(){
+	private String getTemplateFilePath() {
 		return gitModulePrefix + getPagePath() + templateFileName;
 	}
 
-	private String getOrgTemplateFilePath(){
-		return gitModulePrefix + getPagePath() + orgTemplateFileName ;
+	private String getOrgTemplateFilePath() {
+		return gitModulePrefix + getPagePath() + orgTemplateFileName;
 	}
 
-	private String getTemplateCacheFilePath(){
-		return gitModulePrefix + getPagePath() + templateCacheFileName ;
+	private String getTemplateCacheFilePath() {
+		return gitModulePrefix + getPagePath() + templateCacheFileName;
+	}
+
+	private String getHostPath() {
+		return pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost();
+	}
+
+	private String getDataBlockPath(String block, String type) {
+		return "/data/block-" + block + "-type-" + type + ".json";
+	}
+
+	private String getBlockRepositoryDirectory(String httpsRepositoryUrl) {
+		String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
+		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
+		blockRepositoryDirectory = "../.." + File.separator + blockDirectory + File.separator + fileNameWithoutExtn;
+		return blockRepositoryDirectory;
+	}
+
+	private String getPagePath() {
+		String path = request.getPath();
+		String lastChar = path.substring(path.length() - 1);
+		String fileSeperator = "";
+		if (!lastChar.equals("/")) {
+			fileSeperator = "/";
+		}
+		return getSiteRepositoryDirectory() + File.separator + pageDir + File.separator + request.getHost() + path + fileSeperator;
 	}
 
 	@Override
@@ -91,12 +112,6 @@ public class AssetsManagerImpl implements AssetsManager {
 		}
 	}
 
-	private void createDirectory(String directory) {
-		if (!new File(directory).exists()) {
-			new File(directory).mkdirs();
-		}
-	}
-
 	@Override
 	public boolean checkWorkingDirectory() {
 		return new File(healthFile).exists();
@@ -105,20 +120,6 @@ public class AssetsManagerImpl implements AssetsManager {
 	@Override
 	public void deleteWorkingDirectory() {
 		deleteDirectory(new File(pathPrefix));
-	}
-
-	private static boolean deleteDirectory(File path) {
-		if (path.exists()) {
-			File[] files = path.listFiles();
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isDirectory()) {
-					deleteDirectory(files[i]);
-				} else {
-					files[i].delete();
-				}
-			}
-		}
-		return (path.delete());
 	}
 
 	@Override
@@ -151,13 +152,6 @@ public class AssetsManagerImpl implements AssetsManager {
 		deleteDirectory(new File(siteDirectory));
 	}
 
-	private String getBlockRepositoryDirectory(String httpsRepositoryUrl){
-		String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
-		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
-		blockRepositoryDirectory = "../.." + File.separator + blockDirectory + File.separator + fileNameWithoutExtn;
-		return blockRepositoryDirectory;
-	}
-
 	@Override
 	public void cloneBlocksFromGit(String httpsRepositoryUrl) throws FileNotFoundException {
 		createBlockDirectory();
@@ -167,19 +161,6 @@ public class AssetsManagerImpl implements AssetsManager {
 			throw new FileNotFoundException(blockDirectory);
 		}
 
-	}
-
-	private void clonePublicGitRepository(String httpsRepositoryUrl, String repositoryDirectory) {
-		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repositoryDirectory);
-		git.init();
-	}
-
-	private void createBlockDirectory() {
-		createDirectory(getBlockDirectory());
-	}
-
-	private boolean checkBlockDirectoryIfExists() {
-		return new File(blockDirectory).exists();
 	}
 
 	@Override
@@ -194,10 +175,9 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public JSONObject getSiteConfig() {
-		String config = readFile(getSiteConfigFile(), StandardCharsets.UTF_8);
 		JSONObject obj = new JSONObject();
 		try {
-			obj = (JSONObject) JSONValue.parseStrict(config);
+			obj = (JSONObject) JSONValue.parseStrict(readFile(getSiteConfigFile(), StandardCharsets.UTF_8));
 		} catch (ParseException e) {
 			logger.log(Level.INFO, e.getMessage());
 		}
@@ -207,6 +187,93 @@ public class AssetsManagerImpl implements AssetsManager {
 	@Override
 	public boolean checkSite() {
 		return new File(getSiteConfigFile()).exists();
+	}
+
+	@Override
+	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
+		clonePublicGitRepository(httpsRepositoryUrl, getSiteRepositoryDirectory());
+	}
+
+	@Override
+	public String getSiteConfigFile() {
+		return siteConfigFile;
+	}
+
+	@Override
+	public String getSiteRepositoryDirectory() {
+		return siteRepositoryDirectory;
+	}
+
+	@Override
+	public boolean checkIfPageTemplateExists() {
+		return new File(getTemplateFilePath()).exists();
+	}
+
+	@Override
+	public String getPageTemplate() {
+		return getTemplateFilePath();
+	}
+
+	@Override
+	public void writePageCache(String content) {
+		File newfile = new File(getOrgTemplateFilePath());
+		if (!newfile.exists()) {
+			if (!new File(getTemplateFilePath()).renameTo(newfile))
+				System.out.println("Rename failed");
+		}
+		writeToFile(getTemplateFilePath(), content);
+		writeToFile(getTemplateCacheFilePath(), content);
+	}
+
+	@Override
+	public String getCachedPage() {
+		return readFile(getTemplateCacheFilePath(), StandardCharsets.UTF_8);
+	}
+
+	@Override
+	public String getStaticFilePath(String filename) {
+		if (filename.startsWith("/site/assets/")) {
+			return clientDirectory + "/site/pages/assets/" + filename.substring("/site/assets/".length());
+		} else if (filename.startsWith("/site/blocks/")) {
+			return clientDirectory + "/" + filename.substring("/site/".length());
+		} else if (filename.startsWith(dataPrefix)) {
+			return getPageDataRequest();
+		}
+		return pathPrefix + "/" + getClientId() + "/site/assets/";
+	}
+
+	@Override
+	public void saveBlockData(JSONObject meta, JSONObject editorData) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("meta", meta);
+		jsonObject.put("data", editorData);
+		writeToFile(getHostPath() + request.getPath() + getDataBlockPath(meta.getAsString("block"), meta.getAsString("type")), jsonObject.toJSONString());
+	}
+
+	@Override
+	public String getPageDataRequest() {
+		Map<String, String> params = request.getParams();
+		String[] state = params.get("state").split("-");
+		return getHostPath() + params.get("page") + getDataBlockPath(state[2], state[4]);
+	}
+
+	@Override
+	public void getPageData() {
+
+	}
+
+
+	private void clonePublicGitRepository(String httpsRepositoryUrl, String repositoryDirectory) {
+		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repositoryDirectory);
+		git.init();
+	}
+
+	private void createBlockDirectory() {
+		createDirectory(getBlockDirectory());
+	}
+
+	private boolean checkBlockDirectoryIfExists() {
+		return new File(blockDirectory).exists();
 	}
 
 	private void writeToFile(String fileName, String content) {
@@ -230,6 +297,12 @@ public class AssetsManagerImpl implements AssetsManager {
 		}
 	}
 
+	private void createDirectory(String directory) {
+		if (!new File(directory).exists()) {
+			new File(directory).mkdirs();
+		}
+	}
+
 	private String readFile(String path, Charset encoding) {
 		byte[] encoded = null;
 		try {
@@ -240,102 +313,17 @@ public class AssetsManagerImpl implements AssetsManager {
 		return new String(encoded, encoding);
 	}
 
-	@Override
-	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
-		clonePublicGitRepository(httpsRepositoryUrl, getSiteRepositoryDirectory());
-	}
-
-	@Override
-	public String getSiteConfigFile() {
-		return siteConfigFile;
-	}
-
-	@Override
-	public String getSiteRepositoryDirectory() {
-		return siteRepositoryDirectory;
-	}
-
-	private String getPagePath() {
-		String path = request.getPath();
-		String lastChar = path.substring(path.length() - 1);
-		String fileSeperator = "";
-		if (!lastChar.equals("/")) {
-			fileSeperator = "/";
-		}
-		return getSiteRepositoryDirectory() + File.separator + pageDir  + File.separator + request.getHost() + path + fileSeperator;
-	}
-
-
-
-	@Override
-	public boolean checkIfPageTemplateExists() {
-		return new File(getTemplateFilePath()).exists();
-	}
-
-	@Override
-	public String getPageTemplate() {
-		return getTemplateFilePath();
-	}
-
-
-
-
-	@Override
-	public void writePageCache(String content) {
-		File oldfile = new File(getTemplateFilePath());
-		File newfile = new File(getOrgTemplateFilePath());
-		if (!newfile.exists()) {
-			if (oldfile.renameTo(newfile)) {
-				System.out.println("Rename succesful");
-			} else {
-				System.out.println("Rename failed");
+	private static boolean deleteDirectory(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
 			}
 		}
-		writeToFile(getTemplateFilePath(), content);
-		writeToFile(getTemplateCacheFilePath(), content);
+		return (path.delete());
 	}
-
-	@Override
-	public String getCachedPage() {
-		return readFile(getTemplateCacheFilePath(), StandardCharsets.UTF_8);
-	}
-
-	@Override
-	public String getStaticFilePath(String filename) {
-		if (filename.startsWith("/site/assets/")) {
-			return pathPrefix + "/" + getClientId() + "/site/pages/assets/" + filename.substring("/site/assets/".length());
-		} else if (filename.startsWith("/site/blocks/")) {
-			return pathPrefix + "/" + getClientId() + "/" + filename.substring("/site/".length());
-		} else if (filename.startsWith(dataPrefix)) {
-			String path = getPageDataRequest();
-			return path;
-		}
-		return pathPrefix + "/" + getClientId() + "/site/assets/";
-	}
-
-	@Override
-	public void saveBlockData(JSONObject meta, JSONObject editorData) {
-		String page = request.getPath();
-		String block = meta.getAsString("block");
-		String type = meta.getAsString("type");
-		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + page + "/data/block-" + block + "-type-" + type + ".json";
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("meta", meta);
-		jsonObject.put("data", editorData);
-		writeToFile(pageDataPath, jsonObject.toJSONString());
-	}
-
-	@Override
-	public String getPageDataRequest() {
-		Map<String, String> params = request.getParams();
-		String[] state = params.get("state").split("-");
-		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + params.get("page") + "/data/block-" + state[2] + "-type-" + state[4] + ".json";
-		return pageDataPath;
-	}
-
-	@Override
-	public void getPageData() {
-
-	}
-
 }
