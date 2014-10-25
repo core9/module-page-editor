@@ -15,16 +15,12 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	private static Logger logger = Logger.getLogger(AssetsManagerImpl.class.getName());
 
-
 	private AssetsLocator assets;
 	private String httpsRepositoryUrl;
 
 	public AssetsManagerImpl(String pathPrefix, EditorRequest request) {
 		assets = new AssetsLocator(pathPrefix, request);
 	}
-
-
-
 
 	@Override
 	public String getClientId() {
@@ -165,14 +161,14 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getStaticFilePath(String filename) {
-		if (filename.startsWith("/site/assets/")) {
-			return assets.getClientDirectory() + "/site/pages/assets/" + filename.substring("/site/assets/".length());
-		} else if (filename.startsWith("/site/blocks/")) {
-			return assets.getClientDirectory() + "/" + filename.substring("/site/".length());
+		if (filename.startsWith(assets.getSiteAssetsPath())) {
+			return assets.getClientDirectory() + assets.getPageAssetsPath() + filename.substring(assets.getSiteAssetsPath().length());
+		} else if (filename.startsWith(assets.getSiteBlockPath())) {
+			return assets.getClientDirectory() + "/" + filename.substring(assets.getSitePath().length());
 		} else if (filename.startsWith(assets.getRequestJsonDataUrl())) {
 			return getPageDataRequest();
 		}
-		return assets.getClientDirectory() + "/site/assets/";
+		return assets.getClientDirectory() + assets.getSiteAssetsPath();
 	}
 
 	@Override
@@ -180,7 +176,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("meta", meta);
 		jsonObject.put("data", editorData);
-		FileUtils.writeToFile(assets.getHostPath() + assets.getPath() + assets.getDataBlockPath(meta.getAsString("block"), meta.getAsString("type")), jsonObject.toJSONString());
+		FileUtils.writeToFile(assets.getDataBlockPath(meta.getAsString("block"), meta.getAsString("type")), jsonObject.toJSONString());
 	}
 
 	@Override
@@ -192,9 +188,5 @@ public class AssetsManagerImpl implements AssetsManager {
 	public void getPageData() {
 
 	}
-
-
-
-
 
 }

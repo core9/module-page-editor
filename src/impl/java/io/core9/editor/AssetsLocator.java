@@ -63,7 +63,6 @@ public class AssetsLocator {
 		return siteConfigFile;
 	}
 
-
 	public String getTemplateFilePath() {
 		return gitModulePrefix + getPagePath() + templateFileName;
 	}
@@ -81,6 +80,10 @@ public class AssetsLocator {
 	}
 
 	public String getDataBlockPath(String block, String type) {
+		return getHostPath() + getPath() + getJsonDataFile(block, type);
+	}
+
+	private String getJsonDataFile(String block, String type) {
 		return "/data/block-" + block + "-type-" + type + ".json";
 	}
 
@@ -101,14 +104,14 @@ public class AssetsLocator {
 	public String getBlockRepositoryDirectory(String httpsRepositoryUrl) {
 		String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
 		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
-		blockRepositoryDirectory =  getBlockDirectory() + File.separator + fileNameWithoutExtn;
+		blockRepositoryDirectory = getBlockDirectory() + File.separator + fileNameWithoutExtn;
 		return blockRepositoryDirectory;
 	}
 
 	public String getPageDataRequest() {
 		Map<String, String> params = request.getParams();
 		String[] state = params.get("state").split("-");
-		return getHostPath() + params.get("page") + getDataBlockPath(state[2], state[4]);
+		return getHostPath() + params.get("page") + getJsonDataFile(state[2], state[4]);
 	}
 
 	public String getPath() {
@@ -117,5 +120,21 @@ public class AssetsLocator {
 
 	public String getRequestJsonDataUrl() {
 		return requestJsonDataUrl;
+	}
+
+	public String getSiteAssetsPath() {
+		return "/site/assets/";
+	}
+
+	public String getPageAssetsPath() {
+		return "/site/pages/assets/";
+	}
+
+	public String getSiteBlockPath() {
+		return "/site/blocks/";
+	}
+
+	public String getSitePath() {
+		return "/site/";
 	}
 }

@@ -6,7 +6,6 @@ import net.minidev.json.JSONObject;
 
 public interface AssetsManager {
 
-
 	boolean checkWorkingDirectory();
 
 	void createWorkingDirectory();
@@ -39,7 +38,6 @@ public interface AssetsManager {
 
 	void clonePublicSiteFromGit(String httpsRepositoryUrl);
 
-
 	String getSiteConfigFile();
 
 	String getPageTemplate();
@@ -59,6 +57,5 @@ public interface AssetsManager {
 	void getPageData();
 
 	String getSiteDirectory();
-
 
 }
