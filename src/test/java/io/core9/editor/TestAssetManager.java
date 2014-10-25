@@ -90,7 +90,8 @@ public class TestAssetManager {
 		assertFalse(assetsManager.checkClientDirectory());
 	}
 
-	//@Test
+	//FIXME test fails in jenkins git stuff..
+	@Test
 	public void testDownloadBlockFromGit() throws FileNotFoundException, InterruptedException {
 		setupWorkingDirectory();
 		setUpRequest();
@@ -100,7 +101,8 @@ public class TestAssetManager {
 		assertTrue(assetsManager.checkIfRepositoryDirectoryExists());
 	}
 
-	//@Test
+	//FIXME test fails in file dir stuff..
+	@Test
 	public void testCreateSiteDirectory() {
 		setupWorkingDirectory();
 		setUpRequest();
@@ -122,7 +124,8 @@ public class TestAssetManager {
 		assertFalse(assetsManager.checkSiteDirectory());
 	}
 
-	//@Test
+	//FIXME test fails in jenkins git stuff..
+	@Test
 	public void testCloneSiteFromGit() {
 		setupWorkingDirectory();
 		setUpRequest();
