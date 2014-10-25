@@ -17,11 +17,11 @@ public class ClientData {
 		clientRepository.addDomain("easydrain.editor.core9.io", "easydrain");
 		clientRepository.addDomain("easydrain.localhost", "easydrain");
 
-		clientRepository.addPage("www.easydrain.nl", "/nl/");
+/*		clientRepository.addPage("www.easydrain.nl", "/nl/");
 		clientRepository.addPage("easydrain.docker.trimm.net", "/nl/");
 		clientRepository.addPage("easydrain.editor.core9.io", "/nl/");
 		clientRepository.addPage("easydrain.localhost", "/nl/");
-
+*/
 
 		clientRepository.addDomain("www.kennispark.nl", "kennispark");
 		clientRepository.addDomain("kennispark.editor.docker.trimm.net", "kennispark");
@@ -29,10 +29,10 @@ public class ClientData {
 		clientRepository.addDomain("kennispark.localhost", "kennispark");
 
 
-		clientRepository.addPage("www.kennispark.nl", "/jaarplan/");
+/*		clientRepository.addPage("www.kennispark.nl", "/jaarplan/");
 		clientRepository.addPage("kennispark.editor.docker.trimm.net", "/jaarplan/");
 		clientRepository.addPage("kennispark.editor.core9.io", "/jaarplan/");
-		clientRepository.addPage("kennispark.localhost", "/jaarplan/");
+		clientRepository.addPage("kennispark.localhost", "/jaarplan/");*/
 
 
 		clientRepository.addSiteRepository("kennispark", "https://github.com/jessec/site-kennispark.git");

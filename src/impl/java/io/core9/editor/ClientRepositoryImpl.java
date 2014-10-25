@@ -15,7 +15,6 @@ public class ClientRepositoryImpl implements ClientRepository {
 	private Map<String, String> domainRepository = new HashMap<>();
 	private Map<String, String> siteGitRepository = new HashMap<>();
 	private Map<String, List<String>> blockGitRepository = new HashMap<>();
-	private Map<String, String> pageRepository = new HashMap<>();;
 
 
 	@Override
@@ -32,7 +31,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 	public void addSiteRepository(String client, String repository) {
 		siteGitRepository.put(getShaId(client), repository);
 	}
-	
+
 	@Override
 	public String getSiteRepository(String client){
 		return siteGitRepository.get(client);
@@ -47,12 +46,12 @@ public class ClientRepositoryImpl implements ClientRepository {
 		list.add(repository);
 		blockGitRepository.put(getShaId(client), list);
 	}
-	
+
 	@Override
 	public List<String> getBlockRepository(String client) {
 		return blockGitRepository.get(client);
 	}
-	
+
 	public static String getShaId(String hashCode) {
 		String sha1 = "";
 		try {
@@ -75,8 +74,8 @@ public class ClientRepositoryImpl implements ClientRepository {
 		formatter.close();
 		return result;
 	}
-	
-	
+
+
 	public static String cleanHost(String host) {
 		String[] splitHost = host.split(":");
 		if (splitHost.length > 1) {
@@ -84,16 +83,5 @@ public class ClientRepositoryImpl implements ClientRepository {
 		}
 		return host;
 	}
-
-	@Override
-	public void addPage(String domain, String page){
-		pageRepository.put(cleanHost(domain), page);
-	}
-	
-	@Override
-	public String getPage(String hostname) {
-		return pageRepository.get(cleanHost(hostname));
-	}
-
 
 }
