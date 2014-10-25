@@ -43,6 +43,9 @@ dependencies {
   testCompile 'junit:junit:4.11'
 
 
+  compile 'io.core9:module-widgets-scraper-api:+'
+  compile 'io.core9:module-widgets-scraper:+'
+
   // Core
   compile 'io.core9:core:+'
 
