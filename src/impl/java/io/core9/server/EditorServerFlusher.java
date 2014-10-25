@@ -1,4 +1,4 @@
-package io.core9.editor;
+package io.core9.server;
 
 import io.core9.core.executor.Executor;
 import io.core9.core.plugin.Core9Plugin;

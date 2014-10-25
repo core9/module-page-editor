@@ -2,6 +2,7 @@ package io.core9.editor;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import io.core9.client.ClientRepositoryImpl;
 
 import org.junit.AfterClass;
 import org.junit.Test;

@@ -1,4 +1,6 @@
-package io.core9.editor;
+package io.core9.client;
+
+import io.core9.editor.ClientRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

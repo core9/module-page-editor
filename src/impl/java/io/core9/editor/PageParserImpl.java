@@ -1,5 +1,7 @@
 package io.core9.editor;
 
+import io.core9.server.BlockImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

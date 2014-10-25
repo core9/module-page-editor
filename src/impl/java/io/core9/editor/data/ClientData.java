@@ -1,7 +1,7 @@
 package io.core9.editor.data;
 
+import io.core9.client.ClientRepositoryImpl;
 import io.core9.editor.ClientRepository;
-import io.core9.editor.ClientRepositoryImpl;
 
 public class ClientData {
 

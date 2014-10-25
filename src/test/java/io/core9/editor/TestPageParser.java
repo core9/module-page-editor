@@ -1,6 +1,7 @@
 package io.core9.editor;
 
 import static org.junit.Assert.assertTrue;
+import io.core9.server.BlockImpl;
 
 import java.io.File;
 import java.net.URL;

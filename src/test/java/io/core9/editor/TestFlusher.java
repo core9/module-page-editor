@@ -1,5 +1,8 @@
 package io.core9.editor;
 
+import io.core9.server.BlockCommandImpl;
+import io.core9.server.BlockTool;
+
 import org.junit.Test;
 
 import net.minidev.json.JSONObject;

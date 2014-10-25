@@ -1,4 +1,6 @@
-package io.core9.editor;
+package io.core9.server;
+
+import io.core9.editor.Block;
 
 import org.jsoup.nodes.Element;
 
