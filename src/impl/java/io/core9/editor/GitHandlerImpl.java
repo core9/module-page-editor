@@ -1,5 +1,7 @@
 package io.core9.editor;
 
+import java.io.File;
+
 import io.core9.plugin.git.GitRepositoryImpl;
 import io.core9.plugin.git.GitRepositoryManager;
 import io.core9.plugin.git.GitRepositoryManagerImpl;
@@ -27,7 +29,8 @@ public class GitHandlerImpl implements GitHandler {
 	}
 
 	public static void clonePublicGitRepository(String httpsRepositoryUrl, String repositoryDirectory) {
-		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repositoryDirectory);
+		String repoDir = "../.." + File.separator + repositoryDirectory;
+		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repoDir);
 		git.init();
 	}
 }

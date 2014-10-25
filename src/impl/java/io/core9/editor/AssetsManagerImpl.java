@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,18 +14,13 @@ import net.minidev.json.parser.ParseException;
 public class AssetsManagerImpl implements AssetsManager {
 
 	private static Logger logger = Logger.getLogger(AssetsManagerImpl.class.getName());
-	//private EditorRequest request;
 
-	private String dataPrefix = "/site/data.json";
-	private String gitModulePrefix = "data/git/";
 
 	private AssetsLocator assets;
 	private String httpsRepositoryUrl;
 
 	public AssetsManagerImpl(String pathPrefix, EditorRequest request) {
 		assets = new AssetsLocator(pathPrefix, request);
-		//this.request = request;
-
 	}
 
 
@@ -109,7 +103,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public boolean checkIfRepositoryDirectoryExists() {
-		return new File(gitModulePrefix + assets.getBlockRepositoryDirectory(httpsRepositoryUrl)).exists();
+		return new File(assets.getBlockRepositoryDirectory(httpsRepositoryUrl)).exists();
 	}
 
 	@Override
@@ -130,7 +124,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
-		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteRepositoryDirectory());
+		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteDirectory());
 	}
 
 	@Override
@@ -139,8 +133,8 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
-	public String getSiteRepositoryDirectory() {
-		return assets.getSiteRepositoryDirectory();
+	public String getSiteDirectory() {
+		return assets.getSiteDirectory();
 	}
 
 	@Override
@@ -175,7 +169,7 @@ public class AssetsManagerImpl implements AssetsManager {
 			return assets.getClientDirectory() + "/site/pages/assets/" + filename.substring("/site/assets/".length());
 		} else if (filename.startsWith("/site/blocks/")) {
 			return assets.getClientDirectory() + "/" + filename.substring("/site/".length());
-		} else if (filename.startsWith(dataPrefix)) {
+		} else if (filename.startsWith(assets.getRequestJsonDataUrl())) {
 			return getPageDataRequest();
 		}
 		return assets.getClientDirectory() + "/site/assets/";

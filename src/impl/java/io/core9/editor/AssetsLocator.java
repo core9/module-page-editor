@@ -10,11 +10,10 @@ public class AssetsLocator {
 	private String blockDir = "blocks";
 	private EditorRequest request;
 	private String blockRepositoryDirectory;
-	private String siteRepositoryDirectory;
 	private String siteDir = "site";
 	private String siteJson = "site.json";
 	private String siteConfigFile;
-	private String dataPrefix = "/site/data.json";
+	private String requestJsonDataUrl = "/site/data.json";
 	private String healthFile;
 	private String gitModulePrefix = "data/git/";
 	private String clientDirectory;
@@ -37,7 +36,7 @@ public class AssetsLocator {
 		this.siteDirectory = clientDirectory + File.separator + siteDir;
 		this.blockDirectory = clientDirectory + File.separator + blockDir;
 		this.siteConfigFile = siteDirectory + File.separator + siteJson;
-		this.siteRepositoryDirectory = "../.." + File.separator + siteDirectory;
+
 	}
 
 	public String getClientId() {
@@ -64,9 +63,6 @@ public class AssetsLocator {
 		return siteConfigFile;
 	}
 
-	public String getSiteRepositoryDirectory() {
-		return siteRepositoryDirectory;
-	}
 
 	public String getTemplateFilePath() {
 		return gitModulePrefix + getPagePath() + templateFileName;
@@ -95,7 +91,7 @@ public class AssetsLocator {
 		if (!lastChar.equals("/")) {
 			fileSeperator = "/";
 		}
-		return getSiteRepositoryDirectory() + File.separator + pageDir + File.separator + request.getHost() + path + fileSeperator;
+		return siteDirectory + File.separator + pageDir + File.separator + request.getHost() + path + fileSeperator;
 	}
 
 	public String getPathPrefix() {
@@ -105,7 +101,7 @@ public class AssetsLocator {
 	public String getBlockRepositoryDirectory(String httpsRepositoryUrl) {
 		String fileName = httpsRepositoryUrl.substring(httpsRepositoryUrl.lastIndexOf('/') + 1, httpsRepositoryUrl.length());
 		String fileNameWithoutExtn = fileName.substring(0, fileName.lastIndexOf('.'));
-		blockRepositoryDirectory = "../.." + File.separator + getBlockDirectory() + File.separator + fileNameWithoutExtn;
+		blockRepositoryDirectory =  getBlockDirectory() + File.separator + fileNameWithoutExtn;
 		return blockRepositoryDirectory;
 	}
 
@@ -117,5 +113,9 @@ public class AssetsLocator {
 
 	public String getPath() {
 		return request.getPath();
+	}
+
+	public String getRequestJsonDataUrl() {
+		return requestJsonDataUrl;
 	}
 }

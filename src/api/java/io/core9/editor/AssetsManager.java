@@ -39,7 +39,6 @@ public interface AssetsManager {
 
 	void clonePublicSiteFromGit(String httpsRepositoryUrl);
 
-	String getSiteRepositoryDirectory();
 
 	String getSiteConfigFile();
 
@@ -58,6 +57,8 @@ public interface AssetsManager {
 	String getPageDataRequest();
 
 	void getPageData();
+
+	String getSiteDirectory();
 
 
 }
