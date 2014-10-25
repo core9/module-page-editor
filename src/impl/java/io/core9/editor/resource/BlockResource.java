@@ -77,7 +77,7 @@ public class BlockResource {
 		System.out.println(data);
 
 		BlockTool blockTool = new BlockUpdateToolImpl();
-		blockTool.setData(data);
+		blockTool.setData("data/editor", data);
 		//String status = blockTool.getResponse();
 
 		return Response.ok().entity("SUCCESS").build();
@@ -110,7 +110,7 @@ public class BlockResource {
 		BlockTool blockTool = new BlockCommandImpl();
 		JSONObject data = new JSONObject();
 		data.put("action", status);
-		blockTool.setData(data);
+		blockTool.setData("data/editor",data);
 
 		return Response.ok(blockData.findBlockByStatus(status)).build();
 	}

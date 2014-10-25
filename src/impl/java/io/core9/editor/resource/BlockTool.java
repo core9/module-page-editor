@@ -4,8 +4,9 @@ import net.minidev.json.JSONObject;
 
 public interface BlockTool {
 
-	void setData(JSONObject data);
 
 	String getResponse();
+
+	void setData(String prefix, JSONObject data);
 
 }

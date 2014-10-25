@@ -29,7 +29,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
-				blockTool.setData(data);
+				blockTool.setData("data/editor", data);
 
 			}
 

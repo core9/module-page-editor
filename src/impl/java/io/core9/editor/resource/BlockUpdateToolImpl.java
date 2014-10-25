@@ -32,7 +32,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 	private String blockContainer = "#main-section";
 	private PageParser parser;
 	private JSONObject data;
-	private static final String pathPrefix = "data/editor";
+	private String pathPrefix;
 	private AssetsManager assetsManager;
 	private RequestImpl request;
 	//private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-kennispark.git";
@@ -40,7 +40,8 @@ public class BlockUpdateToolImpl implements BlockTool {
 
 
 	@Override
-	public void setData(JSONObject data) {
+	public void setData(String prefix, JSONObject data) {
+		this.pathPrefix = prefix;
 		this.data = data;
 		processData();
 	}

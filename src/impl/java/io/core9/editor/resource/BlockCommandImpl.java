@@ -13,13 +13,14 @@ import net.minidev.json.JSONObject;
 
 public class BlockCommandImpl implements BlockTool {
 
-	private static final String pathPrefix = "data/editor";
+	private String pathPrefix;
 	private AssetsManager assetsManager;
 	private RequestImpl request;
 
 
 	@Override
-	public void setData(JSONObject data) {
+	public void setData(String prefix, JSONObject data) {
+		this.pathPrefix = prefix;
 		process(data);
 	}
 
