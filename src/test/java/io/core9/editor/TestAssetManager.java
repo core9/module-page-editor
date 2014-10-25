@@ -222,13 +222,7 @@ public class TestAssetManager {
 		String dataStr = assetsManager.getPageDataRequest();
 
 		assertTrue(expected.equals(dataStr));
-		System.out.println("");
 
-		/*
-		 * assertTrue("/easydrain".equals(data.get("path")));
-		 * assertTrue("0".equals(data.get("block")));
-		 * assertTrue("icon".equals(data.get("type")));
-		 */
 	}
 
 }

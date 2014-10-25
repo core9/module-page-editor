@@ -53,10 +53,10 @@ public class PageParserImpl implements PageParser {
 	@Override
 	public void deleteBlock(int x) {
 		// check for out of bound
-		try{
+		try {
 			blockRegistry.remove(x);
 			deletedBlocks.add(x);
-		}catch(Exception e){
+		} catch (Exception e) {
 
 		}
 	}
@@ -74,36 +74,21 @@ public class PageParserImpl implements PageParser {
 
 	@Override
 	public String getOriginalFile() {
-
-		String result = restoreHtmlPage(originalDoc, originalContainer, originalContainer);
-
-		return result;
-
-		// /return writeBlocksToString(originalContainer,
-		// originalBlockRegistry);
+		return restoreHtmlPage(originalDoc, originalContainer, originalContainer);
 	}
 
 	@Override
 	public String getPage() {
-
-		// String pg = writeBlocksToString(container, getBlocks());
-
-		String result = restoreHtmlPage(doc, originalContainer, container);
-		return result;
-		// return pg;
+		return restoreHtmlPage(doc, originalContainer, container);
 	}
 
 	private String restoreHtmlPage(Document doc, Document originalContainer, Document container) {
-
 		Element orgC = doc.select(blockContainerId).get(0);
-
-
 		String pg = writeBlocksToString(container, blockRegistry);
 		Document newDocument = Jsoup.parse(pg, "UTF-8");
 		Element newC = newDocument.select(blockContainerId).get(0);
 		changeBlock(doc, orgC, newC);
-		String result = doc.toString();
-		return result;
+		return doc.toString();
 	}
 
 	@Override
@@ -135,7 +120,7 @@ public class PageParserImpl implements PageParser {
 		for (Element block : elements) {
 			int n = i + 1;
 			if (!deletedBlocks.contains(i) && elements.size() >= n && !registry.isEmpty()) {
-					changeBlock(document, block, registry.get(i).getElement());
+				changeBlock(document, block, registry.get(i).getElement());
 			} else {
 				removeBlockFromList(i, block);
 				i--;
@@ -144,9 +129,9 @@ public class PageParserImpl implements PageParser {
 		}
 		if (registry.size() > elements.size()) {
 			for (int x = elements.size(); x < registry.size(); x++) {
-				if(registry.size() == 1){
+				if (registry.size() == 1) {
 					document.select(blockContainerId).append(registry.get(x).getElement().toString());
-				}else{
+				} else {
 					document.select(blockClassName).last().after(registry.get(x).getElement().toString());
 				}
 
@@ -196,10 +181,7 @@ public class PageParserImpl implements PageParser {
 
 	@Override
 	public void deleteAllBlocks() {
-
-
-
-		while( ! blockRegistry.isEmpty() ) {
+		while (!blockRegistry.isEmpty()) {
 			int size = blockRegistry.size();
 			for (int i = 0; i < size; i++) {
 				deleteBlock(i);
