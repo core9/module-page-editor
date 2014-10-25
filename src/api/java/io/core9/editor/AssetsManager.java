@@ -15,7 +15,6 @@ public interface AssetsManager {
 
 	void setRequest(EditorRequest request);
 
-	String getUrlId();
 
 	String getClientId();
 

@@ -20,7 +20,7 @@ import net.minidev.json.JSONValue;
 import net.minidev.json.parser.ParseException;
 
 public class AssetsManagerImpl implements AssetsManager {
-	
+
 	private static Logger logger = Logger.getLogger(AssetsManagerImpl.class.getName());
 
 	private String pathPrefix;
@@ -91,14 +91,6 @@ public class AssetsManagerImpl implements AssetsManager {
 	public String getClientId() {
 		return request.getClient();
 	}
-
-	@Override
-	public String getUrlId() {
-		return ClientRepositoryImpl.getShaId(Integer.toString(request.hashCode()));
-	}
-
-
-
 
 	@Override
 	public void createClientDirectory() {

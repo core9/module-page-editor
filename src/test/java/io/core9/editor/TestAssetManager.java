@@ -26,7 +26,7 @@ public class TestAssetManager {
 	private AssetsManager assetsManager;
 	private EditorRequest request;
 	private String clientId = "9a8eccd84f9c40c791281139a87da7b645f25fab";
-	private String urlId = "1b8b414deda107596d4fb4af7968a1122a654794";
+
 	private ClientRepositoryImpl clientRepository;
 
 	private void setupWorkingDirectory() {
@@ -53,13 +53,6 @@ public class TestAssetManager {
 		assertFalse(assetsManager.checkWorkingDirectory());
 	}
 
-	@Test
-	public void testCreateIdFromUrl() {
-		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
-		assertTrue(urlId.equals(assetsManager.getUrlId()));
-	}
 
 	@Test
 	public void testCreateIdFromClient() {
