@@ -30,7 +30,9 @@ public class TestAssetManager {
 	private ClientRepositoryImpl clientRepository;
 
 	private void setupWorkingDirectory() {
+		setUpRequest();
 		assetsManager = new AssetsManagerImpl(pathPrefix);
+		assetsManager.setRequest(request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 		assetsManager.createWorkingDirectory();
@@ -49,6 +51,7 @@ public class TestAssetManager {
 	@AfterClass
 	public static void cleanup() {
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
+		assetsManager.setRequest(new RequestImpl());
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 	}
@@ -57,16 +60,12 @@ public class TestAssetManager {
 	@Test
 	public void testCreateIdFromClient() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assertTrue(clientId.equals(assetsManager.getClientId()));
 	}
 
 	@Test
 	public void testCreateClientDirectory() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assertFalse(assetsManager.checkClientDirectory());
 		assetsManager.createClientDirectory();
 		assertTrue(assetsManager.checkClientDirectory());
@@ -75,8 +74,6 @@ public class TestAssetManager {
 	@Test
 	public void testDeleteClientDirectory() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assetsManager.createClientDirectory();
 		assertTrue(assetsManager.checkClientDirectory());
 		assetsManager.deleteClientDirectory();
@@ -87,10 +84,7 @@ public class TestAssetManager {
 	@Test
 	public void testDownloadBlockFromGit() throws FileNotFoundException, InterruptedException {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assetsManager.cloneBlocksFromGit("https://github.com/jessec/block-video.git");
-
 		assertTrue(assetsManager.checkIfRepositoryDirectoryExists());
 	}
 
@@ -98,8 +92,6 @@ public class TestAssetManager {
 	@Test
 	public void testCreateSiteDirectory() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assertFalse(assetsManager.checkSiteDirectory());
 		assetsManager.deleteClientDirectory();
 		assetsManager.createSiteDirectory();
@@ -109,8 +101,6 @@ public class TestAssetManager {
 	@Test
 	public void testDeleteSiteDirectory() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assetsManager.createSiteDirectory();
 		assertTrue(assetsManager.checkSiteDirectory());
 		assetsManager.deleteSiteDirectory();
@@ -121,8 +111,6 @@ public class TestAssetManager {
 	@Test
 	public void testCloneSiteFromGit() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assetsManager.clonePublicSiteFromGit("https://github.com/jessec/site-core9.git");
 		assertTrue(assetsManager.checkSite());
 		System.out.println(assetsManager.getSiteConfig());
@@ -130,14 +118,18 @@ public class TestAssetManager {
 
 	@Test
 	public void testCreateWorkingDirectory() {
+		setUpRequest();
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
+		assetsManager.setRequest(request);
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
 	}
 
 	@Test
 	public void testDeleteWorkingDirectory() {
+		setUpRequest();
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
+		assetsManager.setRequest(request);
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
 		assetsManager.deleteWorkingDirectory();
@@ -146,11 +138,7 @@ public class TestAssetManager {
 
 	@Test
 	public void testGetStaticFilePath() {
-
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
-
 		String filename = "/site/assets/css/core.css";
 		String filePath = assetsManager.getStaticFilePath(filename);
 		String shouldbe = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/assets/css/core.css";
@@ -166,8 +154,6 @@ public class TestAssetManager {
 	@Test
 	public void testWriteReadPageData() {
 		setupWorkingDirectory();
-		setUpRequest();
-		assetsManager.setRequest(request);
 		assetsManager.getPageTemplate();
 		String testJsonFileName = "/editor/client/site/pages/test-json-data.json";
 		URL url = this.getClass().getResource(testJsonFileName);
@@ -205,7 +191,6 @@ public class TestAssetManager {
 	@Test
 	public void testGetPageDataFromUrl() throws MalformedURLException, UnsupportedEncodingException {
 		setupWorkingDirectory();
-		setUpRequest();
 
 		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
 

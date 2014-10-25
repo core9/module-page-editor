@@ -11,6 +11,7 @@ public class TestPageData {
 	private static final String pathPrefix = "data/test-editor";
 	private AssetsManager assetsManager;
 	private EditorRequest request;
+	@SuppressWarnings("unused")
 	private String clientId = "9a8eccd84f9c40c791281139a87da7b645f25fab";
 	private ClientRepositoryImpl clientRepository;
 
@@ -19,9 +20,9 @@ public class TestPageData {
 		setupWorkingDirectory();
 		setUpRequest();
 		assetsManager.setRequest(request);
-		assertFalse(assetsManager.checkClientDirectory());
-		assetsManager.createClientDirectory();
-		assertTrue(assetsManager.checkClientDirectory());
+
+		assetsManager.getPageData();
+
 	}
 
 	private void setupWorkingDirectory() {

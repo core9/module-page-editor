@@ -60,5 +60,7 @@ public interface AssetsManager {
 
 	String getPageDataRequest();
 
+	void getPageData();
+
 
 }

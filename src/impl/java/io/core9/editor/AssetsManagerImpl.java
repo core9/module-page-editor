@@ -24,7 +24,7 @@ public class AssetsManagerImpl implements AssetsManager {
 	private static Logger logger = Logger.getLogger(AssetsManagerImpl.class.getName());
 
 	private String pathPrefix;
-	private String healthFile = "health.txt";
+	private String healthFileName = "health.txt";
 	private String blockDir = "blocks";
 	private EditorRequest request;
 	private String blockRepositoryDirectory;
@@ -33,6 +33,9 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String siteConfigFile;
 	private String dataPrefix = "/site/data.json";
 
+	@SuppressWarnings("unused")
+	private String healthFile;
+
 
 
 	public AssetsManagerImpl(String pathPrefix) {
@@ -40,9 +43,24 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
+	public void setRequest(EditorRequest request) {
+		this.request = request;
+		createPaths(request);
+	}
+
+	private void createPaths(EditorRequest req) {
+		this.healthFile = pathPrefix + File.separator + healthFileName;
+	}
+
+	@Override
+	public String getClientId() {
+		return request.getClient();
+	}
+
+	@Override
 	public void createWorkingDirectory() {
 		createDirectory(pathPrefix);
-		File yourFile = new File(pathPrefix + File.separator + healthFile);
+		File yourFile = new File(healthFile);
 		if (!yourFile.exists()) {
 			try {
 				yourFile.createNewFile();
@@ -60,7 +78,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public boolean checkWorkingDirectory() {
-		return new File(pathPrefix + File.separator + healthFile).exists();
+		return new File(healthFile).exists();
 	}
 
 	@Override
@@ -82,15 +100,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		return (path.delete());
 	}
 
-	@Override
-	public void setRequest(EditorRequest request) {
-		this.request = request;
-	}
 
-	@Override
-	public String getClientId() {
-		return request.getClient();
-	}
 
 	@Override
 	public void createClientDirectory() {
@@ -323,15 +333,12 @@ public class AssetsManagerImpl implements AssetsManager {
 
 		String pageDataPath = pathPrefix + "/" + getClientId() + "/site/pages/" + request.getHost() + params.get("page") + "/data/block-"+state[2]+"-type-"+state[4]+".json";
 
-		System.out.println("");
-
-/*		String result = "";
-
-		if(new File(pageDataPath).exists()){
-			result = readFile(pageDataPath, StandardCharsets.UTF_8);
-		}*/
-
 		return pageDataPath;
+	}
+
+	@Override
+	public void getPageData() {
+
 	}
 
 }
