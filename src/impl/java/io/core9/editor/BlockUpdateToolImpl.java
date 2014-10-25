@@ -169,7 +169,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 
 		String soyNameSpace = x.replace("-", ".");
 
-		String blockDirectory = assetsManager.getBlockRepositoryDirectory();
+		String blockDirectory = assetsManager.getBlockDirectory();
 
 		String soyTemplate = blockDirectory + blockTemplate;
 

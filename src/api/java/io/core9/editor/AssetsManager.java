@@ -32,7 +32,7 @@ public interface AssetsManager {
 
 	void deleteSiteDirectory();
 
-	String getBlockRepositoryDirectory();
+	String getBlockDirectory();
 
 	boolean checkIfRepositoryDirectoryExists();
 
