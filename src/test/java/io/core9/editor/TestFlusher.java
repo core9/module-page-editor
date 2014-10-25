@@ -8,7 +8,7 @@ public class TestFlusher {
 
 
 
-	@Test
+	//@Test
 	public void testFlusher(){
 
 		BlockTool blockTool = new BlockCommandImpl();
