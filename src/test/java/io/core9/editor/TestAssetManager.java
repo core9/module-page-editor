@@ -51,7 +51,13 @@ public class TestAssetManager {
 	@AfterClass
 	public static void cleanup() {
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix);
-		assetsManager.setRequest(new RequestImpl());
+		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+		clientRepository.addDomain("www.easydrain.nl", "easydrain");
+		clientRepository.addDomain("localhost", "easydrain");
+		EditorRequest request = new RequestImpl();
+		request.setClientRepository(clientRepository);
+		request.setAbsoluteUrl("http://localhost:8080/easydrain");
+		assetsManager.setRequest(request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
 	}

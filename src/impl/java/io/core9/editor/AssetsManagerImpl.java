@@ -30,11 +30,14 @@ public class AssetsManagerImpl implements AssetsManager {
 	private String blockRepositoryDirectory;
 	private String siteRepositoryDirectory;
 	private String siteDir = "site";
+	private String siteJson = "site.json";
 	private String siteConfigFile;
 	private String dataPrefix = "/site/data.json";
-
-	@SuppressWarnings("unused")
 	private String healthFile;
+
+	private String clientDirectory;
+
+	private String siteDirectory;
 
 
 
@@ -50,6 +53,10 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	private void createPaths(EditorRequest req) {
 		this.healthFile = pathPrefix + File.separator + healthFileName;
+		this.clientDirectory = pathPrefix + File.separator + getClientId();
+		this.siteDirectory = pathPrefix + File.separator + getClientId() + File.separator + siteDir;
+		this.siteConfigFile =  siteDirectory + File.separator + "site.json";
+		this.siteRepositoryDirectory = "../.." + File.separator + pathPrefix + File.separator + getClientId() + File.separator + siteDir;
 	}
 
 	@Override
@@ -104,32 +111,32 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void createClientDirectory() {
-		createDirectory(pathPrefix + File.separator + getClientId());
+		createDirectory(clientDirectory);
 	}
 
 	@Override
 	public boolean checkClientDirectory() {
-		return new File(pathPrefix + File.separator + getClientId()).exists();
+		return new File(clientDirectory).exists();
 	}
 
 	@Override
 	public void deleteClientDirectory() {
-		deleteDirectory(new File(pathPrefix + File.separator + getClientId()));
+		deleteDirectory(new File(clientDirectory));
 	}
 
 	@Override
 	public boolean checkSiteDirectory() {
-		return new File(pathPrefix + File.separator + getClientId() + File.separator + "site").exists();
+		return new File(siteDirectory).exists();
 	}
 
 	@Override
 	public void createSiteDirectory() {
-		createDirectory(pathPrefix + File.separator + getClientId() + File.separator + "site");
+		createDirectory(siteDirectory);
 	}
 
 	@Override
 	public void deleteSiteDirectory() {
-		deleteDirectory(new File(pathPrefix + File.separator + getClientId() + File.separator + "site"));
+		deleteDirectory(new File(siteDirectory));
 	}
 
 	@Override
@@ -227,13 +234,11 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getSiteConfigFile() {
-		siteConfigFile = "data/git" + File.separator + getSiteRepositoryDirectory() + File.separator + "site.json";
 		return siteConfigFile;
 	}
 
 	@Override
 	public String getSiteRepositoryDirectory() {
-		siteRepositoryDirectory = "../.." + File.separator + pathPrefix + File.separator + getClientId() + File.separator + siteDir;
 		return siteRepositoryDirectory;
 	}
 
