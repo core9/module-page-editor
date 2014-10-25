@@ -137,4 +137,16 @@ public class AssetsLocator {
 	public String getSitePath() {
 		return "/site/";
 	}
+
+	public String getStaticFilePath(String filename) {
+
+		if (filename.startsWith(getSiteAssetsPath())) {
+			return getClientDirectory() + getPageAssetsPath() + filename.substring(getSiteAssetsPath().length());
+		} else if (filename.startsWith(getSiteBlockPath())) {
+			return getClientDirectory() + "/" + filename.substring(getSitePath().length());
+		} else if (filename.startsWith(getRequestJsonDataUrl())) {
+			return getPageDataRequest();
+		}
+		return getClientDirectory() + getSiteAssetsPath();
+	}
 }

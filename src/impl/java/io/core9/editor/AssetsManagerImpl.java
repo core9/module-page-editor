@@ -161,14 +161,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getStaticFilePath(String filename) {
-		if (filename.startsWith(assets.getSiteAssetsPath())) {
-			return assets.getClientDirectory() + assets.getPageAssetsPath() + filename.substring(assets.getSiteAssetsPath().length());
-		} else if (filename.startsWith(assets.getSiteBlockPath())) {
-			return assets.getClientDirectory() + "/" + filename.substring(assets.getSitePath().length());
-		} else if (filename.startsWith(assets.getRequestJsonDataUrl())) {
-			return getPageDataRequest();
-		}
-		return assets.getClientDirectory() + assets.getSiteAssetsPath();
+		return assets.getStaticFilePath(filename);
 	}
 
 	@Override
