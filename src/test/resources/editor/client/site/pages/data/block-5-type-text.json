@@ -1,0 +1,16 @@
+{
+  "data":{
+    "width":"560",
+    "title":"title",
+    "url":"http:\/\/youtu.be\/kDfw4yt554g",
+    "content":"content",
+    "height":"315"
+  },
+  "meta":{
+    "template":"site\/blocks\/block-video\/text\/tpl\/site-block-text.soy",
+    "block":"5",
+    "state":"edit",
+    "absolute-url":"http:\/\/localhost:8080\/nl",
+    "type":"text"
+  }
+}

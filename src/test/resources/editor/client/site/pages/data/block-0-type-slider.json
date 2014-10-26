@@ -1,0 +1,16 @@
+{
+  "data":{
+    "width":"560",
+    "title":"title",
+    "url":"http:\/\/youtu.be\/kDfw4yt554g",
+    "content":"content",
+    "height":"315"
+  },
+  "meta":{
+    "template":"site\/blocks\/block-video\/slider\/tpl\/site-block-slider.soy",
+    "block":"0",
+    "state":"edit",
+    "absolute-url":"http:\/\/localhost:8080\/nl",
+    "type":"slider"
+  }
+}
