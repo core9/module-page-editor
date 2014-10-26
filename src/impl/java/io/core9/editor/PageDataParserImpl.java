@@ -106,8 +106,8 @@ public class PageDataParserImpl implements PageDataParser {
 		updateList(list);
 	}
 
-	@Override
-	public void deleteAllBlockData(String directory) {
+
+	private void deleteAllBlockData(String directory) {
 		List<BlockData> list = getAllBlockDataFromDirectory(directory);
 		for (BlockData blockData : list) {
 			blockData.getFile().delete();
@@ -116,6 +116,11 @@ public class PageDataParserImpl implements PageDataParser {
 
 	public List<BlockData> getAllBlockData() {
 		return getAllBlockDataFromDirectory(dataDirectory);
+	}
+
+	@Override
+	public void deleteBlockData() {
+		deleteAllBlockData(dataDirectory);
 	}
 
 }

@@ -17,7 +17,7 @@ public interface PageDataParser {
 
 	void deleteBlockData(int i);
 
-	void deleteAllBlockData(String directory);
+	void deleteBlockData();
 
 	List<BlockData> getAllBlockData();
 

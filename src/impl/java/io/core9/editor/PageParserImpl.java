@@ -73,6 +73,7 @@ public class PageParserImpl implements PageParser {
 	@Override
 	public void appendBlock(Block block) {
 		blockRegistry.add(block);
+		dataParser.appendBlockData(block.getBlockData());
 	}
 
 	@Override
@@ -109,12 +110,14 @@ public class PageParserImpl implements PageParser {
 	public void switchBlocks(int i, int j) {
 		// check for out of bound
 		blockRegistry.set(i, blockRegistry.set(j, blockRegistry.get(i)));
+		dataParser.switchBlockData(i, j);
 	}
 
 	@Override
 	public void replaceBlock(int i, Block block) {
 		// check for out of bound
 		blockRegistry.set(i, block);
+		dataParser.replaceBlock(i, block.getBlockData());
 	}
 
 	private String writeBlocksToString(Document document, List<Block> registry) {
@@ -194,7 +197,7 @@ public class PageParserImpl implements PageParser {
 				deleteBlock(i);
 			}
 		}
-
+		dataParser.deleteBlockData();
 	}
 
 }
