@@ -26,7 +26,7 @@ public class BlockImpl implements Block {
 	}
 
 	@Override
-	public void setBlockData(BlockData blockData) {
+	public void addBlockData(BlockData blockData) {
 		this.blockData = blockData;
 	}
 

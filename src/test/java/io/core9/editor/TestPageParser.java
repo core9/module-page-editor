@@ -20,7 +20,7 @@ public class TestPageParser {
 	private String blockClassName = ".block";
 	private String blockContainer = "#main-section";
 	private PageParser parser;
-	private String fullHtmlTestPage = "/editor/client/site/pages/full-test-page.html";
+	private String fullHtmlTestPage = "/editor/client/site/pages/template.html";
 
 	public void setupBlocksFromPage() {
 		URL url = this.getClass().getResource(fullHtmlTestPage );

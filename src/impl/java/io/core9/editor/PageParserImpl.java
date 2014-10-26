@@ -164,10 +164,13 @@ public class PageParserImpl implements PageParser {
 	private List<Block> parseBlocks(Document document, String blockClassName) {
 		Elements elems = document.select(blockClassName);
 		List<Block> registry = new ArrayList<Block>();
+		int i = 0;
 		for (Element elem : elems) {
 			Block block = new BlockImpl();
 			block.addElement(elem);
+			block.addBlockData(dataParser.getBlockData(i));
 			registry.add(block);
+			i++;
 		}
 		return registry;
 	}

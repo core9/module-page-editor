@@ -10,6 +10,6 @@ public interface Block {
 
 	BlockData getBlockData();
 
-	void setBlockData(BlockData blockData);
+	void addBlockData(BlockData blockData);
 
 }
