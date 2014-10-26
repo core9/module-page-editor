@@ -33,29 +33,39 @@ public class TestPageDataParser {
 
 
 	@Test
-	public void getAllDataFromPage(){
+	public void testGetAllDataFromPage(){
 		setupWorkingDirectory();
-
-		assetsManager.deleteClientDirectory();
-		assetsManager.createClientDirectory();
-
-		String clientId = assetsManager.getClientId();
-		ClientRepository repository = ClientData.getRepository();
-		String siteRepoUrl = repository.getSiteRepository(clientId);
-		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
-		JSONObject config = assetsManager.getSiteConfig();
-		System.out.println(config);
-
-		String page = assetsManager.getPageTemplate();
-
-		dataParser = new PageDataParserImpl(page);
-
 		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+	}
 
-		assertTrue(data.size() > 1);
+	@Test
+	public void testGetFirstDataBlockFromPage(){
+		setupWorkingDirectory();
+		BlockData blockData = dataParser.getBlockData(3);
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-4-type-video.json";
+		String result = blockData.getFile();
+		assertTrue(expected.equals(result));
+	}
 
+	@Test
+	public void testSwitchBlockData(){
+		setupWorkingDirectory();
+		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+
+		dataParser.switchBlockData(2, 4);
 
 	}
+
+
+
+
+
+
+
+
+
 
 	@Test
 	public void testWriteReadPageData() {
@@ -92,6 +102,20 @@ public class TestPageDataParser {
 		assertFalse(assetsManager.checkWorkingDirectory());
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
+
+		assetsManager.deleteClientDirectory();
+		assetsManager.createClientDirectory();
+
+		String clientId = assetsManager.getClientId();
+		ClientRepository repository = ClientData.getRepository();
+		String siteRepoUrl = repository.getSiteRepository(clientId);
+		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
+		JSONObject config = assetsManager.getSiteConfig();
+		System.out.println(config);
+
+		String page = assetsManager.getPageTemplate();
+
+		dataParser = new PageDataParserImpl(page);
 	}
 
 	private void setUpRequest() {

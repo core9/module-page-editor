@@ -6,9 +6,9 @@ public interface PageDataParser {
 
 	List<BlockData> getAllBlockData();
 
-	void switchBlocks(int i, int j);
+	void switchBlockData(int i, int j);
 
-	Block getBlock(int i);
+	BlockData getBlockData(int i);
 
 	String getOriginalFile();
 
