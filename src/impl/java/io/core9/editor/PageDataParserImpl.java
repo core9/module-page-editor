@@ -4,6 +4,7 @@ import java.util.List;
 
 public class PageDataParserImpl implements PageDataParser {
 
+	@SuppressWarnings("unused")
 	private String pageFilePath;
 
 	public PageDataParserImpl(String pageFilePath) {

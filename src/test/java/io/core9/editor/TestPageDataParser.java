@@ -26,6 +26,7 @@ public class TestPageDataParser {
 	private EditorRequest request;
 	private ClientRepositoryImpl clientRepository;
 	private PageDataParserImpl dataParser;
+	@SuppressWarnings("unused")
 	private String httpsRepositoryUrl;
 
 
