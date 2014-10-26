@@ -28,10 +28,9 @@ public class PageDataParserImpl implements PageDataParser {
 		targetFile.mkdir();
 	}
 
-	@Override
-	public List<BlockData> getAllBlockData() {
+	private List<BlockData> getAllBlockDataFromDirectory(String directory) {
 		List<BlockData> results = new ArrayList<BlockData>();
-		File[] files = new File(dataDirectory).listFiles();
+		File[] files = new File(directory).listFiles();
 		Arrays.sort(files);
 		for (File file : files) {
 		    if (file.isFile()) {
@@ -45,7 +44,7 @@ public class PageDataParserImpl implements PageDataParser {
 
 	@Override
 	public void switchBlockData(int i, int j) {
-		List<BlockData> list = getAllBlockData();
+		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
 		list.set(i, list.set(j, list.get(i)));
 		updateList(list);
 	}
@@ -57,11 +56,17 @@ public class PageDataParserImpl implements PageDataParser {
 			blockData.save(updateDirectory);
 			i++;
 		}
+		deleteAllBlockData(dataDirectory);
+		List<BlockData> updateList = getAllBlockDataFromDirectory(updateDirectory);
+		for(BlockData blockData : updateList){
+			blockData.save(dataDirectory);
+		}
+		deleteAllBlockData(updateDirectory);
 	}
 
 	@Override
 	public BlockData getBlockData(int i) {
-		return getAllBlockData().get(i);
+		return getAllBlockDataFromDirectory(dataDirectory).get(i);
 	}
 
 	@Override
@@ -101,9 +106,15 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	@Override
-	public void deleteAllBlocks() {
+	public void deleteAllBlockData(String directory) {
+		List<BlockData> list = getAllBlockDataFromDirectory(directory);
+		for(BlockData blockData : list){
+			blockData.getFile().delete();
+		}
+	}
 
-
+	public List<BlockData> getAllBlockData() {
+		return getAllBlockDataFromDirectory(dataDirectory);
 	}
 
 }

@@ -16,7 +16,7 @@ public class BlockDataImpl implements BlockData {
 	}
 
 	@Override
-	public String getFile() {
+	public String getFilePath() {
 		return file.getPath();
 	}
 
@@ -48,6 +48,11 @@ public class BlockDataImpl implements BlockData {
 	private String updatePositionInFileName(int pos, String name) {
 		String[] parts = name.split("-");
 		return parts[0] + "-" + Integer.toString(pos) + "-" + parts[2] + "-" + parts[3];
+	}
+
+	@Override
+	public File getFile() {
+		return file;
 	}
 
 }

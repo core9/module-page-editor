@@ -25,7 +25,7 @@ public class TestPageDataParser {
 	private AssetsManager assetsManager;
 	private EditorRequest request;
 	private ClientRepositoryImpl clientRepository;
-	private PageDataParserImpl dataParser;
+	private PageDataParser dataParser;
 	@SuppressWarnings("unused")
 	private String httpsRepositoryUrl;
 
@@ -44,7 +44,7 @@ public class TestPageDataParser {
 		setupWorkingDirectory();
 		BlockData blockData = dataParser.getBlockData(3);
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-4-type-video.json";
-		String result = blockData.getFile();
+		String result = blockData.getFilePath();
 		assertTrue(expected.equals(result));
 	}
 

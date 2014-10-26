@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface PageDataParser {
 
-	List<BlockData> getAllBlockData();
 
 	void switchBlockData(int i, int j);
 
@@ -22,7 +21,9 @@ public interface PageDataParser {
 
 	void deleteBlock(int i);
 
-	void deleteAllBlocks();
+	void deleteAllBlockData(String directory);
+
+	List<BlockData> getAllBlockData();
 
 
 }

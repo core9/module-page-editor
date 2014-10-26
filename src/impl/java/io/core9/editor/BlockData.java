@@ -6,10 +6,12 @@ public interface BlockData {
 
 	void addFile(File file);
 
-	String getFile();
+	String getFilePath();
 
 	void setPosition(int i);
 
 	void save(String updateDirectory);
+
+	File getFile();
 
 }
