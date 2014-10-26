@@ -64,7 +64,7 @@ public class AssetsLocator {
 	}
 
 	public String getTemplateFilePath() {
-		return gitModulePrefix + getPagePath() + templateFileName;
+		return getPagePath() + templateFileName;
 	}
 
 	public String getOrgTemplateFilePath() {

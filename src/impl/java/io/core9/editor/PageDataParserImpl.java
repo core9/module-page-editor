@@ -1,14 +1,13 @@
 package io.core9.editor;
 
-import java.io.File;
 import java.util.List;
 
 public class PageDataParserImpl implements PageDataParser {
 
-	private File pageFile;
+	private String pageFilePath;
 
-	public PageDataParserImpl(File page) {
-		this.pageFile = page;
+	public PageDataParserImpl(String pageFilePath) {
+		this.pageFilePath = pageFilePath;
 	}
 
 	@Override

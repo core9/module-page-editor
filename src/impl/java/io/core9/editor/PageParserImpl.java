@@ -28,10 +28,11 @@ public class PageParserImpl implements PageParser {
 	private String blockContainerId;
 	private Document doc;
 	private Document originalDoc;
+	PageDataParser dataParser;
 
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
-		PageDataParser dataParser = new PageDataParserImpl(page);
+		dataParser = new PageDataParserImpl(page.getAbsolutePath());
 
 		this.blockContainerId = blockContainerId;
 		this.blockClassName = blockClassName;
