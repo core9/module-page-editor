@@ -156,6 +156,25 @@ public class TestAssetManager {
 	}
 
 	@Test
+	public void testGetAllTemplatesFromPage(){
+		setupWorkingDirectory();
+
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/template.html";
+		String page = assetsManager.getPageTemplate();
+		assertTrue(expected.equals(page));
+
+		expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/org.template.html";
+		page = assetsManager.getPageOriginalTemplate();
+		assertTrue(expected.equals(page));
+
+		expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/cache.html";
+		page = assetsManager.getPageCachedTemplate();
+		assertTrue(expected.equals(page));
+
+	}
+
+
+	@Test
 	public void testWriteReadPageData() {
 		setupWorkingDirectory();
 		assetsManager.getPageTemplate();

@@ -15,7 +15,7 @@ public class AssetsLocator {
 	private String siteConfigFile;
 	private String requestJsonDataUrl = "/site/data.json";
 	private String healthFile;
-	private String gitModulePrefix = "data/git/";
+	//private String gitModulePrefix = "data/git/";
 	private String clientDirectory;
 	private String siteDirectory;
 	private String blockDirectory;
@@ -68,11 +68,11 @@ public class AssetsLocator {
 	}
 
 	public String getOrgTemplateFilePath() {
-		return gitModulePrefix + getPagePath() + orgTemplateFileName;
+		return getPagePath() + orgTemplateFileName;
 	}
 
 	public String getTemplateCacheFilePath() {
-		return gitModulePrefix + getPagePath() + templateCacheFileName;
+		return getPagePath() + templateCacheFileName;
 	}
 
 	public String getHostPath() {
@@ -149,4 +149,6 @@ public class AssetsLocator {
 		}
 		return getClientDirectory() + getSiteAssetsPath();
 	}
+
+
 }

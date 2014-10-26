@@ -144,6 +144,16 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
+	public String getPageOriginalTemplate() {
+		return assets.getOrgTemplateFilePath();
+	}
+
+	@Override
+	public String getPageCachedTemplate() {
+		return assets.getTemplateCacheFilePath();
+	}
+
+	@Override
 	public void writePageCache(String content) {
 		File newfile = new File(assets.getOrgTemplateFilePath());
 		if (!newfile.exists()) {
@@ -181,5 +191,9 @@ public class AssetsManagerImpl implements AssetsManager {
 	public void getPageData() {
 
 	}
+
+
+
+
 
 }

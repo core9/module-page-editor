@@ -58,4 +58,8 @@ public interface AssetsManager {
 
 	String getSiteDirectory();
 
+	String getPageOriginalTemplate();
+
+	String getPageCachedTemplate();
+
 }
