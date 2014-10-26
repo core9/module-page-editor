@@ -69,7 +69,12 @@ public class PageDataParserImpl implements PageDataParser {
 
 	@Override
 	public BlockData getBlockData(int i) {
-		return getAllBlockDataFromDirectory(dataDirectory).get(i);
+		BlockData dataBlock = null;
+		try {
+			dataBlock = getAllBlockDataFromDirectory(dataDirectory).get(i);
+		} catch (Exception e) {
+		}
+		return dataBlock;
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class TestPageParser {
 	@Test
 	public void testIfSavedFileIsRestoredCorrect() {
 		setupBlocksFromPage();
-		Path file = FileUtils.getFile("/fooo", "new-front-page.html");
+		Path file = FileUtils.getFile("/fooo", "template.html");
 		String originalContent = parser.getOriginalFile();
 		file = FileUtils.writeToFile(file, originalContent);
 		String content = FileUtils.readPathToString(file);
