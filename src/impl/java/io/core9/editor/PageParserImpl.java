@@ -28,7 +28,7 @@ public class PageParserImpl implements PageParser {
 	private String blockContainerId;
 	private Document doc;
 	private Document originalDoc;
-	PageDataParser dataParser;
+	private PageDataParser dataParser;
 
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
