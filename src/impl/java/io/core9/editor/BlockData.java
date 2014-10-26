@@ -8,4 +8,8 @@ public interface BlockData {
 
 	String getFile();
 
+	void setPosition(int i);
+
+	void save(String updateDirectory);
+
 }

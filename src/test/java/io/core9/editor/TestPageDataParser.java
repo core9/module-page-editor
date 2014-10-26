@@ -56,6 +56,8 @@ public class TestPageDataParser {
 
 		dataParser.switchBlockData(2, 4);
 
+		System.out.println("");
+
 	}
 
 
