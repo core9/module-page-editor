@@ -31,21 +31,18 @@ public class PageParserImpl implements PageParser {
 
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
+		PageDataParser dataParser = new PageDataParserImpl(page);
+
 		this.blockContainerId = blockContainerId;
 		this.blockClassName = blockClassName;
-
 		this.originalPage = page;
 		this.page = page;
-
 		doc = parseHtml(this.page);
 		originalDoc = parseHtml(originalPage);
-
 		container = getContainerFromHtml(this.page);
 		originalContainer = getContainerFromHtml(originalPage);
-
 		blockRegistry = parseBlocks(container, blockClassName);
 		originalBlockRegistry = parseBlocks(originalContainer, blockClassName);
-
 	}
 
 	private Document getContainerFromHtml(File page) {
