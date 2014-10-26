@@ -58,8 +58,11 @@ public class PageDataParserImpl implements PageDataParser {
 		}
 		deleteAllBlockData(dataDirectory);
 		List<BlockData> updateList = getAllBlockDataFromDirectory(updateDirectory);
+		int x = 0;
 		for(BlockData blockData : updateList){
+			blockData.setPosition(x);
 			blockData.save(dataDirectory);
+			x++;
 		}
 		deleteAllBlockData(updateDirectory);
 	}

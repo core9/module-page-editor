@@ -43,7 +43,7 @@ public class TestPageDataParser {
 	public void testGetFirstDataBlockFromPage(){
 		setupWorkingDirectory();
 		BlockData blockData = dataParser.getBlockData(3);
-		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-4-type-video.json";
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-3-type-smalltext.json";
 		String result = blockData.getFilePath();
 		assertTrue(expected.equals(result));
 	}
@@ -54,7 +54,15 @@ public class TestPageDataParser {
 		List<BlockData> data = dataParser.getAllBlockData();
 		assertTrue(data.size() == 9);
 
+		BlockData blockDataOrg = dataParser.getBlockData(2);
+		String filePathOrg = blockDataOrg.getFilePath();
+
 		dataParser.switchBlockData(2, 4);
+
+		BlockData blockDataNew = dataParser.getBlockData(2);
+		String filePathNew = blockDataNew.getFilePath();
+
+		assertTrue(!filePathOrg.equals(filePathNew));
 
 		System.out.println("");
 
