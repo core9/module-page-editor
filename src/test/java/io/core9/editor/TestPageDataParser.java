@@ -29,18 +29,15 @@ public class TestPageDataParser {
 	@SuppressWarnings("unused")
 	private String httpsRepositoryUrl;
 
-
-
-
 	@Test
-	public void testGetAllDataFromPage(){
+	public void testGetAllDataFromPage() {
 		setupWorkingDirectory();
 		List<BlockData> data = dataParser.getAllBlockData();
 		assertTrue(data.size() == 9);
 	}
 
 	@Test
-	public void testGetFirstDataBlockFromPage(){
+	public void testGetFirstDataBlockFromPage() {
 		setupWorkingDirectory();
 		BlockData blockData = dataParser.getBlockData(3);
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-3-type-smalltext.json";
@@ -49,33 +46,39 @@ public class TestPageDataParser {
 	}
 
 	@Test
-	public void testSwitchBlockData(){
+	public void testSwitchBlockData() {
 		setupWorkingDirectory();
 		List<BlockData> data = dataParser.getAllBlockData();
 		assertTrue(data.size() == 9);
-
 		BlockData blockDataOrg = dataParser.getBlockData(2);
 		String filePathOrg = blockDataOrg.getFilePath();
-
 		dataParser.switchBlockData(2, 4);
-
 		BlockData blockDataNew = dataParser.getBlockData(2);
 		String filePathNew = blockDataNew.getFilePath();
-
 		assertTrue(!filePathOrg.equals(filePathNew));
-
-		System.out.println("");
-
 	}
 
+	@Test
+	public void testReplaceBlockData() {
+		setupWorkingDirectory();
+		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+		BlockData blockDataOrg = dataParser.getBlockData(5);
+		String filePathOrg = blockDataOrg.getFilePath();
+		BlockData blockDataNew = dataParser.getBlockData(0);
+		dataParser.replaceBlock(5, blockDataNew);
+		BlockData blockDataCheck = dataParser.getBlockData(5);
+		String filePathCheck = blockDataCheck.getFilePath();
+		assertTrue(!filePathOrg.equals(filePathCheck));
+	}
 
 	@Test
-	public void testInsertBlockData(){
+	public void testInsertBlockData() {
 		setupWorkingDirectory();
 		List<BlockData> data = dataParser.getAllBlockData();
 		assertTrue(data.size() == 9);
 		BlockData blockData = dataParser.getBlockData(0);
-		dataParser.insertBlock(3, blockData);
+		dataParser.insertBlockData(3, blockData);
 		BlockData setBlockData = dataParser.getBlockData(3);
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-3-type-slider.json";
 		assertTrue(expected.equals(setBlockData.getFilePath()));
@@ -83,12 +86,29 @@ public class TestPageDataParser {
 		assertTrue(newData.size() == 10);
 	}
 
+	@Test
+	public void testAppendBlockData() {
+		setupWorkingDirectory();
+		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+		BlockData blockData = dataParser.getBlockData(0);
+		dataParser.appendBlockData(blockData);
+		BlockData setBlockData = dataParser.getBlockData(9);
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-9-type-slider.json";
+		assertTrue(expected.equals(setBlockData.getFilePath()));
+		List<BlockData> newData = dataParser.getAllBlockData();
+		assertTrue(newData.size() == 10);
+	}
 
-
-
-
-
-
+	@Test
+	public void testDeleteBlockData() {
+		setupWorkingDirectory();
+		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+		dataParser.deleteBlockData(4);
+		List<BlockData> newData = dataParser.getAllBlockData();
+		assertTrue(newData.size() == 8);
+	}
 
 	@Test
 	public void testWriteReadPageData() {
@@ -99,24 +119,15 @@ public class TestPageDataParser {
 		File testJsonFile = new File(url.getFile());
 		assertTrue(testJsonFile.exists());
 		String jsonString = readFile(testJsonFile.getAbsolutePath(), StandardCharsets.UTF_8);
-
 		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
-
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/data/block-0-type-icon.json";
-
-
-
 		JSONObject jsonData = (JSONObject) JSONValue.parse(jsonString);
 		JSONObject meta = (JSONObject) jsonData.get("meta");
 		JSONObject editorData = (JSONObject) jsonData.get("data");
 		assetsManager.saveBlockData(meta, editorData);
-
 		String dataStr = assetsManager.getPageDataRequest();
-
 		assertTrue(expected.equals(dataStr));
-
 	}
-
 
 	private void setupWorkingDirectory() {
 		setUpRequest();
@@ -125,19 +136,15 @@ public class TestPageDataParser {
 		assertFalse(assetsManager.checkWorkingDirectory());
 		assetsManager.createWorkingDirectory();
 		assertTrue(assetsManager.checkWorkingDirectory());
-
 		assetsManager.deleteClientDirectory();
 		assetsManager.createClientDirectory();
-
 		String clientId = assetsManager.getClientId();
 		ClientRepository repository = ClientData.getRepository();
 		String siteRepoUrl = repository.getSiteRepository(clientId);
 		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 		JSONObject config = assetsManager.getSiteConfig();
 		System.out.println(config);
-
 		String page = assetsManager.getPageTemplate();
-
 		dataParser = new PageDataParserImpl(page);
 	}
 

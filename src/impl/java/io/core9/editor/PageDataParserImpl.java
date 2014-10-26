@@ -73,37 +73,32 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	@Override
-	public String getOriginalFile() {
-
-		return null;
-	}
-
-	@Override
 	public void replaceBlock(int i, BlockData blockData) {
+		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
+		list.set(i, blockData);
+		updateList(list);
+	}
 
+
+	@Override
+	public void appendBlockData(BlockData blockData) {
+		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
+		list.add(blockData);
+		updateList(list);
 	}
 
 	@Override
-	public String getPage() {
-
-		return null;
-	}
-
-	@Override
-	public void appendBlock(BlockData blockData) {
-
-	}
-
-	@Override
-	public void insertBlock(int i, BlockData blockData) {
+	public void insertBlockData(int i, BlockData blockData) {
 		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
 		list.add(i, blockData);
 		updateList(list);
 	}
 
 	@Override
-	public void deleteBlock(int i) {
-
+	public void deleteBlockData(int i) {
+		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
+		list.remove(i);
+		updateList(list);
 	}
 
 	@Override

@@ -9,17 +9,13 @@ public interface PageDataParser {
 
 	BlockData getBlockData(int i);
 
-	String getOriginalFile();
-
 	void replaceBlock(int i, BlockData blockData);
 
-	String getPage();
+	void appendBlockData(BlockData blockData);
 
-	void appendBlock(BlockData blockData);
+	void insertBlockData(int i, BlockData blockData);
 
-	void insertBlock(int i, BlockData blockData);
-
-	void deleteBlock(int i);
+	void deleteBlockData(int i);
 
 	void deleteAllBlockData(String directory);
 
