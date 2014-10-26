@@ -17,6 +17,7 @@ import java.util.List;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
+import org.junit.AfterClass;
 import org.junit.Test;
 
 public class TestPageDataParser {
@@ -26,8 +27,9 @@ public class TestPageDataParser {
 	private EditorRequest request;
 	private ClientRepositoryImpl clientRepository;
 	private PageDataParser dataParser;
-	@SuppressWarnings("unused")
-	private String httpsRepositoryUrl;
+
+
+
 
 	@Test
 	public void testGetAllDataFromPage() {
@@ -156,6 +158,21 @@ public class TestPageDataParser {
 		request = new RequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/nl");
+	}
+
+
+	@AfterClass
+	public static void cleanup() {
+
+		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+		clientRepository.addDomain("www.easydrain.nl", "easydrain");
+		clientRepository.addDomain("localhost", "easydrain");
+		EditorRequest request = new RequestImpl();
+		request.setClientRepository(clientRepository);
+		request.setAbsoluteUrl("http://localhost:8080/nl");
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
+		assetsManager.deleteWorkingDirectory();
+		assertFalse(assetsManager.checkWorkingDirectory());
 	}
 
 	private static String readFile(String path, Charset encoding) {
