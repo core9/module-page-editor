@@ -32,7 +32,8 @@ public class PageParserImpl implements PageParser {
 
 	public PageParserImpl(File page, String blockContainerId, String blockClassName) {
 
-		dataParser = new PageDataParserImpl(page.getAbsolutePath());
+		String pagePath = page.getAbsolutePath();
+		dataParser = new PageDataParserImpl(pagePath);
 
 		this.blockContainerId = blockContainerId;
 		this.blockClassName = blockClassName;
@@ -56,6 +57,7 @@ public class PageParserImpl implements PageParser {
 		try {
 			blockRegistry.remove(x);
 			deletedBlocks.add(x);
+			dataParser.deleteBlockData(x);
 		} catch (Exception e) {
 
 		}
@@ -65,6 +67,7 @@ public class PageParserImpl implements PageParser {
 	public void insertBlock(int i, Block block) {
 		// check for out of bound
 		blockRegistry.add(i, block);
+		dataParser.insertBlockData(i, block.getBlockData());
 	}
 
 	@Override
