@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface PageDataParser {
 
-	List<Block> getBlocks();
+	List<BlockData> getAllBlockData();
 
 	void switchBlocks(int i, int j);
 

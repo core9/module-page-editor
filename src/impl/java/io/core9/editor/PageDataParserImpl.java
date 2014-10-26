@@ -11,7 +11,7 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	@Override
-	public List<Block> getBlocks() {
+	public List<BlockData> getAllBlockData() {
 
 		return null;
 	}
