@@ -22,8 +22,8 @@ public class PageDataParserImpl implements PageDataParser {
 	private void checkEnvironment() {
 		File targetFile = new File(updateDirectory);
 		File parent = targetFile.getParentFile();
-		if(!parent.exists() && !parent.mkdirs()){
-		    throw new IllegalStateException("Couldn't create dir: " + parent);
+		if (!parent.exists() && !parent.mkdirs()) {
+			throw new IllegalStateException("Couldn't create dir: " + parent);
 		}
 		targetFile.mkdir();
 	}
@@ -33,11 +33,11 @@ public class PageDataParserImpl implements PageDataParser {
 		File[] files = new File(directory).listFiles();
 		Arrays.sort(files);
 		for (File file : files) {
-		    if (file.isFile()) {
-		    	BlockData blockData = new BlockDataImpl();
-		    	blockData.addFile(file);
-		        results.add(blockData);
-		    }
+			if (file.isFile()) {
+				BlockData blockData = new BlockDataImpl();
+				blockData.addFile(file);
+				results.add(blockData);
+			}
 		}
 		return results;
 	}
@@ -51,7 +51,7 @@ public class PageDataParserImpl implements PageDataParser {
 
 	private void updateList(List<BlockData> list) {
 		int i = 0;
-		for(BlockData blockData : list){
+		for (BlockData blockData : list) {
 			blockData.setPosition(i);
 			blockData.save(updateDirectory);
 			i++;
@@ -59,7 +59,7 @@ public class PageDataParserImpl implements PageDataParser {
 		deleteAllBlockData(dataDirectory);
 		List<BlockData> updateList = getAllBlockDataFromDirectory(updateDirectory);
 		int x = 0;
-		for(BlockData blockData : updateList){
+		for (BlockData blockData : updateList) {
 			blockData.setPosition(x);
 			blockData.save(dataDirectory);
 			x++;
@@ -81,7 +81,6 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void replaceBlock(int i, BlockData blockData) {
 
-
 	}
 
 	@Override
@@ -93,25 +92,24 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void appendBlock(BlockData blockData) {
 
-
 	}
 
 	@Override
 	public void insertBlock(int i, BlockData blockData) {
-
-
+		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
+		list.add(i, blockData);
+		updateList(list);
 	}
 
 	@Override
 	public void deleteBlock(int i) {
-
 
 	}
 
 	@Override
 	public void deleteAllBlockData(String directory) {
 		List<BlockData> list = getAllBlockDataFromDirectory(directory);
-		for(BlockData blockData : list){
+		for (BlockData blockData : list) {
 			blockData.getFile().delete();
 		}
 	}

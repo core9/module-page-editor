@@ -69,6 +69,19 @@ public class TestPageDataParser {
 	}
 
 
+	@Test
+	public void testInsertBlockData(){
+		setupWorkingDirectory();
+		List<BlockData> data = dataParser.getAllBlockData();
+		assertTrue(data.size() == 9);
+		BlockData blockData = dataParser.getBlockData(0);
+		dataParser.insertBlock(3, blockData);
+		BlockData setBlockData = dataParser.getBlockData(3);
+		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-3-type-slider.json";
+		assertTrue(expected.equals(setBlockData.getFilePath()));
+		List<BlockData> newData = dataParser.getAllBlockData();
+		assertTrue(newData.size() == 10);
+	}
 
 
 
