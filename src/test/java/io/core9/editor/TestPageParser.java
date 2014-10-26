@@ -7,13 +7,10 @@ import io.core9.editor.data.ClientData;
 import io.core9.server.BlockImpl;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.minidev.json.JSONObject;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -26,7 +23,6 @@ public class TestPageParser {
 	private AssetsManager assetsManager;
 	private EditorRequest request;
 	private ClientRepositoryImpl clientRepository;
-	private PageDataParser dataParser;
 
 	private String blockClassName = ".block";
 	private String blockContainer = "#main-section";
@@ -224,10 +220,6 @@ public class TestPageParser {
 		ClientRepository repository = ClientData.getRepository();
 		String siteRepoUrl = repository.getSiteRepository(clientId);
 		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
-		JSONObject config = assetsManager.getSiteConfig();
-		System.out.println(config);
-		String page = assetsManager.getPageTemplate();
-		dataParser = new PageDataParserImpl(page);
 	}
 
 	private void setUpRequest() {
