@@ -51,6 +51,7 @@ public class PageParserImpl implements PageParser {
 		return Jsoup.parse(parseHtml(page).select(blockContainerId).toString(), "UTF-8");
 	}
 
+
 	@Override
 	public void deleteBlock(int x) {
 		// check for out of bound
@@ -199,5 +200,11 @@ public class PageParserImpl implements PageParser {
 		}
 		dataParser.deleteBlockData();
 	}
+
+	@Override
+	public String getDataDirectory() {
+		return dataParser.getDataDirectory();
+	}
+
 
 }

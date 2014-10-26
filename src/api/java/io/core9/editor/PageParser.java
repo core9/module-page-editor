@@ -24,5 +24,9 @@ public interface PageParser {
 
 	void deleteAllBlocks();
 
+	String getDataDirectory();
+
+
+
 
 }

@@ -21,5 +21,7 @@ public interface PageDataParser {
 
 	List<BlockData> getAllBlockData();
 
+	String getDataDirectory();
+
 
 }

@@ -50,6 +50,7 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	private void updateList(List<BlockData> list) {
+		//FIXME list don't allow gaps
 		int i = 0;
 		for (BlockData blockData : list) {
 			blockData.setPosition(i);
@@ -80,7 +81,13 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void replaceBlock(int i, BlockData blockData) {
 		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.set(i, blockData);
+
+		if(list.size() > i){
+			list.set(i, blockData);
+		}
+
+
+
 		updateList(list);
 	}
 
@@ -121,6 +128,11 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void deleteBlockData() {
 		deleteAllBlockData(dataDirectory);
+	}
+
+	@Override
+	public String getDataDirectory() {
+		return dataDirectory;
 	}
 
 }

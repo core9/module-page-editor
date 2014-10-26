@@ -9,6 +9,8 @@ public class BlockDataImpl implements BlockData {
 
 	private File file;
 	private int position;
+	private JSONObject jsonData;
+	private String dataDirectory;
 
 	@Override
 	public void addFile(File file) {
@@ -27,10 +29,20 @@ public class BlockDataImpl implements BlockData {
 
 	@Override
 	public void save(String updateDirectory) {
+
+		if(file == null){
+			file = new File(getFileNameFromJsonData());
+		}
+
+
 		String content = updateMetaPosition(position, FileUtils.readPathToString(file.toPath()));
 		String fileName = updatePositionInFileName(position, file.getName());
 
 		FileUtils.writeToFile(new File (new File (updateDirectory), fileName).toPath(), content);
+	}
+
+	private String getFileNameFromJsonData() {
+				return dataDirectory + File.separator + "block-" + jsonData.getAsString("block") + "-type-" + jsonData.getAsString("type") + ".json";
 	}
 
 	private String updateMetaPosition(int pos, String content) {
@@ -53,6 +65,16 @@ public class BlockDataImpl implements BlockData {
 	@Override
 	public File getFile() {
 		return file;
+	}
+
+	@Override
+	public void setData(JSONObject data) {
+		this.jsonData = data;
+	}
+
+	@Override
+	public void setDataDirectory(String dataDirectory) {
+		this.dataDirectory = dataDirectory;
 	}
 
 }
