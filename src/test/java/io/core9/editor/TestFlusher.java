@@ -1,6 +1,6 @@
 package io.core9.editor;
 
-import io.core9.server.RecreateSiteEnvironment;
+import io.core9.server.RecreateClientSiteEnvironment;
 import io.core9.server.BlockTool;
 import net.minidev.json.JSONObject;
 
@@ -11,7 +11,7 @@ public class TestFlusher {
 	//@Test
 	public void testFlusher(){
 
-		BlockTool blockTool = new RecreateSiteEnvironment();
+		BlockTool blockTool = new RecreateClientSiteEnvironment();
 		JSONObject data = new JSONObject();
 
 		data.put("host", "localhost");

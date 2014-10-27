@@ -10,7 +10,7 @@ import java.util.List;
 
 import net.minidev.json.JSONObject;
 
-public class RecreateSiteEnvironment implements BlockTool {
+public class RecreateClientSiteEnvironment implements BlockTool {
 
 	private String pathPrefix;
 	private AssetsManager assetsManager;
