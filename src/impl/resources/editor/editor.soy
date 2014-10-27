@@ -229,15 +229,14 @@ function t(s, d) {
           $('#delete-form').click(
               function() {
 
+                var hash = location.hash.split('=');
+                var data = hash[1].split('-');
                 var tpl = "";
                 try {
                   tpl = Wizard.widgetJson[data[4]].template;
                 } catch (e) {
 
                 }
-
-                var hash = location.hash.split('=');
-                var data = hash[1].split('-');
                 var meta = {
                   "absolute-url" : document.getElementById(
                       'iframe').getAttribute('src'),
