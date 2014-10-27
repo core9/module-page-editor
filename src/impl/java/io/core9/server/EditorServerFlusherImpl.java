@@ -33,7 +33,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 			private void flushClientSiteTemplates(Request req) {
 				String host = req.getVirtualHost().getHostname();
-				req.getResponse().end("hi from : " + host);
+				req.getResponse().end("also possible http://easydrain.localhost:8080/plugins/editor/flush?page=/scraper/nl&flush=template : " + host);
 				BlockTool blockTool = new LoadClientSiteTemplatesAndKeepData();
 				JSONObject data = new JSONObject();
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
@@ -45,7 +45,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 			private void flushClientSiteEnvironment(Request req) {
 				String host = req.getVirtualHost().getHostname();
-				req.getResponse().end("hi from : " + host);
+				req.getResponse().end("also possible http://easydrain.localhost:8080/plugins/editor/flush?page=/scraper/nl&flush=template : " + host);
 				BlockTool blockTool = new RecreateClientSiteEnvironment();
 				JSONObject data = new JSONObject();
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
