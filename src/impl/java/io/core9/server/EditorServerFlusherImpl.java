@@ -1,5 +1,7 @@
 package io.core9.server;
 
+import java.util.Map;
+
 import io.core9.client.ClientRepositoryImpl;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
@@ -37,7 +39,9 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 				BlockTool blockTool = new LoadClientSiteTemplatesAndKeepData();
 				JSONObject data = new JSONObject();
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
-				data.put("url", "http://" + host + req.getPath());
+				data.put("url", "http://" + host + req.getParams().get("page"));
+				data.put("flush", req.getParams().get("flush"));
+				data.put("page", req.getParams().get("page"));
 				blockTool.setData("data/editor", data);
 			}
 
