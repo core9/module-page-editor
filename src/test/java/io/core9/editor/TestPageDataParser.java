@@ -115,7 +115,7 @@ public class TestPageDataParser {
 	@Test
 	public void testWriteReadPageData() {
 		setupWorkingDirectory();
-		assetsManager.getPageTemplate();
+		assetsManager.getPageTemplatePath();
 		String testJsonFileName = "/editor/client/site/pages/test-json-data.json";
 		URL url = this.getClass().getResource(testJsonFileName);
 		File testJsonFile = new File(url.getFile());
@@ -146,7 +146,7 @@ public class TestPageDataParser {
 		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 		JSONObject config = assetsManager.getSiteConfig();
 		System.out.println(config);
-		String page = assetsManager.getPageTemplate();
+		String page = assetsManager.getPageTemplatePath();
 		dataParser = new PageDataParserImpl(page);
 	}
 

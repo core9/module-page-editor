@@ -75,9 +75,9 @@ public class BlockUpdateToolImpl implements BlockTool {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(assetsManager.getPageTemplate());
+		System.out.println(assetsManager.getPageTemplatePath());
 		if (assetsManager.checkIfPageTemplateExists()) {
-			String pageTemplate = assetsManager.getPageTemplate();
+			String pageTemplate = assetsManager.getPageTemplatePath();
 			System.out.println("");
 			File testPage = new File(pageTemplate);
 			if (testPage.exists()) {

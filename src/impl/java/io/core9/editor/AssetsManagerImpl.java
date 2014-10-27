@@ -139,7 +139,7 @@ public class AssetsManagerImpl implements AssetsManager {
 	}
 
 	@Override
-	public String getPageTemplate() {
+	public String getPageTemplatePath() {
 		return assets.getTemplateFilePath();
 	}
 

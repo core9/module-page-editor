@@ -40,7 +40,7 @@ public interface AssetsManager {
 
 	String getSiteConfigFile();
 
-	String getPageTemplate();
+	String getPageTemplatePath();
 
 	boolean checkIfPageTemplateExists();
 

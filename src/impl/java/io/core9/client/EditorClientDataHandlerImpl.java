@@ -101,7 +101,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				try {
 					 document = Jsoup.parse(assetsManager.getCachedPage());
 				} catch (Exception e) {
-					document = Jsoup.parse(readFile(assetsManager.getPageTemplate(), StandardCharsets.UTF_8));
+					document = Jsoup.parse(readFile(assetsManager.getPageTemplatePath(), StandardCharsets.UTF_8));
 				}
 
 				result.put("head", document.head().toString());

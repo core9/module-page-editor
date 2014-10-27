@@ -160,7 +160,7 @@ public class TestAssetManager {
 		setupWorkingDirectory();
 
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/template.html";
-		String page = assetsManager.getPageTemplate();
+		String page = assetsManager.getPageTemplatePath();
 		assertTrue(expected.equals(page));
 
 		expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/easydrain/org.template.html";
@@ -177,7 +177,7 @@ public class TestAssetManager {
 	@Test
 	public void testWriteReadPageData() {
 		setupWorkingDirectory();
-		assetsManager.getPageTemplate();
+		assetsManager.getPageTemplatePath();
 		String testJsonFileName = "/editor/client/site/pages/test-json-data.json";
 		URL url = this.getClass().getResource(testJsonFileName);
 		File testJsonFile = new File(url.getFile());

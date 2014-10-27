@@ -27,6 +27,7 @@ public class LoadClientSiteTemplatesAndKeepData implements BlockTool {
 		assetsManager.createSiteDirectory();
 		assetsManager.clonePublicSiteFromGit(ClientData.getRepository().getSiteRepository(assetsManager.getClientId()));
 
+		String template = assetsManager.getPageTemplatePath();
 
 		System.out.println("");
 	}
