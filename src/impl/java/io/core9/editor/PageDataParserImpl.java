@@ -26,6 +26,11 @@ public class PageDataParserImpl implements PageDataParser {
 			throw new IllegalStateException("Couldn't create dir: " + parent);
 		}
 		targetFile.mkdir();
+		checkDataFiles();
+	}
+
+	private void checkDataFiles() {
+		System.out.println("");
 	}
 
 	private List<BlockData> getAllBlockDataFromDirectory(String directory) {
@@ -50,7 +55,7 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	private void updateList(List<BlockData> list) {
-		//FIXME list don't allow gaps
+		// FIXME list don't allow gaps
 		int i = 0;
 		for (BlockData blockData : list) {
 			blockData.setPosition(i);
@@ -81,16 +86,9 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void replaceBlock(int i, BlockData blockData) {
 		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-
-		if(list.size() > i){
-			list.set(i, blockData);
-		}
-
-
-
+		list.set(i, blockData);
 		updateList(list);
 	}
-
 
 	@Override
 	public void appendBlockData(BlockData blockData) {
@@ -112,7 +110,6 @@ public class PageDataParserImpl implements PageDataParser {
 		list.remove(i);
 		updateList(list);
 	}
-
 
 	private void deleteAllBlockData(String directory) {
 		List<BlockData> list = getAllBlockDataFromDirectory(directory);

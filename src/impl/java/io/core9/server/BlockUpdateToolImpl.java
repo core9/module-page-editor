@@ -83,6 +83,9 @@ public class BlockUpdateToolImpl implements BlockTool {
 			if (testPage.exists()) {
 				parser = new PageParserImpl(testPage, blockContainer, blockClassName);
 				Block block = new BlockImpl();
+
+
+
 				if (meta.getAsString("state").equals("delete")) {
 					parser.deleteBlock(Integer.parseInt((String) meta.get("block")));
 				}
