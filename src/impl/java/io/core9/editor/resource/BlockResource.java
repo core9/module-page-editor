@@ -19,7 +19,7 @@ package io.core9.editor.resource;
 import io.core9.editor.data.BlockData;
 import io.core9.editor.model.Block;
 import io.core9.editor.model.Owner;
-import io.core9.server.BlockCommandImpl;
+import io.core9.server.RecreateSiteEnvironment;
 import io.core9.server.BlockTool;
 import io.core9.server.BlockUpdateToolImpl;
 
@@ -110,7 +110,7 @@ public class BlockResource {
 	public Response findBlocksByStatus(
 			@ApiParam(value = "Status values that need to be considered for filter", required = true, defaultValue = "available", allowableValues = "available,pending,sold", allowMultiple = true) @QueryParam("status") String status) {
 
-		BlockTool blockTool = new BlockCommandImpl();
+		BlockTool blockTool = new RecreateSiteEnvironment();
 		JSONObject data = new JSONObject();
 		data.put("action", status);
 		blockTool.setData("data/editor",data);

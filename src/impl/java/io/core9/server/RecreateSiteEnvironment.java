@@ -2,7 +2,6 @@ package io.core9.server;
 
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
-import io.core9.editor.ClientRepository;
 import io.core9.editor.RequestImpl;
 import io.core9.editor.data.ClientData;
 
@@ -11,7 +10,7 @@ import java.util.List;
 
 import net.minidev.json.JSONObject;
 
-public class BlockCommandImpl implements BlockTool {
+public class RecreateSiteEnvironment implements BlockTool {
 
 	private String pathPrefix;
 	private AssetsManager assetsManager;

@@ -27,7 +27,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 					return;
 				}
 
-				BlockTool blockTool = new BlockCommandImpl();
+				BlockTool blockTool = new RecreateSiteEnvironment();
 				JSONObject data = new JSONObject();
 
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
