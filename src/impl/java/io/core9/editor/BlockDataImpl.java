@@ -29,20 +29,26 @@ public class BlockDataImpl implements BlockData {
 
 	@Override
 	public void save(String updateDirectory) {
-
-		if(file == null){
+		System.out.println("");
+		if (file == null || jsonData != null) {
 			file = new File(getFileNameFromJsonData());
 		}
+		String content = "";
+		try {
+			 content = updateMetaPosition(position, FileUtils.readPathToString(file.toPath()));
+		} catch (NullPointerException e) {
+			content = jsonData.toJSONString();
+		}
 
-
-		String content = updateMetaPosition(position, FileUtils.readPathToString(file.toPath()));
 		String fileName = updatePositionInFileName(position, file.getName());
 
-		FileUtils.writeToFile(new File (new File (updateDirectory), fileName).toPath(), content);
+		FileUtils.writeToFile(new File(new File(updateDirectory), fileName).toPath(), content);
 	}
 
 	private String getFileNameFromJsonData() {
-				return dataDirectory + File.separator + "block-" + jsonData.getAsString("block") + "-type-" + jsonData.getAsString("type") + ".json";
+		JSONObject data = (JSONObject) jsonData.get("meta");
+		String fileName = dataDirectory + File.separator + "block-" + data.getAsString("block") + "-type-" + data.getAsString("type") + ".json";
+		return fileName;
 	}
 
 	private String updateMetaPosition(int pos, String content) {
@@ -54,7 +60,7 @@ public class BlockDataImpl implements BlockData {
 	}
 
 	private JSONObject getJsonDataFromContent(String content) {
-		  return (JSONObject) JSONValue.parse(content);
+		return (JSONObject) JSONValue.parse(content);
 	}
 
 	private String updatePositionInFileName(int pos, String name) {
