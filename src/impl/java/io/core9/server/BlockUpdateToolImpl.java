@@ -83,42 +83,45 @@ public class BlockUpdateToolImpl implements BlockTool {
 			if (testPage.exists()) {
 				parser = new PageParserImpl(testPage, blockContainer, blockClassName);
 				Block block = new BlockImpl();
-
-
-
+				BlockData blockData = new BlockDataImpl();
+				String blockTemplate = meta.getAsString("template");
+				blockTemplate = blockTemplate.substring(11);
 				if (meta.getAsString("state").equals("delete")) {
 					parser.deleteBlock(Integer.parseInt((String) meta.get("block")));
 				}
 				if (meta.getAsString("state").equals("insertbefore")) {
-					String blockTemplate = meta.getAsString("template");
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId(), blockTemplate, editorData);
 					block.addElement(elem);
-					int pos = 0;
+					int position = 0;
 					int selectedPos = Integer.parseInt((String) meta.get("block"));
 					if (selectedPos > 1) {
-						pos = selectedPos - 1;
+						position = selectedPos - 1;
 					}
-					parser.insertBlock(pos, block);
+
+					blockData.setPosition(position);
+					blockData.setData(data);
+					blockData.setDataDirectory(parser.getDataDirectory());
+					block.addBlockData(blockData);
+
+					parser.insertBlock(position, block);
 				}
 				if (meta.getAsString("state").equals("insertafter")) {
-					String blockTemplate = meta.getAsString("template");
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId(), blockTemplate, editorData);
 					block.addElement(elem);
 					int selectedPos = Integer.parseInt((String) meta.get("block"));
-					int pos = selectedPos + 1;
-					parser.insertBlock(pos, block);
+					int position = selectedPos + 1;
+
+					blockData.setPosition(position);
+					blockData.setData(data);
+					blockData.setDataDirectory(parser.getDataDirectory());
+					block.addBlockData(blockData);
+
+					parser.insertBlock(position, block);
 				}
-
 				if (meta.getAsString("state").equals("edit")) {
-					String blockTemplate = meta.getAsString("template");
-					blockTemplate = blockTemplate.substring(11);
-
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId() + "/", blockTemplate, editorData);
 					block.addElement(elem);
-					BlockData blockData = new BlockDataImpl();
-
 					int position = Integer.parseInt((String) meta.get("block"));
-
 					blockData.setPosition(position);
 					blockData.setData(data);
 					blockData.setDataDirectory(parser.getDataDirectory());
