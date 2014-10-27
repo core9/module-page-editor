@@ -4,7 +4,7 @@ import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.EditorClientDataHandler;
 import io.core9.editor.EditorClientPlugin;
-import io.core9.editor.RequestImpl;
+import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.template.closure.ClosureTemplateEngine;
@@ -43,7 +43,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 
 	private AssetsManager assetsManager;
-	private RequestImpl request;
+	private EditorRequestImpl request;
 
 	@Override
 	public String getName() {
@@ -79,7 +79,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				}
 
 
-				request = new RequestImpl();
+				request = new EditorRequestImpl();
 				request.setClientRepository(ClientData.getRepository());
 				String absoluteUrl = "http://" + req.getHostname() + req.getPath();
 				request.setAbsoluteUrl(absoluteUrl);

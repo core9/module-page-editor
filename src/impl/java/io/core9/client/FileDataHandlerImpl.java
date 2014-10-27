@@ -4,7 +4,7 @@ import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.EditorRequest;
 import io.core9.editor.FileDataHandler;
-import io.core9.editor.RequestImpl;
+import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
 import io.core9.plugin.admin.plugins.AdminConfigRepository;
 import io.core9.plugin.server.request.Request;
@@ -76,7 +76,7 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 			@Override
 			public Map<String, Object> handle(Request req) {
 
-				EditorRequest request = new RequestImpl();
+				EditorRequest request = new EditorRequestImpl();
 				request.setClientRepository(ClientData.getRepository());
 
 				String absoluteUrl = "http://" + req.getHostname() + req.getPath() + "?" + urlEncodeUTF8(req.getParams());

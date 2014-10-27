@@ -227,7 +227,7 @@ public class TestPageParser {
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
 		clientRepository.addSiteRepository("easydrain", "https://github.com/jessec/site-core9.git");
-		request = new RequestImpl();
+		request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/nl");
 	}

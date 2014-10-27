@@ -9,7 +9,7 @@ import io.core9.editor.ClientRepository;
 import io.core9.editor.JsonSoyUtils;
 import io.core9.editor.PageParser;
 import io.core9.editor.PageParserImpl;
-import io.core9.editor.RequestImpl;
+import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
 
 import java.io.File;
@@ -35,7 +35,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 	private JSONObject data;
 	private String pathPrefix;
 	private AssetsManager assetsManager;
-	private RequestImpl request;
+	private EditorRequestImpl request;
 
 	@Override
 	public void setData(String prefix, JSONObject data) {
@@ -45,7 +45,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 	}
 
 	private void processData() {
-		request = new RequestImpl();
+		request = new EditorRequestImpl();
 		request.setClientRepository(ClientData.getRepository());
 		JSONObject meta = (JSONObject) data.get("meta");
 		JSONObject editorData = (JSONObject) data.get("editor");

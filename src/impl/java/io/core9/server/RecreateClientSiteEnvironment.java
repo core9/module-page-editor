@@ -2,7 +2,7 @@ package io.core9.server;
 
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
-import io.core9.editor.RequestImpl;
+import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
 
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ public class RecreateClientSiteEnvironment implements BlockTool {
 
 	private String pathPrefix;
 	private AssetsManager assetsManager;
-	private RequestImpl request;
+	private EditorRequestImpl request;
 
 
 	@Override
@@ -24,7 +24,7 @@ public class RecreateClientSiteEnvironment implements BlockTool {
 	}
 
 	private void process(JSONObject data) {
-		request = new RequestImpl();
+		request = new EditorRequestImpl();
 		request.setClientRepository(ClientData.getRepository());
 		request.setAbsoluteUrl(data.getAsString("url"));
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);

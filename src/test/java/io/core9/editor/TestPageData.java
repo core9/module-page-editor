@@ -36,7 +36,7 @@ public class TestPageData {
 		clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
-		request = new RequestImpl();
+		request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/easydrain");
 	}
@@ -46,7 +46,7 @@ public class TestPageData {
 		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
-		EditorRequest request = new RequestImpl();
+		EditorRequest request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/easydrain");
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);

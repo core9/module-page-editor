@@ -7,7 +7,7 @@ import java.net.URLDecoder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RequestImpl implements EditorRequest {
+public class EditorRequestImpl implements EditorRequest {
 
 	private URL urlObject;
 	private String absoluteUrl;

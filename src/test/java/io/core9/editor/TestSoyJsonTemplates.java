@@ -22,7 +22,7 @@ public class TestSoyJsonTemplates {
 
 	private static final String pathPrefix = "data/test-editor";
 	private AssetsManager assetsManager;
-	private RequestImpl request;
+	private EditorRequestImpl request;
 	private String httpsSiteRepositoryUrl = "https://github.com/jessec/site-core9.git";
 	private String httpsBlockRepositoryUrl = "https://github.com/jessec/block-video.git";
 	private ClientRepository clientRepository;
@@ -49,7 +49,7 @@ public class TestSoyJsonTemplates {
 		clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
-		request = new RequestImpl();
+		request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/easydrain");
 	}
@@ -59,7 +59,7 @@ public class TestSoyJsonTemplates {
 		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
 		clientRepository.addDomain("localhost", "easydrain");
-		EditorRequest request = new RequestImpl();
+		EditorRequest request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
 		request.setAbsoluteUrl("http://localhost:8080/easydrain");
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
