@@ -37,10 +37,7 @@ public class BlockCommandImpl implements BlockTool {
 		assetsManager.createClientDirectory();
 		String clientId = assetsManager.getClientId();
 		ClientRepository repository = ClientData.getRepository();
-		String siteRepoUrl = repository.getSiteRepository(clientId);
-		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
-		JSONObject config = assetsManager.getSiteConfig();
-		System.out.println(config);
+		assetsManager.clonePublicSiteFromGit(repository.getSiteRepository(clientId));
 		try {
 			List<String> blockRepos = repository.getBlockRepository(clientId);
 			for(String repo : blockRepos){
