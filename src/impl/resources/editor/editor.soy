@@ -116,7 +116,7 @@ function t(s, d) {
                   </datalist>
                   <button class="btn btn-success" id="choose-button">Selecteer</button>
                   <button class="btn btn-danger" onclick="location.reload();">Reset</button>
-                    <button class="btn btn-success add-block" style="float: right;">Opslaan</button>
+                  <button class="btn btn-success add-block" style="float: right;" onclick="location = location.href.replace(location.hash , "");">Sluiten</button>
                 </div>
               </li>
             </ul>
@@ -178,8 +178,8 @@ function t(s, d) {
         console.log(data);
 
                 //screen.height
-                document.getElementById('iframe').style.height=(screen.height - 110) + "px";
-
+                //document.getElementById('iframe').style.height=(screen.height - 110) + "px";
+                //location = location.href.replace(location.hash , "");
         if (data.action == 'edit-block') {
           window.location = "#state=edit-block-" + data.block
               + "-type-" + data.type;
