@@ -1,7 +1,5 @@
 package io.core9.server;
 
-import java.util.Map;
-
 import io.core9.client.ClientRepositoryImpl;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
