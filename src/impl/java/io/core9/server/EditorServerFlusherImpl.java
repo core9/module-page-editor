@@ -20,20 +20,35 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 		server.use("/plugins/editor/flush(.*)", new Middleware() {
 			@Override
 			public void handle(Request req) {
-				String host = req.getVirtualHost().getHostname();
-				req.getResponse().end("hi from : " + host);
+
 
 				if(!req.getParams().isEmpty()){
-					return;
+					flushClientSiteTemplates(req);
+				}else{
+					flushClientSiteEnvironment(req);
 				}
 
-				BlockTool blockTool = new RecreateClientSiteEnvironment();
-				JSONObject data = new JSONObject();
 
+			}
+
+			private void flushClientSiteTemplates(Request req) {
+				String host = req.getVirtualHost().getHostname();
+				req.getResponse().end("hi from : " + host);
+				BlockTool blockTool = new LoadClientSiteTemplatesAndKeepData();
+				JSONObject data = new JSONObject();
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
 				blockTool.setData("data/editor", data);
+			}
 
+			private void flushClientSiteEnvironment(Request req) {
+				String host = req.getVirtualHost().getHostname();
+				req.getResponse().end("hi from : " + host);
+				BlockTool blockTool = new RecreateClientSiteEnvironment();
+				JSONObject data = new JSONObject();
+				data.put("host", ClientRepositoryImpl.cleanHost(host));
+				data.put("url", "http://" + host + req.getPath());
+				blockTool.setData("data/editor", data);
 			}
 
 
