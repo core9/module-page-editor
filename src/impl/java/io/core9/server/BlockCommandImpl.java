@@ -25,53 +25,34 @@ public class BlockCommandImpl implements BlockTool {
 	}
 
 	private void process(JSONObject data) {
-
 		request = new RequestImpl();
 		request.setClientRepository(ClientData.getRepository());
 		String absoluteUrl = data.getAsString("url");
 		request.setAbsoluteUrl(absoluteUrl);
-
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
-		//assetsManager.deleteWorkingDirectory();
 		if (!assetsManager.checkWorkingDirectory()) {
 			assetsManager.createWorkingDirectory();
 		}
-
-
-
-
-
 		assetsManager.deleteClientDirectory();
-
 		assetsManager.createClientDirectory();
-
 		String clientId = assetsManager.getClientId();
-
 		ClientRepository repository = ClientData.getRepository();
-
 		String siteRepoUrl = repository.getSiteRepository(clientId);
-
 		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 		JSONObject config = assetsManager.getSiteConfig();
 		System.out.println(config);
-
 		try {
-
 			List<String> blockRepos = repository.getBlockRepository(clientId);
 			for(String repo : blockRepos){
 				assetsManager.cloneBlocksFromGit(repo);
 			}
-
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public String getResponse() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

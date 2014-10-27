@@ -17,11 +17,15 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 	@Override
 	public void execute() {
 
-		server.use("/plugins/editor/flush", new Middleware() {
+		server.use("/plugins/editor/flush(.*)", new Middleware() {
 			@Override
 			public void handle(Request req) {
 				String host = req.getVirtualHost().getHostname();
 				req.getResponse().end("hi from : " + host);
+
+				if(!req.getParams().isEmpty()){
+					return;
+				}
 
 				BlockTool blockTool = new BlockCommandImpl();
 				JSONObject data = new JSONObject();
