@@ -27,19 +27,16 @@ public class BlockCommandImpl implements BlockTool {
 	private void process(JSONObject data) {
 		request = new RequestImpl();
 		request.setClientRepository(ClientData.getRepository());
-		String absoluteUrl = data.getAsString("url");
-		request.setAbsoluteUrl(absoluteUrl);
+		request.setAbsoluteUrl(data.getAsString("url"));
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		if (!assetsManager.checkWorkingDirectory()) {
 			assetsManager.createWorkingDirectory();
 		}
 		assetsManager.deleteClientDirectory();
 		assetsManager.createClientDirectory();
-		String clientId = assetsManager.getClientId();
-		ClientRepository repository = ClientData.getRepository();
-		assetsManager.clonePublicSiteFromGit(repository.getSiteRepository(clientId));
+		assetsManager.clonePublicSiteFromGit(ClientData.getRepository().getSiteRepository(assetsManager.getClientId()));
 		try {
-			List<String> blockRepos = repository.getBlockRepository(clientId);
+			List<String> blockRepos = ClientData.getRepository().getBlockRepository(assetsManager.getClientId());
 			for(String repo : blockRepos){
 				assetsManager.cloneBlocksFromGit(repo);
 			}
