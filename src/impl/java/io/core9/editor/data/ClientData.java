@@ -16,6 +16,7 @@ public class ClientData {
 		clientRepository.addDomain("easydrain.docker.trimm.net", "easydrain");
 		clientRepository.addDomain("easydrain.editor.core9.io", "easydrain");
 		clientRepository.addDomain("easydrain.localhost", "easydrain");
+		clientRepository.addDomain("pageeditor-prod-ens.trimm.net", "easydrain");
 
 /*		clientRepository.addPage("www.easydrain.nl", "/nl/");
 		clientRepository.addPage("easydrain.docker.trimm.net", "/nl/");
