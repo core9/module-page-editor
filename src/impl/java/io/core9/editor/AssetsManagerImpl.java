@@ -24,7 +24,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getClientId() {
-		return "9a8eccd84f9c40c791281139a87da7b645f25fab";//assets.getClientId();
+		return assets.getClientId();
 	}
 
 	@Override
@@ -85,8 +85,7 @@ public class AssetsManagerImpl implements AssetsManager {
 		this.httpsRepositoryUrl = httpsRepositoryUrl;
 		FileUtils.createDirectory(getBlockDirectory());
 		if (new File(assets.getBlockDirectory()).exists()) {
-			String blockDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/blocks";
-			GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, blockDir); //assets.getBlockRepositoryDirectory(httpsRepositoryUrl)
+			GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, assets.getBlockRepositoryDirectory(httpsRepositoryUrl));
 		} else {
 			throw new FileNotFoundException(assets.getBlockDirectory());
 		}
@@ -121,9 +120,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
-		//
-		String siteDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site";
-		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, siteDir);//getSiteDirectory()
+		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteDirectory());
 	}
 
 	@Override
