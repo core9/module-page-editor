@@ -40,7 +40,7 @@ public class AssetsLocator {
 	}
 
 	public String getClientId() {
-		return request.getClient();
+		return "9a8eccd84f9c40c791281139a87da7b645f25fab";// request.getClient();
 	}
 
 	public String getHealthFile() {
