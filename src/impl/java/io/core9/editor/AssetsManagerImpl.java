@@ -85,7 +85,8 @@ public class AssetsManagerImpl implements AssetsManager {
 		this.httpsRepositoryUrl = httpsRepositoryUrl;
 		FileUtils.createDirectory(getBlockDirectory());
 		if (new File(assets.getBlockDirectory()).exists()) {
-			GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, assets.getBlockRepositoryDirectory(httpsRepositoryUrl));
+			String blockDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/blocks";
+			GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, blockDir); //assets.getBlockRepositoryDirectory(httpsRepositoryUrl)
 		} else {
 			throw new FileNotFoundException(assets.getBlockDirectory());
 		}
@@ -120,7 +121,9 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
-		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteDirectory());
+		//
+		String siteDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site";
+		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, siteDir);//getSiteDirectory()
 	}
 
 	@Override

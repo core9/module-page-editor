@@ -30,6 +30,7 @@ public class GitHandlerImpl implements GitHandler {
 
 	public static void clonePublicGitRepository(String httpsRepositoryUrl, String repositoryDirectory) {
 		String repoDir = "../.." + File.separator + repositoryDirectory;
+		//String repoDir = "../../data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site";
 		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repoDir);
 		git.init();
 	}
