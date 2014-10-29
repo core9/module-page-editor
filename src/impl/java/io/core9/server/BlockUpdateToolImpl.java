@@ -63,6 +63,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 			String clientId = assetsManager.getClientId();
 			ClientRepository repository = ClientData.getRepository();
 			String siteRepoUrl = repository.getSiteRepository(clientId);
+			System.out.println("repo : " + siteRepoUrl);
 			assetsManager.clonePublicSiteFromGit(siteRepoUrl);
 			JSONObject config = assetsManager.getSiteConfig();
 			System.out.println(config);
