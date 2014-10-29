@@ -24,7 +24,7 @@ public class AssetsManagerImpl implements AssetsManager {
 
 	@Override
 	public String getClientId() {
-		return assets.getClientId();
+		return "9a8eccd84f9c40c791281139a87da7b645f25fab";//assets.getClientId();
 	}
 
 	@Override
