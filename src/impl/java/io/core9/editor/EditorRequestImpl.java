@@ -46,7 +46,7 @@ public class EditorRequestImpl implements EditorRequest {
 
 	@Override
 	public String getClient() {
-		return clientRepository.getClientForDomain(urlObject.getHost());
+		return "9a8eccd84f9c40c791281139a87da7b645f25fab";//clientRepository.getClientForDomain(urlObject.getHost());
 	}
 
 	public void setClientRepository(ClientRepository clientRepository) {

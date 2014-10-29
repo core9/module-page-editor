@@ -26,7 +26,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
 	@Override
 	public String getClientForDomain(String domain){
-		return domainRepository.get(cleanHost(domain));
+		return "9a8eccd84f9c40c791281139a87da7b645f25fab";//domainRepository.get(cleanHost(domain));
 	}
 
 	@Override
