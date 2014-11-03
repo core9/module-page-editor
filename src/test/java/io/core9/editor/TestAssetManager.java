@@ -145,10 +145,10 @@ public class TestAssetManager {
 		setupWorkingDirectory();
 		String filename = "/site/assets/css/core.css";
 		String filePath = assetsManager.getStaticFilePath(filename);
-		String shouldbe = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/assets/css/core.css";
+		String shouldbe = "data/test-editor"+File.separator+"9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/assets/css/core.css";
 		assertTrue(shouldbe.equals(filePath));
 
-		String shouldBeBlockFilename = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/blocks/block-video/video/assets/css/style.css";
+		String shouldBeBlockFilename = "data/test-editor"+File.separator+"9a8eccd84f9c40c791281139a87da7b645f25fab/blocks/block-video/video/assets/css/style.css";
 		String blockFilename = "/site/blocks/block-video/video/assets/css/style.css";
 		String blockFilePath = assetsManager.getStaticFilePath(blockFilename);
 		assertTrue(shouldBeBlockFilename.equals(blockFilePath));
