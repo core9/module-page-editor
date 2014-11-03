@@ -7,19 +7,19 @@ import net.minidev.json.JSONValue;
 
 public class BlockDataImpl implements BlockData {
 
-	private File file;
+	private String file;
 	private int position;
 	private JSONObject jsonData;
 	private String dataDirectory;
 
 	@Override
 	public void addFile(File file) {
-		this.file = file;
+		this.file = file.getPath();
 	}
 
 	@Override
 	public String getFilePath() {
-		return file.getPath();
+		return file;
 	}
 
 	@Override
@@ -31,18 +31,22 @@ public class BlockDataImpl implements BlockData {
 	public void save(String updateDirectory) {
 		System.out.println("");
 		if (file == null || jsonData != null) {
-			file = new File(getFileNameFromJsonData());
+			file = getFileNameFromJsonData();
 		}
 		String content = "";
 		try {
-			 content = updateMetaPosition(position, FileUtils.readPathToString(file.toPath()));
+			 content = updateMetaPosition(position, FileUtils.readPathToString(new File(file).toPath()));
 		} catch (NullPointerException e) {
 			content = jsonData.toJSONString();
 		}
 
-		String fileName = updatePositionInFileName(position, file.getName());
+		String fileName = updatePositionInFileName(position, getFileNameFromFilePath(file));
 
 		FileUtils.writeToFile(new File(new File(updateDirectory), fileName).toPath(), content);
+	}
+
+	private String getFileNameFromFilePath(String fileName) {
+		return new File(fileName).getName();
 	}
 
 	private String getFileNameFromJsonData() {
@@ -68,10 +72,7 @@ public class BlockDataImpl implements BlockData {
 		return parts[0] + "-" + Integer.toString(pos) + "-" + parts[2] + "-" + parts[3];
 	}
 
-	@Override
-	public File getFile() {
-		return file;
-	}
+
 
 	@Override
 	public void setData(JSONObject data) {

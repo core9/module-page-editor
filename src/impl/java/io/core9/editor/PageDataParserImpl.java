@@ -114,7 +114,7 @@ public class PageDataParserImpl implements PageDataParser {
 	private void deleteAllBlockData(String directory) {
 		List<BlockData> list = getAllBlockDataFromDirectory(directory);
 		for (BlockData blockData : list) {
-			blockData.getFile().delete();
+			new File(blockData.getFilePath()).delete();
 		}
 	}
 

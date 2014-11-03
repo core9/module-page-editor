@@ -14,7 +14,6 @@ public interface BlockData {
 
 	void save(String updateDirectory);
 
-	File getFile();
 
 	void setData(JSONObject data);
 

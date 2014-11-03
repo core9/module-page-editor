@@ -17,6 +17,7 @@ import java.util.List;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -161,6 +162,20 @@ public class TestPageDataParser {
 	}
 
 
+	@After
+	public  void cleanupAfterMethod() {
+
+		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
+		clientRepository.addDomain("www.easydrain.nl", "easydrain");
+		clientRepository.addDomain("localhost", "easydrain");
+		EditorRequest request = new EditorRequestImpl();
+		request.setClientRepository(clientRepository);
+		request.setAbsoluteUrl("http://localhost:8080/nl");
+		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
+		assetsManager.deleteWorkingDirectory();
+		assertFalse(assetsManager.checkWorkingDirectory());
+	}
+	
 	@AfterClass
 	public static void cleanup() {
 
