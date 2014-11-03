@@ -29,6 +29,8 @@ public class ClientData {
 		clientRepository.addDomain("kennispark.editor.docker.trimm.net", "kennispark");
 		clientRepository.addDomain("kennispark.editor.core9.io", "kennispark");
 		clientRepository.addDomain("kennispark.localhost", "kennispark");
+		clientRepository.addDomain("kennispark.editor.trimm.net", "kennispark");
+		
 
 
 /*		clientRepository.addPage("www.kennispark.nl", "/jaarplan/");
