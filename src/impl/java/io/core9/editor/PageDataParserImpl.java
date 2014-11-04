@@ -1,9 +1,10 @@
 package io.core9.editor;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class PageDataParserImpl implements PageDataParser {
 
@@ -33,43 +34,48 @@ public class PageDataParserImpl implements PageDataParser {
 		System.out.println("");
 	}
 
-	private List<BlockData> getAllBlockDataFromDirectory(String directory) {
-		List<BlockData> results = new ArrayList<BlockData>();
+	private Map<Integer,BlockData> getAllBlockDataFromDirectory(String directory) {
+		Map<Integer, BlockData> results = new HashMap<Integer, BlockData>();
 		File[] files = new File(directory).listFiles();
 		Arrays.sort(files);
 		for (File file : files) {
 			if (file.isFile()) {
+				int position = Integer.parseInt(file.getName().split("-")[1]);
 				BlockData blockData = new BlockDataImpl();
 				blockData.addFile(file);
-				results.add(blockData);
+				results.put(position, blockData);
 			}
 		}
 		return results;
 	}
 
+
 	@Override
 	public void switchBlockData(int i, int j) {
-		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.set(i, list.set(j, list.get(i)));
-		updateList(list);
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
+		BlockData orgI = map.get(i);
+		BlockData orgJ = map.get(j);
+		map.put(i, orgJ);
+		map.put(j, orgI);
+		updateList(map);
 	}
 
-	private void updateList(List<BlockData> list) {
-		// FIXME list don't allow gaps
-		int i = 0;
-		for (BlockData blockData : list) {
-			blockData.setPosition(i);
+	private void updateList(Map<Integer, BlockData> map) {
+		for (Entry<Integer, BlockData> entry : map.entrySet()) {
+			BlockData blockData = entry.getValue();
+			blockData.setPosition(entry.getKey());
 			blockData.save(updateDirectory);
-			i++;
 		}
+
 		deleteAllBlockData(dataDirectory);
-		List<BlockData> updateList = getAllBlockDataFromDirectory(updateDirectory);
-		int x = 0;
-		for (BlockData blockData : updateList) {
-			blockData.setPosition(x);
+
+		Map<Integer, BlockData> updateMap = getAllBlockDataFromDirectory(updateDirectory);
+		for (Entry<Integer, BlockData> entry : updateMap.entrySet()) {
+			BlockData blockData = entry.getValue();
+			blockData.setPosition(entry.getKey());
 			blockData.save(dataDirectory);
-			x++;
 		}
+
 		deleteAllBlockData(updateDirectory);
 	}
 
@@ -85,40 +91,74 @@ public class PageDataParserImpl implements PageDataParser {
 
 	@Override
 	public void replaceBlock(int i, BlockData blockData) {
-		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.set(i, blockData);
-		updateList(list);
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
+		map.put(i, blockData);
+		updateList(map);
 	}
 
 	@Override
 	public void appendBlockData(BlockData blockData) {
-		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.add(blockData);
-		updateList(list);
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
+		int size = getHighestPositionFromMap(map);
+		map.put(size + 1, blockData);
+		updateList(map);
+	}
+
+	private int getHighestPositionFromMap(Map<Integer, BlockData> map) {
+		return 0;
 	}
 
 	@Override
 	public void insertBlockData(int i, BlockData blockData) {
-		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.add(i, blockData);
-		updateList(list);
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
+		Map<Integer, BlockData> newMap = insertIntoMap(map, i, blockData);
+		updateList(newMap);
 	}
+
+	private Map<Integer, BlockData> insertIntoMap(Map<Integer, BlockData> map, int i, BlockData blockData) {
+		Map<Integer, BlockData> newMap = new HashMap<Integer, BlockData>();
+		BlockData orgData = null;
+		for(Entry<Integer, BlockData> entry : map.entrySet()){
+			if(entry.getKey() < i){
+				newMap.put(entry.getKey(), entry.getValue());
+			}
+			if(entry.getKey() == i){
+				orgData = map.get(i);
+				newMap.put(i, blockData);
+			}
+			if(entry.getKey() > i){
+				newMap.put(entry.getKey() + 1, entry.getValue());
+			}
+			if(orgData != null){
+				orgData.setPosition(i + 1);
+				newMap.put(i + 1, orgData);
+			}
+		}
+		return newMap;
+	}
+
+
 
 	@Override
 	public void deleteBlockData(int i) {
-		List<BlockData> list = getAllBlockDataFromDirectory(dataDirectory);
-		list.remove(i);
-		updateList(list);
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
+		Map<Integer, BlockData> newMap = removeFromMap(map, i);
+		updateList(newMap);
+	}
+
+	private Map<Integer, BlockData> removeFromMap(Map<Integer, BlockData> map, int i) {
+		return null;
 	}
 
 	private void deleteAllBlockData(String directory) {
-		List<BlockData> list = getAllBlockDataFromDirectory(directory);
-		for (BlockData blockData : list) {
-			new File(blockData.getFilePath()).delete();
+		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(directory);
+		for(Entry<Integer, BlockData> entry : map.entrySet()){
+			new File(entry.getValue().getFilePath()).delete();
 		}
 	}
 
-	public List<BlockData> getAllBlockData() {
+	@Override
+	public Map<Integer, BlockData> getAllBlockData() {
 		return getAllBlockDataFromDirectory(dataDirectory);
 	}
 

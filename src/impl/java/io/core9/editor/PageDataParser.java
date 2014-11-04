@@ -1,6 +1,7 @@
 package io.core9.editor;
 
-import java.util.List;
+import java.util.Map;
+
 
 public interface PageDataParser {
 
@@ -19,9 +20,9 @@ public interface PageDataParser {
 
 	void deleteBlockData();
 
-	List<BlockData> getAllBlockData();
-
 	String getDataDirectory();
+
+	Map<Integer, BlockData> getAllBlockData();
 
 
 }
