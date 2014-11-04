@@ -3,7 +3,9 @@ package io.core9.editor;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 public class PageDataParserImpl implements PageDataParser {
@@ -99,13 +101,23 @@ public class PageDataParserImpl implements PageDataParser {
 	@Override
 	public void appendBlockData(BlockData blockData) {
 		Map<Integer, BlockData> map = getAllBlockDataFromDirectory(dataDirectory);
-		int size = getHighestPositionFromMap(map);
+		int size = getNrOfLastBlock(map);
 		map.put(size + 1, blockData);
 		updateList(map);
 	}
 
-	private int getHighestPositionFromMap(Map<Integer, BlockData> map) {
-		return 0;
+	private static Entry<Integer, BlockData> getLastElement(final Set<Entry<Integer, BlockData>> c) {
+	    final Iterator<Entry<Integer, BlockData>> itr = c.iterator();
+	     Entry<Integer, BlockData> lastElement = itr.next();
+	    while(itr.hasNext()) {
+	        lastElement=itr.next();
+	    }
+	    return lastElement;
+	}
+
+	private int getNrOfLastBlock(Map<Integer, BlockData> data){
+		Set<Entry<Integer, BlockData>> list = data.entrySet();
+		return getLastElement(list).getKey();
 	}
 
 	@Override
@@ -147,7 +159,19 @@ public class PageDataParserImpl implements PageDataParser {
 	}
 
 	private Map<Integer, BlockData> removeFromMap(Map<Integer, BlockData> map, int i) {
-		return null;
+		Map<Integer, BlockData> newMap = new HashMap<Integer, BlockData>();
+		for(Entry<Integer, BlockData> entry : map.entrySet()){
+			if(entry.getKey() < i){
+				newMap.put(entry.getKey(), entry.getValue());
+			}
+			if(entry.getKey() == i){
+				newMap.remove(i);
+			}
+			if(entry.getKey() > i){
+				newMap.put(entry.getKey() - 1, entry.getValue());
+			}
+		}
+		return newMap;
 	}
 
 	private void deleteAllBlockData(String directory) {

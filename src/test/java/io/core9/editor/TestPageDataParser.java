@@ -12,7 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,7 +41,7 @@ public class TestPageDataParser {
 	    return lastElement;
 	}
 
-	private int getNrOfBlocks(Map<Integer, BlockData> data){
+	private int getNrOfLastBlock(Map<Integer, BlockData> data){
 		Set<Entry<Integer, BlockData>> list = data.entrySet();
 		return getLastElement(list).getKey();
 	}
@@ -51,7 +50,7 @@ public class TestPageDataParser {
 	@Test
 	public void testGetAllDataFromPage() {
 		setupWorkingDirectory();
-		assertTrue(getNrOfBlocks(dataParser.getAllBlockData()) == 8);
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 8);
 	}
 
 	@Test
@@ -89,40 +88,39 @@ public class TestPageDataParser {
 	@Test
 	public void testInsertBlockData() {
 		setupWorkingDirectory();
-		assertTrue(getNrOfBlocks(dataParser.getAllBlockData()) == 8);
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 8);
 		BlockData blockData = dataParser.getBlockData(0);
 		dataParser.insertBlockData(3, blockData);
 		BlockData setBlockData = dataParser.getBlockData(3);
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-3-type-slider.json";
 		assertTrue(expected.equals(setBlockData.getFilePath()));
-		assertTrue(getNrOfBlocks(dataParser.getAllBlockData()) == 9);
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 9);
 	}
 
-	//@Test
+	@Test
+	public void testDeleteBlockData() {
+		setupWorkingDirectory();
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 8);
+		dataParser.deleteBlockData(4);
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 7);
+
+	}
+
+	@Test
 	public void testAppendBlockData() {
 		setupWorkingDirectory();
-/*		List<BlockData> data = dataParser.getAllBlockData();
-		assertTrue(data.size() == 9);*/
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 8);
 		BlockData blockData = dataParser.getBlockData(0);
 		dataParser.appendBlockData(blockData);
 		BlockData setBlockData = dataParser.getBlockData(9);
 		String expected = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/nl/data/block-9-type-slider.json";
 		assertTrue(expected.equals(setBlockData.getFilePath()));
-/*		List<BlockData> newData = dataParser.getAllBlockData();
-		assertTrue(newData.size() == 10);*/
+		assertTrue(getNrOfLastBlock(dataParser.getAllBlockData()) == 9);
 	}
 
-	//@Test
-	public void testDeleteBlockData() {
-		setupWorkingDirectory();
-/*		List<BlockData> data = dataParser.getAllBlockData();
-		assertTrue(data.size() == 9);*/
-		dataParser.deleteBlockData(4);
-/*		List<BlockData> newData = dataParser.getAllBlockData();
-		assertTrue(newData.size() == 8);*/
-	}
 
-	//@Test
+
+	@Test
 	public void testWriteReadPageData() {
 		setupWorkingDirectory();
 		assetsManager.getPageTemplatePath();
