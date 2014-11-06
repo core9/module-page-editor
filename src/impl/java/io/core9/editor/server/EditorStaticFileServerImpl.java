@@ -40,7 +40,6 @@ public class EditorStaticFileServerImpl implements EditorStaticFileServer {
 
 		server.use("/plugins/editor/static/(.*)", new Middleware() {
 			private String contentType;
-			private String resourcePath;
 			private String resourceFile;
 
 			@Override
@@ -50,17 +49,15 @@ public class EditorStaticFileServerImpl implements EditorStaticFileServer {
 
 				URL resource = EditorStaticFileServerImpl.class.getResource("/");
 				try {
-					resourcePath = Paths.get(resource.toURI()).toFile().getPath() + "/editor/assets";
+					resourceFile = Paths.get(resource.toURI()).toFile().getPath() + "/editor/assets" + requestPath;
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
 
-				resourceFile = resourcePath + requestPath;
-
 				try {
 					contentType = Files.probeContentType(Paths.get(resourceFile));
-				} catch (IOException e2) {
-					e2.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
 				InputStream res = fileToBinary(resourceFile);
