@@ -1,4 +1,4 @@
-package io.core9.server;
+package io.core9.editor.server;
 
 import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;

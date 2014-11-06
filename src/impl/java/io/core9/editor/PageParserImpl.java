@@ -1,6 +1,6 @@
 package io.core9.editor;
 
-import io.core9.server.BlockImpl;
+import io.core9.editor.server.BlockImpl;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package io.core9.client;
+package io.core9.editor.client;
 
 import io.core9.editor.ClientRepository;
 

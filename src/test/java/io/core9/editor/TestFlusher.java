@@ -1,7 +1,7 @@
 package io.core9.editor;
 
-import io.core9.server.RecreateClientSiteEnvironment;
-import io.core9.server.BlockTool;
+import io.core9.editor.server.BlockTool;
+import io.core9.editor.server.RecreateClientSiteEnvironment;
 import net.minidev.json.JSONObject;
 
 public class TestFlusher {

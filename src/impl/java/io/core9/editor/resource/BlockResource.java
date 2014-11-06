@@ -19,9 +19,9 @@ package io.core9.editor.resource;
 import io.core9.editor.data.BlockData;
 import io.core9.editor.model.Block;
 import io.core9.editor.model.Owner;
-import io.core9.server.RecreateClientSiteEnvironment;
-import io.core9.server.BlockTool;
-import io.core9.server.BlockUpdateToolImpl;
+import io.core9.editor.server.BlockTool;
+import io.core9.editor.server.BlockUpdateToolImpl;
+import io.core9.editor.server.RecreateClientSiteEnvironment;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

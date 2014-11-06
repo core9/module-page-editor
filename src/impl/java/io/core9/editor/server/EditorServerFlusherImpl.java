@@ -1,6 +1,6 @@
-package io.core9.server;
+package io.core9.editor.server;
 
-import io.core9.client.ClientRepositoryImpl;
+import io.core9.editor.client.ClientRepositoryImpl;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;

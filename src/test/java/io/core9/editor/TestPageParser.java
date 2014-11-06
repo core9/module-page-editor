@@ -2,9 +2,9 @@ package io.core9.editor;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import io.core9.client.ClientRepositoryImpl;
+import io.core9.editor.client.ClientRepositoryImpl;
 import io.core9.editor.data.ClientData;
-import io.core9.server.BlockImpl;
+import io.core9.editor.server.BlockImpl;
 
 import java.io.File;
 import java.nio.file.Path;
