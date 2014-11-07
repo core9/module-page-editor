@@ -2,180 +2,140 @@
 
 var baseUrl = "/plugins/editor/static/";
 
-$LAB.setOptions({AlwaysPreserveOrder:true})
-.script("/static/plugins/editor/server/assets/js/jquery.js").wait(function(){
+$LAB
+		.setOptions({
+			AlwaysPreserveOrder : true
+		})
+		.script("/static/plugins/editor/server/assets/js/jquery.js")
+		.script(
+				"/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/js/bootstrap.min.js")
+		.script(
+				"/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.bbcode.min.js")
+		.script(
+				"/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.xhtml.min.js")
+		.script(
+				"/static/plugins/editor/server/assets/plugins/select2/select2.min.js")
+		.script("/static/plugins/editor/server/assets/js/jsoneditor.min.js")
+		.script("/static/plugins/editor/server/assets/js/promise.min.js")
+		.script("/static/plugins/editor/server/assets/js/iframeResizer.min.js")
+		.script("/static/plugins/editor/server/assets/js/wizard-engine.js")
+		.script(baseUrl + "js/editor.load.css.js")
+		.wait(
+				function() {
 
-})
-.script("/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/js/bootstrap.min.js")
-.script("/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.bbcode.min.js")
-.script("/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.xhtml.min.js")
-.script("/static/plugins/editor/server/assets/plugins/select2/select2.min.js")
-.script("/static/plugins/editor/server/assets/js/jsoneditor.min.js")
-.script("/static/plugins/editor/server/assets/js/promise.min.js")
-.script("/static/plugins/editor/server/assets/js/iframeResizer.min.js")
-.script("/static/plugins/editor/server/assets/js/wizard-engine.js")
-.script(baseUrl + "js/editor.load.css.js").wait(function(){
+					console.log(EditorConfig);
 
-
-
-	JSONEditor.defaults.theme = 'bootstrap3';
-	JSONEditor.defaults.iconlib = 'fontawesome4';
-
-	  JSONEditor.plugins.sceditor = {
-	    toolbar : "bold,italic,underline,strike,subscript,superscript|left,center,right,justify|font,size,color,removeformat|table|source",
-	    width : "560px",
-	  };
-	  JSONEditor.plugins.select2.width = "300px";
-
-	  function t(s, d) {
-		    for ( var p in d)
-		      s = s.replace(new RegExp('{' + p + '}', 'g'), d[p]);
-		    return s;
-		  }
-
-
-      promise
-      .get('/static/plugins/editor/server/ui/page-selector.html')
-      .then(
-          function(error, text, xhr) {
-            if (error) {
-              alert('Error ' + xhr.status);
-              return;
-            }
-            document
-                .querySelector('#placeholder-page-selector').innerHTML = text;
-          });
+					JSONEditor.defaults.theme = 'bootstrap3';
+					JSONEditor.defaults.iconlib = 'fontawesome4';
+					JSONEditor.plugins.sceditor = {
+						toolbar : "bold,italic,underline,strike,subscript,superscript|left,center,right,justify|font,size,color,removeformat|table|source",
+						width : "560px",
+					};
+					JSONEditor.plugins.select2.width = "300px";
 
 
+					Wizard.init(EditorConfig);
 
-      var WizardConfig = {
-              baseUrl : 'http://easydrain.localhost:8080/',
-                pageUrl : 'http://easydrain.localhost:8080/scraper/nl',
-              widgets : 'http://easydrain.localhost:8080/site/assets/json/widgets.json'
-            }
-            Wizard.init(WizardConfig);
+					iFrameResize({
+						log : false,
+						enablePublicMethods : true,
+						resizedCallback : function(messageData) {
+							console.log(messageData);
+						},
+						messageCallback : function(messageData) {
+							var data = JSON.parse(messageData.message);
+							if (data.action == 'edit-block') {
+								window.location = "#state=edit-block-"
+										+ data.block + "-type-" + data.type;
+								$('#wizard-wrapper').modal("show");
+								$('#modal').toggle();
+							}
+							if (data.action == 'insertbefore-block') {
+								window.location = "#state=insertbefore-block-"
+										+ data.block + "-type-" + data.type;
+								$('#wizard-wrapper').modal("show");
+								$('#modal').toggle();
+							}
+							if (data.action == 'insertafter-block') {
+								window.location = "#state=insertafter-block-"
+										+ data.block + "-type-" + data.type;
+								$('#wizard-wrapper').modal("show");
+								$('#modal').toggle();
+							}
+							if (data.action == 'delete-block') {
+								window.location = "#state=delete-block-"
+										+ data.block + "-type-" + data.type;
+								$('#delete-form').toggle();
+								$('#modal').toggle();
+							}
+						},
+						closedCallback : function(id) {
+							console.log(id);
+						}
+					});
 
+					$('#delete-form').click(
+							function() {
 
-      var win = document.getElementById("iframe").contentWindow
-      document.forms.form.onsubmit = function() {
-        win.postMessage(this.elements.msg.value,
-        location.origin)
-        return false
-      }
+								var hash = location.hash.split('=');
+								var data = hash[1].split('-');
+								var tpl = "";
+								try {
+									tpl = Wizard.widgetJson[data[4]].template;
+								} catch (e) {
 
+								}
+								var meta = {
+									"absolute-url" : document.getElementById(
+											'iframe').getAttribute('src'),
+									"state" : data[0],
+									"block" : data[2],
+									"type" : data[4],
+									"template" : tpl
+								}
+								console.log(meta);
 
-      iFrameResize({
-          log : false, // Enable console logging
-          enablePublicMethods : true, // Enable methods within iframe hosted page
-          resizedCallback : function(messageData) { // Callback fn when resize is received
-            console.log(messageData);
-          },
-          messageCallback : function(messageData) { // Callback fn when message is received
-            var data = JSON.parse(messageData.message);
-            if (data.action == 'edit-block') {
-              window.location = "#state=edit-block-" + data.block
-                  + "-type-" + data.type;
-              $('#wizard-wrapper').modal("show");
-              $('#modal').toggle();
-            }
-            if (data.action == 'insertbefore-block') {
-              window.location = "#state=insertbefore-block-" + data.block
-                  + "-type-" + data.type;
-              $('#wizard-wrapper').modal("show");
-              $('#modal').toggle();
-            }
-            if (data.action == 'insertafter-block') {
-              window.location = "#state=insertafter-block-" + data.block
-                  + "-type-" + data.type;
-              $('#wizard-wrapper').modal("show");
-              $('#modal').toggle();
-            }
-            if (data.action == 'delete-block') {
-              window.location = "#state=delete-block-" + data.block
-                  + "-type-" + data.type;
-              $('#delete-form').toggle();
-              $('#modal').toggle();
-            }
-          },
-          closedCallback : function(id) { // Callback fn when iFrame is closed
-            console.log(id);
-          }
-        });
+								var fullData = {
+									"meta" : meta
+								}
 
+								var jsonString = JSON.stringify(fullData);
 
-      $(document).ready(
-    	        function() {
+								var data = {
+									"id" : 112,
+									"data" : jsonString
+								};
+								promise.post('/api/block', data)
+										.then(
+												function(error, text, xhr) {
+													if (error) {
+														return;
+													}
+													console.log(text);
+													location = location.href
+															.split('#')[0];
+												});
 
-    	          $('#delete-form').click(
-    	              function() {
+							});
 
-    	                var hash = location.hash.split('=');
-    	                var data = hash[1].split('-');
-    	                var tpl = "";
-    	                try {
-    	                  tpl = Wizard.widgetJson[data[4]].template;
-    	                } catch (e) {
+					if (typeof String.prototype.startsWith != 'function') {
+						String.prototype.startsWith = function(str) {
+							return this.indexOf(str) == 0;
+						};
+					}
 
-    	                }
-    	                var meta = {
-    	                  "absolute-url" : document.getElementById(
-    	                      'iframe').getAttribute('src'),
-    	                  "state" : data[0],
-    	                  "block" : data[2],
-    	                  "type" : data[4],
-    	                  "template" : tpl
-    	                }
-    	                console.log(meta);
+					if (location.hash.startsWith("#state=edit-block-")) {
+						$('#wizard-wrapper').modal("show");
+						$('#modal').toggle();
+					}
 
-    	                var fullData = {
-    	                  "meta" : meta
-    	                }
+					$('.close-modal').click(function() {
+						location = location.href.split('#')[0];
+					});
 
-    	                var jsonString = JSON.stringify(fullData);
+					$('#variants').click(function() {
+						$('#page-selector').toggle();
+					});
 
-    	                var data = {
-    	                  "id" : 112,
-    	                  "data" : jsonString
-    	                };
-    	                promise.post('/api/block',
-    	                    data).then(function(error, text, xhr) {
-    	                  if (error) {
-    	                    return;
-    	                  }
-    	                  console.log(text);
-    	                  location = location.href.split('#')[0];
-    	                });
-
-    	              });
-
-
-    	          if (typeof String.prototype.startsWith != 'function') {
-    	            String.prototype.startsWith = function(str) {
-    	              return this.indexOf(str) == 0;
-    	            };
-    	          }
-
-    	          if (location.hash.startsWith("#state=edit-block-")) {
-    	            $('#wizard-wrapper').modal("show");
-    	            $('#modal').toggle();
-    	          }
-
-    	          $('.add-block, .mega-hoverlink').click(function() {
-
-    	            location = location.href.split('#')[0];
-    	            //$('#wizard-wrapper').modal("show");
-    	            //$('#modal').toggle();
-
-    	          });
-
-    	          $('#variants').click(function() {
-    	            $('#page-selector').toggle();
-    	          });
-
-    	        });
-
-
-    initMyPage(baseUrl);
-});
-
-
+					initMyPage(baseUrl);
+				});

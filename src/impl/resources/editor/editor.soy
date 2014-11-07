@@ -10,21 +10,24 @@
 <head>
 <meta charset="utf-8">
 <title>Core9 page editor</title>
-<meta name="description" content="iFrame message passing test">
 <meta name="viewport" content="width=device-width">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script>
+{literal}
+var EditorConfig = {
+            baseUrl : 'http://{/literal}{$vhost}{literal}/',
+            pageUrl : 'http://{/literal}{$vhost}{$page}{literal}',
+            widgets : 'http://{/literal}{$vhost}{literal}/site/assets/json/widgets.json'
+}
+
+{/literal};
+</script>
 </head>
 <body>
   <header>
     <div id="variants" style="float: right; width: 20px; height: 20px; background-color: red; margin-right: 20px;"></div>
     <div id="placeholder-page-selector"></div>
   </header>
-
-  <form style="display: none;" name="form">
-    <input type="text" name="msg" style="width: 600px" value="/static/plugins/editor/server/assets/js/action-alert.js" /> <input type="submit" />
-    <button class="add-block">show modal (debug)</button>
-  </form>
-
 
 
   <div id="modal"></div>
@@ -52,7 +55,7 @@
                   </datalist>
                   <button class="btn btn-success" id="choose-button">Selecteer</button>
                   <button class="btn btn-danger" onclick="location.reload();">Reset</button>
-                  <button class="btn btn-success add-block" style="float: right;" onclick="location = location.href.replace(location.hash , "");">Sluiten</button>
+                  <button class="btn btn-success close-modal" style="float: right;" onclick="location = location.href.replace(location.hash , "");">Sluiten</button>
                 </div>
               </li>
             </ul>
