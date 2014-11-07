@@ -43,9 +43,9 @@ public class EditorModuleFileServerImpl implements EditorModuleFileServer {
 			public void handle(Request req) {
 				String contentType = "";
 				String resourceFile = "";
-				String requestPath = req.getPath().replace("/modules", "");
+				String requestPath = req.getPath().replace("/ui-widgets", "");
 
-				resourceFile = "data/core9-ui-modules/modules" + requestPath;
+				resourceFile = "data/core9-ui-widgets" + requestPath;
 
 				try {
 					contentType = Files.probeContentType(Paths.get(resourceFile));
