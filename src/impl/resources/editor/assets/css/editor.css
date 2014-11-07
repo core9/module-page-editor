@@ -1,0 +1,26 @@
+.modal#wizard-wrapper #tab-container {
+	float: none;
+}
+
+.modal#wizard-wrapper .form-container {
+	position: initial;
+	background-color: #fff;
+	max-height: initial;
+	min-height: initial;
+}
+
+.modal#wizard-wrapper .main-container {
+	min-height: initial;
+}
+
+.modal#wizard-wrapper .select2-container {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.modal#wizard-wrapper label.control-label {
+	width: 100px;
+	text-align: left;
+}

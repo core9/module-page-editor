@@ -1,0 +1,149 @@
+
+
+#tab-container {
+  float: left;
+  margin: 32px 0 0 0;
+  width: 136px;
+}
+
+#tab-container ul {
+  list-style: none;
+  text-align: center;
+}
+
+#tab-container ul li {
+  border-top: 1px solid #666;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+  border-left: 8px solid #666;
+  background-color: #ddd;
+  margin: 8px 0;
+}
+
+#tab-container ul li a,#tab-container ul li a:visited {
+  text-decoration: none;
+  color: #666;
+  display: block;
+  padding: 15px 5px;
+}
+
+#tab-container ul li:hover {
+  border-left: 8px solid #333;
+}
+
+#tab-container ul li a:hover {
+  color: #000;
+}
+
+#tab-container ul li.selected {
+  border-right: none;
+  background-color: #fff;
+  border-left: 8px solid #006699;
+}
+
+#tab-ul {
+	_background-color:#fff;
+}
+
+.main-container {
+  min-height: 400px;
+  margin: 0 0 0 125px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #888;
+  min-width: 635px !important;
+}
+
+.form-container {
+  position: absolute;
+  min-height: 500px;
+  min-width: 594px;
+  color:#ccc;
+  background-color: #222;
+  top: 60px;
+  left: 26px;
+  max-height: 600px;
+  overflow-y: auto;
+  
+}
+.main-container {
+	border: 1px solid #2A2A2A;
+}
+/* sceditor */
+
+a.sceditor-button {
+	padding:0px !important;
+}
+.sceditor-dropdown {
+	z-index:99999 !important;
+}
+
+
+
+.form-group > input {
+	padding:0px !important;
+  	height: 27px !important;
+  float: right  !important;
+  	width:450px !important;
+  padding-left:10px !important;
+}
+
+.form-group {
+	margin-bottom: 0px;
+  _max-height: 10px;
+  width: 560px;
+
+}
+
+#tab-container ul li a, #tab-container ul li a:visited {
+	padding:0px  !important;
+}
+
+div {
+ min-height: 1em;
+}
+
+label{
+	float:left;
+  	color:#000;
+}
+
+.select2-container {
+margin: 0;
+position: relative;
+display: inline-block;
+zoom: 1;
+vertical-align: middle;
+padding: 0px;
+height: 27px;
+width: 450px;
+margin-left: 110px;
+  margin-top: -46px;
+}
+
+button {
+	color:#000;
+}
+
+.sceditor-container iframe, .sceditor-container textarea {
+  position: relative;
+top: -22px;
+width:99%;
+  height: 215px !important;
+}
+
+.sceditor-toolbar {
+  position:relative;
+  width: 100%;
+  top:-22px;
+}
+
+
+.sceditor-container {
+	top:30px;
+}
+
+.main-container > div > div > div {
+	padding-bottom:30px !important;
+}
+
