@@ -19,3 +19,4 @@ loadCss(baseUrl + "css/wizard-engine.css");
 function  initMyPage(baseUrl){
 	loadCssUrls(baseUrl);
 }
+initMyPage(baseUrl);

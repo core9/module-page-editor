@@ -112,8 +112,10 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 					if (new File(file).exists()) {
 						req.getResponse().putHeader("Content-Type", contentType);
 						req.getResponse().putHeader("Content-Length", Integer.toString(res.available()));
+						req.getResponse().putHeader("Access-Control-Allow-Origin", "*");
 						req.getResponse().sendBinary(ByteStreams.toByteArray(res));
-						res.close();
+						req.getResponse().end();
+
 					} else {
 
 						req.getResponse().setStatusCode(404);
@@ -124,7 +126,12 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 					e1.printStackTrace();
 				}
 
-
+				try {
+					res.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				return result;
 			}

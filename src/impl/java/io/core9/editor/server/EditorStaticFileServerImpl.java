@@ -39,12 +39,12 @@ public class EditorStaticFileServerImpl implements EditorStaticFileServer {
 	public void execute() {
 
 		server.use("/plugins/editor/static/(.*)", new Middleware() {
-			private String contentType;
-			private String resourceFile;
+
 
 			@Override
 			public void handle(Request req) {
-
+				String contentType = "";
+				String resourceFile = "";
 				String requestPath = req.getPath().replace("/plugins/editor/static", "");
 
 				URL resource = EditorStaticFileServerImpl.class.getResource("/");
@@ -60,14 +60,16 @@ public class EditorStaticFileServerImpl implements EditorStaticFileServer {
 					e.printStackTrace();
 				}
 
-				InputStream res = fileToBinary(resourceFile);
+				InputStream res = null;
+				res = fileToBinary(resourceFile);
 
 				try {
 					if (new File(resourceFile).exists()) {
 						req.getResponse().putHeader("Content-Type", contentType);
 						req.getResponse().putHeader("Content-Length", Integer.toString(res.available()));
 						req.getResponse().sendBinary(ByteStreams.toByteArray(res));
-						res.close();
+						req.getResponse().end();
+
 					} else {
 						req.getResponse().setStatusCode(404);
 						req.getResponse().setStatusMessage("File not found");
@@ -76,7 +78,12 @@ public class EditorStaticFileServerImpl implements EditorStaticFileServer {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-
+				try {
+					res.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		});
