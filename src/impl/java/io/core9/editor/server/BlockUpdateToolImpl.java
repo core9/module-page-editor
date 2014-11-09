@@ -86,15 +86,17 @@ public class BlockUpdateToolImpl implements BlockTool {
 				Block block = new BlockImpl();
 				BlockData blockData = new BlockDataImpl();
 				String blockTemplate = meta.getAsString("template");
-				blockTemplate = blockTemplate.substring(11);
+				if(blockTemplate.length() > 11){
+					blockTemplate = blockTemplate.substring(11);
+				}
 				if (meta.getAsString("state").equals("delete")) {
-					parser.deleteBlock(Integer.parseInt((String) meta.get("block")));
+					parser.deleteBlock((int) meta.get("block"));
 				}
 				if (meta.getAsString("state").equals("insertbefore")) {
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId(), blockTemplate, editorData);
 					block.addElement(elem);
 					int position = 0;
-					int selectedPos = Integer.parseInt((String) meta.get("block"));
+					int selectedPos = (int) meta.get("block");
 					if (selectedPos > 1) {
 						position = selectedPos - 1;
 					}
@@ -109,7 +111,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 				if (meta.getAsString("state").equals("insertafter")) {
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId(), blockTemplate, editorData);
 					block.addElement(elem);
-					int selectedPos = Integer.parseInt((String) meta.get("block"));
+					int selectedPos = (int) meta.get("block");
 					int position = selectedPos + 1;
 
 					blockData.setPosition(position);
