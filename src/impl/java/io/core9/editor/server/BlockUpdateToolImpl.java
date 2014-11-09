@@ -95,12 +95,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 				if (meta.getAsString("state").equals("insertbefore")) {
 					Element elem = parseSoyTemplateToElement(assetsManager.getClientId(), blockTemplate, editorData);
 					block.addElement(elem);
-					int position = 0;
-					int selectedPos = (int) meta.get("block");
-					if (selectedPos > 1) {
-						position = selectedPos - 1;
-					}
-
+					int position = (int) meta.get("block");
 					blockData.setPosition(position);
 					blockData.setData(data);
 					blockData.setDataDirectory(parser.getDataDirectory());
