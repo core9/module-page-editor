@@ -20,6 +20,10 @@ repositories {
   }
 }
 
+repositories {
+  mavenCentral()
+}
+
 compileJava {
   options.compilerArgs << '-parameters'
   //options.fork = true
@@ -38,7 +42,8 @@ dependencies {
   compile 'org.jsoup:jsoup:1.7.3'
   compile 'com.google.jimfs:jimfs:1.0'
   compile 'com.google.code.gson:gson:2.3'
-  compile 'org.apache.commons:commons-io:1.3.2'
+  compile 'commons-io:commons-io:2.4'
+
 
 
   testCompile 'junit:junit:4.11'
