@@ -6,9 +6,8 @@ $LAB
 		.setOptions({
 			AlwaysPreserveOrder : true
 		})
-		.script("/static/plugins/editor/server/assets/js/jquery.js")
-		.script(
-				"/static/plugins/editor/server/assets/plugins/bootstrap/3.2.0/js/bootstrap.min.js")
+		.script(baseUrl + "js/jquery.js")
+		.script(baseUrl + "js/bootstrap.min.js")
 		.script(
 				"/static/plugins/editor/server/assets/plugins/sceeditor/minified/jquery.sceditor.bbcode.min.js")
 		.script(
