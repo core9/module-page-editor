@@ -18,6 +18,8 @@ public class ClientData {
 		clientRepository.addDomain("easydrain.localhost", "easydrain");
 		clientRepository.addDomain("pageeditor-prod-ens.trimm.net", "easydrain");
 		clientRepository.addDomain("easydrain.editor.trimm.net", "easydrain");
+		clientRepository.addDomain("easydrain.com", "easydrain");
+		clientRepository.addDomain("www.easydrain.com", "easydrain");
 
 /*		clientRepository.addPage("www.easydrain.nl", "/nl/");
 		clientRepository.addPage("easydrain.docker.trimm.net", "/nl/");
@@ -30,7 +32,7 @@ public class ClientData {
 		clientRepository.addDomain("kennispark.editor.core9.io", "kennispark");
 		clientRepository.addDomain("kennispark.localhost", "kennispark");
 		clientRepository.addDomain("kennispark.editor.trimm.net", "kennispark");
-		
+
 
 
 /*		clientRepository.addPage("www.kennispark.nl", "/jaarplan/");
