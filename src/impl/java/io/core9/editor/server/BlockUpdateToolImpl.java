@@ -151,7 +151,7 @@ public class BlockUpdateToolImpl implements BlockTool {
 		SoyMapData soyData = (SoyMapData) JsonSoyUtils.JsonToSoy(data.toJSONString());
 		String blockHtml = tofu.newRenderer(soyNameSpace).setData(soyData).render();
 		System.out.println(blockHtml);
-		Element tag = Jsoup.parse(blockHtml, "", Parser.xmlParser());
+		Element tag = Jsoup.parse(blockHtml, "", Parser.htmlParser());
 		return tag;
 	}
 
