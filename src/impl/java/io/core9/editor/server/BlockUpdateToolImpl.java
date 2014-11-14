@@ -29,7 +29,7 @@ import com.google.template.soy.tofu.SoyTofu;
 
 public class BlockUpdateToolImpl implements BlockTool {
 
-	private String blockClassName = ".block";
+	private String blockClassName = ".core9-block";
 	private String blockContainer = "#main-section";
 	private PageParser parser;
 	private JSONObject data;
