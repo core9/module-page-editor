@@ -23,29 +23,30 @@ public class FileManagerImpl implements FileManager {
 		createBaseDir();
 	}
 
-
 	private void createBaseDir() throws CouldNotCreateDirectory {
 		File baseDir = new File(base);
-		if(!baseDir.exists()) baseDir.mkdirs();
-		if(!baseDir.exists()) throw new CouldNotCreateDirectory(baseDir);
+		if (!baseDir.exists())
+			baseDir.mkdirs();
+		if (!baseDir.exists())
+			throw new CouldNotCreateDirectory(baseDir);
 	}
-
 
 	@Override
 	public String[] lst(String id, String with_root) {
 		return null;
 	}
+
 	@Override
 	public void data(String id) {
 	}
+
 	@Override
 	public JSONObject create(String id, String name, boolean mkdir) throws IOException {
 
-
 		String dir = getAbsolutePathFromId(id);
-		if(mkdir){
+		if (mkdir) {
 			new File(dir + File.separator + name).mkdirs();
-		}else{
+		} else {
 			new File(dir + File.separator + name).createNewFile();
 		}
 
@@ -56,66 +57,80 @@ public class FileManagerImpl implements FileManager {
 
 	}
 
-
-	private String getIdFromPath(String path)throws IOException  {
+	private String getIdFromPath(String path) throws IOException {
 		path = real(path);
 		path = path.substring(base.length());
 		path = path.replace(File.separator, "/");
-		if(path.length() == 0){
+		if (path.length() == 0) {
 			return "/";
 		}
 		return path;
 	}
 
-
 	private String getAbsolutePathFromId(String id) throws IOException {
 		return real(base + File.separator + id.replace("/", File.separator).trim());
 	}
 
-
 	private String real(String path) throws IOException {
 		String temp = new File(path).getCanonicalPath();
-		if(base != null && base.length() != 0) {
-			if(temp.indexOf(base) == -1) throw new FileNotFoundException("Path is not inside base (" + base + "): " + temp);
+		if (base != null && base.length() != 0) {
+			if (temp.indexOf(base) == -1)
+				throw new FileNotFoundException("Path is not inside base (" + base + "): " + temp);
 		}
 		return temp;
 	}
 
-
-
-
-
 	@Override
 	public void rename(String id, String name) {
 	}
+
 	@Override
-	public void remove(String id) {
+	public JSONObject remove(String id) throws IOException {
+		String dir = getAbsolutePathFromId(id);
+		if (dir.equals(base))
+			throw new FileNotFoundException("Cannot remove root");
+		String status = "";
+		if (new File(dir).isDirectory()) {
+			FileUtils.deleteDirectory(new File(dir));
+			status = "could not delete file";
+		}
+		if (new File(dir).isFile()) {
+			FileUtils.deleteQuietly(new File(dir));
+		}
+		JSONObject result = new JSONObject();
+		if (new File(dir).exists()) {
+			result.put("status", status);
+		} else {
+			result.put("status", "OK");
+		}
+		return result;
 	}
+
 	@Override
 	public void move(String id, String par) {
 	}
+
 	@Override
 	public void copy(String id, String par) {
 
 	}
 
 	@Override
-	public String action(FileManagerRequest req) throws IOException{
+	public String action(FileManagerRequest req) throws IOException {
 		Object result = "";
-		switch (req.getOperation())
-		{
+		switch (req.getOperation()) {
 		case "create_node":
 			result = this.create(req.getId(), req.getName(), (!req.getType().equals("file")));
-	        break;
-		  case "get_node":
-		        break;
-		   default:
-		        break;
+			break;
+		case "delete_node":
+			result = this.remove(req.getId());
+			break;
+		default:
+			break;
 		}
 
 		return result.toString();
 	}
-
 
 	@Override
 	public void clear() throws IOException, CouldNotCreateDirectory {

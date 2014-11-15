@@ -14,7 +14,7 @@ public interface FileManager {
 
 	void rename(String id, String name);
 
-	void remove(String id);
+	JSONObject remove(String id) throws IOException;
 
 	void move(String id, String par);
 

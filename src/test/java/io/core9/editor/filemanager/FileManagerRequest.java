@@ -66,6 +66,7 @@ public class FileManagerRequest {
 
 	private boolean isValidFilename(String id) {
 		if(id.equals("/")) return true;
+		id = id.replace("/", "");
 		return isValidName(id);
 	}
 
