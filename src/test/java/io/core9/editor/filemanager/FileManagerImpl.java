@@ -111,7 +111,30 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public void copy(String id, String par) {
+	public JSONObject copy(String id, String parent) throws IOException{
+
+		String fileOrDirToBeCopied = getAbsolutePathFromId(id);
+		parent = getAbsolutePathFromId(parent);
+
+		String[] dirParts = fileOrDirToBeCopied.split(File.separator);
+
+		String newFile = dirParts[dirParts.length-1];
+		newFile = parent + File.separator + newFile;
+
+		if(new File(newFile).exists()) throw new FileExistsException("Path already exists: " + newFile);
+
+		if(new File(fileOrDirToBeCopied).isFile()){
+			FileUtils.copyFile(new File(fileOrDirToBeCopied), new File(newFile));
+		}
+
+		if(new File(fileOrDirToBeCopied).isDirectory()){
+			FileUtils.copyDirectory(new File(fileOrDirToBeCopied), new File(newFile));
+		}
+
+		JSONObject result = new JSONObject();
+		result.put("id", getIdFromPath(newFile));
+
+		return result;
 
 	}
 
@@ -124,6 +147,9 @@ public class FileManagerImpl implements FileManager {
 			break;
 		case "delete_node":
 			result = this.remove(req.getId());
+			break;
+		case "copy_node":
+			result = this.copy(req.getId(), req.getParent());
 			break;
 		default:
 			break;

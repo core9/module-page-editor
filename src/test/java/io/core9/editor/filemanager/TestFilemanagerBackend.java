@@ -105,4 +105,54 @@ public class TestFilemanagerBackend {
 
 	}
 
+	@Test
+	public void test_copy_node_file() throws Exception {
+		FileManager fm = createFileManagerBackend();
+
+		// /?operation=create_node&type=default&id=%2F&text=New+node+2
+		FileManagerRequest request = new FileManagerRequest();
+		request.setOperation("create_node");
+		request.setId("%2F");
+		request.setName("New-node-2");
+		request.setType("default");
+		String result = fm.action(request);
+		String expected = "{\"id\":\"\\/New-node-2\"}";
+		assertTrue(expected.equals(result));
+		System.out.println(result);
+
+		// /?operation=create_node&type=file&id=New-node-2&text=New+node
+		FileManagerRequest request2 = new FileManagerRequest();
+		request2.setOperation("create_node");
+		request2.setId("New-node-2");
+		request2.setName("New+node");
+		request2.setType("file");
+		String result2 = fm.action(request2);
+		String expected2 = "{\"id\":\"\\/New-node-2\\/New-node\"}";
+		assertTrue(expected2.equals(result2));
+
+		// /?operation=create_node&type=default&id=%2F&text=New+node+2
+		FileManagerRequest request3 = new FileManagerRequest();
+		request3.setOperation("create_node");
+		request3.setId("%2F");
+		request3.setName("New-node-3");
+		request3.setType("default");
+		String result3 = fm.action(request3);
+		String expected3 = "{\"id\":\"\\/New-node-3\"}";
+		assertTrue(expected3.equals(result3));
+		System.out.println(result3);
+
+
+		// /?operation=copy_node&id=New-node-2%2FNew-node&parent=New-node-3
+		FileManagerRequest request4 = new FileManagerRequest();
+		request4.setOperation("copy_node");
+		request4.setId("New-node-2%2FNew-node");
+		request4.setParent("New-node-3");
+		String result4 = fm.action(request4);
+		String expected4 = "{\"id\":\"\\/New-node-3\\/New-node\"}";
+		assertTrue(expected4.equals(result4));
+		System.out.println(result4);
+
+	}
+
+
 }

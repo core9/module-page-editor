@@ -16,9 +16,9 @@ public interface FileManager {
 
 	JSONObject remove(String id) throws IOException;
 
-	void move(String id, String par);
+	void move(String id, String parent);
 
-	void copy(String id, String par);
+	JSONObject copy(String id, String parent) throws IOException;
 
 
 	String action(FileManagerRequest request) throws IOException;
