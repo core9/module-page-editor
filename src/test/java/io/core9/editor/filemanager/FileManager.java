@@ -23,5 +23,7 @@ public interface FileManager {
 
 	String action(FileManagerRequest request) throws IOException;
 
+	void clear() throws IOException, CouldNotCreateDirectory;
+
 
 }

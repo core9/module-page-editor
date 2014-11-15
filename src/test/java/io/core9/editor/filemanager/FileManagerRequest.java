@@ -16,8 +16,9 @@ public class FileManagerRequest {
 
 	public void setName(String name) throws Exception {
 		this.name = URLDecoder.decode(name, "UTF-8");
+		this.name = this.name.replace(" ", "-");
 		if (!isValidName(this.name)) {
-			throw new Exception("Invalid name: " + type);
+			throw new Exception("Invalid name: " + this.name);
 		}
 	}
 
@@ -30,8 +31,11 @@ public class FileManagerRequest {
 
 	public void setId(String id) throws Exception {
 		this.id = URLDecoder.decode(id, "UTF-8");
-		if (this.id.equals("#") || this.id == null)
+		if (this.id.equals("#") || this.id == null){
 			this.id = "/";
+			return;
+		}
+		this.id = this.id.replace(" ", "-");
 		if (!isValidFilename(this.id)) {
 			throw new Exception("Invalid filename: " + this.id);
 		}
@@ -61,11 +65,12 @@ public class FileManagerRequest {
 	}
 
 	private boolean isValidFilename(String id) {
-		return id.matches("[^-_.A-Za-z0-9]") && id.length() != 0;
+		if(id.equals("/")) return true;
+		return isValidName(id);
 	}
 
 	private boolean isValidName(String s) {
-		return s.matches("[-\\p{Alnum}]+") && s.length() != 0;
+		return s.matches("^[a-zA-Z0-9-]+$") && s.length() != 0;
 	}
 
 }

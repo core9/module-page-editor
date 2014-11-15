@@ -17,11 +17,15 @@ import scala.util.control.Exception;
 public class FileManagerImpl implements FileManager {
 
 	private String base;
-	private File baseDir;
 
 	public FileManagerImpl(String base) throws CouldNotCreateDirectory, IOException {
 		this.base = new File(base).getCanonicalPath();
-		baseDir = new File(base);
+		createBaseDir();
+	}
+
+
+	private void createBaseDir() throws CouldNotCreateDirectory {
+		File baseDir = new File(base);
 		if(!baseDir.exists()) baseDir.mkdirs();
 		if(!baseDir.exists()) throw new CouldNotCreateDirectory(baseDir);
 	}
@@ -110,6 +114,13 @@ public class FileManagerImpl implements FileManager {
 		}
 
 		return result.toString();
+	}
+
+
+	@Override
+	public void clear() throws IOException, CouldNotCreateDirectory {
+		FileUtils.deleteDirectory(new File(base));
+		createBaseDir();
 	}
 
 }
