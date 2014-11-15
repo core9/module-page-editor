@@ -1,48 +1,31 @@
 package io.core9.editor.filemanager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minidev.json.JSONObject;
+
+import org.apache.commons.io.FileExistsException;
+import org.apache.commons.io.FileUtils;
+
+import scala.util.control.Exception;
 
 @SuppressWarnings("unused")
 public class FileManagerImpl implements FileManager {
 
 	private String base;
+	private File baseDir;
 
-	public FileManagerImpl(String base) throws Exception {
-		this.base = this.real(base);
-		if(this.base == null)  throw new Exception("Base directory does not exist");
-		new File(this.base).mkdirs();
-	}
-
-	private String realPath(String path){
-		try {
-			return new File(path).getCanonicalPath();
-		} catch (IOException e) {
-			return null;
-		}
+	public FileManagerImpl(String base) throws CouldNotCreateDirectory, IOException {
+		this.base = new File(base).getCanonicalPath();
+		baseDir = new File(base);
+		if(!baseDir.exists()) baseDir.mkdirs();
+		if(!baseDir.exists()) throw new CouldNotCreateDirectory(baseDir);
 	}
 
-	private String real(String path) throws Exception {
-
-		String temp = realPath(path);
-		if(temp == null)  throw new Exception("Path does not exist: " + path);
-		if(this.base != null && this.strlen(this.base) != 0) {
-			if(this.strpos(temp, this.base)) { throw new Exception("Path is not inside base ("+this.base + "): " + temp); }
-		}
-		return temp;
-	}
-	private boolean strpos(String temp, String base2) {
-		return temp.toLowerCase().contains(base2.toLowerCase());
-	}
-
-	private  int strlen(String base2) {
-		return base2.length();
-	}
-
-	private void path(String id) {
-	}
-	private void id(String path) {
-	}
 
 	@Override
 	public String[] lst(String id, String with_root) {
@@ -52,8 +35,52 @@ public class FileManagerImpl implements FileManager {
 	public void data(String id) {
 	}
 	@Override
-	public void create(String id, String name, boolean mkdir) {
+	public JSONObject create(String id, String name, boolean mkdir) throws IOException {
+
+
+		String dir = getAbsolutePathFromId(id);
+		if(mkdir){
+			new File(dir + File.separator + name).mkdirs();
+		}else{
+			new File(dir + File.separator + name).createNewFile();
+		}
+
+		JSONObject result = new JSONObject();
+		result.put("id", getIdFromPath(dir + File.separator + name));
+
+		return result;
+
 	}
+
+
+	private String getIdFromPath(String path)throws IOException  {
+		path = real(path);
+		path = path.substring(base.length());
+		path = path.replace(File.separator, "/");
+		if(path.length() == 0){
+			return "/";
+		}
+		return path;
+	}
+
+
+	private String getAbsolutePathFromId(String id) throws IOException {
+		return real(base + File.separator + id.replace("/", File.separator).trim());
+	}
+
+
+	private String real(String path) throws IOException {
+		String temp = new File(path).getCanonicalPath();
+		if(base != null && base.length() != 0) {
+			if(temp.indexOf(base) == -1) throw new FileNotFoundException("Path is not inside base (" + base + "): " + temp);
+		}
+		return temp;
+	}
+
+
+
+
+
 	@Override
 	public void rename(String id, String name) {
 	}
@@ -69,116 +96,20 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public String action(FileManagerRequest request){
-
-		String operation = "";
-		switch (operation )
+	public String action(FileManagerRequest req) throws IOException{
+		Object result = "";
+		switch (req.getOperation())
 		{
+		case "create_node":
+			result = this.create(req.getId(), req.getName(), (!req.getType().equals("file")));
+	        break;
 		  case "get_node":
-
-			  ///?operation=get_node&id=assets%2Fbootstrap%2Fcss
-
-			  /*
-			   [
-{
-text: "bootstrap-theme.css",
-children: false,
-id: "assets/bootstrap/css/bootstrap-theme.css",
-type: "file",
-icon: "file file-css"
-},
-{
-text: "bootstrap-theme.min.css",
-children: false,
-id: "assets/bootstrap/css/bootstrap-theme.min.css",
-type: "file",
-icon: "file file-css"
-},
-{
-text: "bootstrap.css",
-children: false,
-id: "assets/bootstrap/css/bootstrap.css",
-type: "file",
-icon: "file file-css"
-},
-{
-text: "bootstrap.min.css",
-children: false,
-id: "assets/bootstrap/css/bootstrap.min.css",
-type: "file",
-icon: "file file-css"
-}
-]
-			   */
-
-				//$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				//$rslt = $fs->lst($node, (isset($_GET['id']) && $_GET['id'] === '#'));
-
-			  String id = null;
-			  String with_root = null;
-			  Object result = this.lst(id, with_root);
-
 		        break;
 		   default:
 		        break;
 		}
 
-		return "";
-
-/*
-
-
-if(isset($_GET['operation'])) {
-	$fs = new fs(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'root' . DIRECTORY_SEPARATOR);
-	try {
-		$rslt = null;
-		switch($_GET['operation']) {
-			case 'get_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->lst($node, (isset($_GET['id']) && $_GET['id'] === '#'));
-				break;
-			case "get_content":
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->data($node);
-				break;
-			case 'create_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->create($node, isset($_GET['text']) ? $_GET['text'] : '', (!isset($_GET['type']) || $_GET['type'] !== 'file'));
-				break;
-			case 'rename_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->rename($node, isset($_GET['text']) ? $_GET['text'] : '');
-				break;
-			case 'delete_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->remove($node);
-				break;
-			case 'move_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$parn = isset($_GET['parent']) && $_GET['parent'] !== '#' ? $_GET['parent'] : '/';
-				$rslt = $fs->move($node, $parn);
-				break;
-			case 'copy_node':
-				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$parn = isset($_GET['parent']) && $_GET['parent'] !== '#' ? $_GET['parent'] : '/';
-				$rslt = $fs->copy($node, $parn);
-				break;
-			default:
-				throw new Exception('Unsupported operation: ' . $_GET['operation']);
-				break;
-		}
-		header('Content-Type: application/json; charset=utf-8');
-		echo json_encode($rslt);
-	}
-	catch (Exception $e) {
-		header($_SERVER["SERVER_PROTOCOL"] . ' 500 Server Error');
-		header('Status:  500 Server Error');
-		echo $e->getMessage();
-	}
-	die();
-}
-
- */
+		return result.toString();
 	}
 
 }
