@@ -40,52 +40,28 @@ public class FileManagerImpl implements FileManager {
 
 	@Override
 	public JSONArray lst(String id, boolean withRoot) throws IOException {
-/*
-	public function lst($id, $with_root = false) {
-		$dir = $this->path($id);
-		$lst = @scandir($dir);
-		if(!$lst) { throw new Exception('Could not list path: ' . $dir); }
-		$res = array();
-		foreach($lst as $item) {
-			if($item == '.' || $item == '..' || $item === null) { continue; }
-			$tmp = preg_match('([^ a-zа-я-_0-9.]+)ui', $item);
-			if($tmp === false || $tmp === 1) { continue; }
-			if(is_dir($dir . DIRECTORY_SEPARATOR . $item)) {
-				$res[] = array('text' => $item, 'children' => true,  'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon' => 'folder');
-			}
-			else {
-				$res[] = array('text' => $item, 'children' => false, 'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type' => 'file', 'icon' => 'file file-'.substr($item, strrpos($item,'.') + 1));
-			}
-		}
-		if($with_root && $this->id($dir) === '/') {
-			$res = array(array('text' => basename($this->base), 'children' => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened' => true, 'disabled' => true)));
-		}
-		return $res;
-	}
- */
-
-
 		String dir = getAbsolutePathFromId(id);
-
-		 File[] lst = new File(dir).listFiles();
-
-		 JSONArray fileList = new JSONArray();
-
-		 for (File fileObj : lst) {
+		File[] lst = new File(dir).listFiles();
+		JSONArray fileList = new JSONArray();
+		for (File fileObj : lst) {
 			String fileName = getIdFromPath(fileObj.getCanonicalPath());
-			if(FileManagerRequest.isValidFilename(fileName)){
+			if (FileManagerRequest.isValidFilename(fileName)) {
 
-				if(fileObj.isDirectory()) {
-					//$res[] = array('text' => $item, 'children' => true,  'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon' => 'folder');
+				if (fileObj.isDirectory()) {
+					// $res[] = array('text' => $item, 'children' => true, 'id'
+					// => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon'
+					// => 'folder');
 					JSONObject directory = new JSONObject();
 					directory.put("text", fileObj.getName());
 					directory.put("children", true);
 					directory.put("id", fileName);
 					directory.put("icon", "folder");
 					fileList.add(directory);
-				}
-				else {
-					//$res[] = array('text' => $item, 'children' => false, 'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type' => 'file', 'icon' => 'file file-'.substr($item, strrpos($item,'.') + 1));
+				} else {
+					// $res[] = array('text' => $item, 'children' => false, 'id'
+					// => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type'
+					// => 'file', 'icon' => 'file file-'.substr($item,
+					// strrpos($item,'.') + 1));
 					JSONObject file = new JSONObject();
 					file.put("text", fileObj.getName());
 					file.put("children", false);
@@ -97,34 +73,35 @@ public class FileManagerImpl implements FileManager {
 
 			}
 
-
 		}
 
-		if(withRoot && getIdFromPath(dir).equals("/")) {
-				//$res = array( array('text' => basename($this->base), 'children' => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened' => true, 'disabled' => true)) );
+		if (withRoot && getIdFromPath(dir).equals("/")) {
+			// $res = array( array('text' => basename($this->base), 'children'
+			// => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened'
+			// => true, 'disabled' => true)) );
 
-				JSONArray rootArray = new JSONArray();
-				JSONObject parent = new JSONObject();
-				parent.put("text", new File(base).getName());
-				parent.put("children", fileList);
-				parent.put("id", "/");
-				parent.put("icon", "folder");
-				JSONObject state = new JSONObject();
-				state.put("opened", true);
-				state.put("disabled", true);
-				parent.put("state", state);
+			JSONArray rootArray = new JSONArray();
+			JSONObject parent = new JSONObject();
+			parent.put("text", new File(base).getName());
+			parent.put("children", fileList);
+			parent.put("id", "/");
+			parent.put("icon", "folder");
+			JSONObject state = new JSONObject();
+			state.put("opened", true);
+			state.put("disabled", true);
+			parent.put("state", state);
 
-				rootArray.add(parent);
-				return rootArray;
+			rootArray.add(parent);
+			return rootArray;
 
-			}
+		}
 
 		return fileList;
 	}
 
 	private String getFileExtention(String fileName) {
 		String[] fileParts = fileName.split(".");
-		if(fileParts.length == 2){
+		if (fileParts.length == 2) {
 			return fileParts[1];
 		}
 		return "noext";
@@ -241,38 +218,17 @@ public class FileManagerImpl implements FileManager {
 
 	@Override
 	public JSONObject rename(String id, String name) throws IOException {
-/*
-	public function rename($id, $name) {
-		$dir = $this->path($id);
-		if($dir === $this->base) {
-			throw new Exception('Cannot rename root');
-		}
-		if(preg_match('([^ a-zа-я-_0-9.]+)ui', $name) || !strlen($name)) {
-			throw new Exception('Invalid name: ' . $name);
-		}
-		$new = explode(DIRECTORY_SEPARATOR, $dir);
-		array_pop($new);
-		array_push($new, $name);
-		$new = implode(DIRECTORY_SEPARATOR, $new);
-		if($dir !== $new) {
-			if(is_file($new) || is_dir($new)) { throw new Exception('Path already exists: ' . $new); }
-			rename($dir, $new);
-		}
-		return array('id' => $this->id($new));
-	}
- */
 		String fileToBeRenamed = getAbsolutePathFromId(id);
-		if(fileToBeRenamed.equals(base)){
+		if (fileToBeRenamed.equals(base)) {
 			throw new FileAlreadyExistsException("Cannot rename root");
 		}
-		if(!FileManagerRequest.isValidName(name)){
+		if (!FileManagerRequest.isValidName(name)) {
 			throw new FileAlreadyExistsException("Invalid name " + name);
 		}
 
-
 		File orgFile = new File(fileToBeRenamed);
 		Path newFile = orgFile.toPath().resolveSibling(name);
-		if(newFile.toFile().exists()){
+		if (newFile.toFile().exists()) {
 			throw new FileAlreadyExistsException("File already exists " + name);
 		}
 		Files.move(orgFile.toPath(), newFile);
@@ -306,25 +262,14 @@ public class FileManagerImpl implements FileManager {
 
 	@Override
 	public JSONObject move(String id, String par) throws IOException {
-/*
- 	public function move($id, $par) {
-		$dir = $this->path($id);
-		$par = $this->path($par);
-		$new = explode(DIRECTORY_SEPARATOR, $dir);
-		$new = array_pop($new);
-		$new = $par . DIRECTORY_SEPARATOR . $new;
-		rename($dir, $new);
-		return array('id' => $this->id($new));
-	}
- */
 		String dir = getAbsolutePathFromId(id);
 		String parent = getAbsolutePathFromId(par);
 		File orgFile = new File(dir);
 		File newFile = new File(parent);
-		if(orgFile.isDirectory()){
+		if (orgFile.isDirectory()) {
 			FileUtils.moveDirectory(orgFile, newFile);
 		}
-		if(orgFile.isFile()){
+		if (orgFile.isFile()) {
 			FileUtils.moveFile(orgFile, newFile);
 		}
 
@@ -364,7 +309,8 @@ public class FileManagerImpl implements FileManager {
 
 	@Override
 	public String action(FileManagerRequest req) throws IOException {
-		//("get_node", "get_content", "create_node", "rename_node", "delete_node", "move_node", "copy_node"));
+		// ("get_node", "get_content", "create_node", "rename_node",
+		// "delete_node", "move_node", "copy_node"));
 		Object result = "";
 		switch (req.getOperation()) {
 		case "create_node":
@@ -386,11 +332,6 @@ public class FileManagerImpl implements FileManager {
 			result = this.rename(req.getId(), req.getName());
 			break;
 		case "move_node":
-			/*
-			 * 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$parn = isset($_GET['parent']) && $_GET['parent'] !== '#' ? $_GET['parent'] : '/';
-				$rslt = $fs->move($node, $parn);
-			 */
 			result = this.move(req.getId(), req.getParent());
 			break;
 		default:
