@@ -62,7 +62,8 @@ public class FileManagerImpl implements FileManager {
 
 
 		String dir = getAbsolutePathFromId(id);
-		 Collection<File> lst = FileUtils.listFiles(new File(dir), null, false);
+
+		 File[] lst = new File(dir).listFiles();
 
 		 JSONArray fileList = new JSONArray();
 

@@ -61,8 +61,17 @@ public class TestFilemanagerBackend {
 		request4.setOperation("get_node");
 		request4.setId("New-node-2");
 		String result4 = fm.action(request4);
-		String expected4 = "[{\"children\":false,\"icon\":\"file file-noext\",\"text\":\"New-node\",\"id\":\"\\/New-node-2\\/New-node\",\"type\":\"file\"}]";
+		String expected4 = "[{\"children\":false,\"icon\":\"file file-noext\",\"text\":\"New-node\",\"id\":\"\\/New-node-2\\/New-node\",\"type\":\"file\"},{\"children\":true,\"icon\":\"folder\",\"text\":\"New-dir-2\",\"id\":\"\\/New-node-2\\/New-dir-2\"}]";
 		assertTrue(expected4.equals(result4));
+
+
+		// /?operation=get_node&id=New-node-2
+		FileManagerRequest request5 = new FileManagerRequest();
+		request5.setOperation("get_node");
+		request5.setId("#");
+		String result5 = fm.action(request5);
+		String expected5 = "[{\"children\":false,\"icon\":\"file file-noext\",\"text\":\"New-node\",\"id\":\"\\/New-node-2\\/New-node\",\"type\":\"file\"}]";
+		assertTrue(expected5.equals(result5));
 
 
 	}
