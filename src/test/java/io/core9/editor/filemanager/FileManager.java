@@ -12,7 +12,7 @@ public interface FileManager {
 
 	JSONObject create(String id, String name, boolean mkdir) throws IOException;
 
-	void rename(String id, String name);
+	JSONObject rename(String id, String name) throws IOException;
 
 	JSONObject remove(String id) throws IOException;
 

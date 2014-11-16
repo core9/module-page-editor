@@ -3,6 +3,10 @@ package io.core9.editor.filemanager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -236,7 +240,46 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public void rename(String id, String name) {
+	public JSONObject rename(String id, String name) throws IOException {
+/*
+	public function rename($id, $name) {
+		$dir = $this->path($id);
+		if($dir === $this->base) {
+			throw new Exception('Cannot rename root');
+		}
+		if(preg_match('([^ a-zа-я-_0-9.]+)ui', $name) || !strlen($name)) {
+			throw new Exception('Invalid name: ' . $name);
+		}
+		$new = explode(DIRECTORY_SEPARATOR, $dir);
+		array_pop($new);
+		array_push($new, $name);
+		$new = implode(DIRECTORY_SEPARATOR, $new);
+		if($dir !== $new) {
+			if(is_file($new) || is_dir($new)) { throw new Exception('Path already exists: ' . $new); }
+			rename($dir, $new);
+		}
+		return array('id' => $this->id($new));
+	}
+ */
+		String fileToBeRenamed = getAbsolutePathFromId(id);
+		if(fileToBeRenamed.equals(base)){
+			throw new FileAlreadyExistsException("Cannot rename root");
+		}
+		if(!FileManagerRequest.isValidName(name)){
+			throw new FileAlreadyExistsException("Invalid name " + name);
+		}
+
+
+		File orgFile = new File(fileToBeRenamed);
+		Path newFile = orgFile.toPath().resolveSibling(name);
+		if(newFile.toFile().exists()){
+			throw new FileAlreadyExistsException("File already exists " + name);
+		}
+		Files.move(orgFile.toPath(), newFile);
+
+		JSONObject result = new JSONObject();
+		result.put("id", getIdFromPath(newFile.toFile().getCanonicalPath()));
+		return result;
 	}
 
 	@Override
@@ -296,6 +339,7 @@ public class FileManagerImpl implements FileManager {
 
 	@Override
 	public String action(FileManagerRequest req) throws IOException {
+		//("get_node", "get_content", "create_node", "rename_node", "delete_node", "move_node", "copy_node"));
 		Object result = "";
 		switch (req.getOperation()) {
 		case "create_node":
@@ -312,6 +356,20 @@ public class FileManagerImpl implements FileManager {
 			break;
 		case "get_node":
 			result = this.lst(req.getId(), req.getId().equals("/"));
+			break;
+		case "rename_node":
+			/*
+			 * 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
+				$rslt = $fs->rename($node, isset($_GET['text']) ? $_GET['text'] : '');
+			 */
+			result = this.rename(req.getId(), req.getName());
+			break;
+		case "move_node":
+			/*
+			 * 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
+				$parn = isset($_GET['parent']) && $_GET['parent'] !== '#' ? $_GET['parent'] : '/';
+				$rslt = $fs->move($node, $parn);
+			 */
 			break;
 		default:
 			break;
