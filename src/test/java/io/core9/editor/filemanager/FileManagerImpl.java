@@ -37,7 +37,74 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public void data(String id) {
+	public JSONObject data(String id) throws IOException {
+		JSONObject result = new JSONObject();
+
+		if (id.indexOf(":") != -1) {
+			// $id = array_map(array($this, 'id'), explode(":', $id));
+			// return array('type'=>'multiple', 'content'=> 'Multiple selected:
+			// ' . implode(' ', $id));
+			result.put("type", "multiple");
+			result.put("content", "Multiple selected: ..");
+			return result;
+		}
+
+		String dir = getAbsolutePathFromId(id);
+		if (new File(dir).isDirectory()) {
+			result.put("type", "folder");
+			result.put("content", id);
+			return result;
+		}
+
+		if (new File(dir).isFile()) {
+			String[] fileParts = dir.split(".");
+			String ext = "";
+			if (fileParts.length == 2) {
+				ext = fileParts[1];
+			}
+			result.put("type", ext);
+			result.put("content", "");
+
+			switch (ext) {
+			case "txt":
+				result.put("content", "");// get content
+				break;
+			case "text":
+			case "md":
+			case "js":
+			case "json":
+			case "css":
+			case "html":
+			case "htm":
+			case "xml":
+			case "c":
+			case "cpp":
+			case "h":
+			case "sql":
+			case "log":
+			case "py":
+			case "rb":
+			case "htaccess":
+			case "php":
+				result.put("content", "");// get content
+				break;
+			case "jpg":
+			case "jpeg":
+			case "gif":
+			case "png":
+			case "bmp":
+				// $dat['content'] =
+				// 'data:'.finfo_file(finfo_open(FILEINFO_MIME_TYPE),
+				// $dir).';base64,'.base64_encode(file_get_contents($dir));
+			default:
+				result.put("content", "File not recognized: " + getIdFromPath(dir));
+				break;
+
+			}
+		} else {
+			throw new FileNotFoundException("Not a valid selection: " + getIdFromPath(dir));
+		}
+		return result;
 	}
 
 	@Override
@@ -111,23 +178,24 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public JSONObject copy(String id, String parent) throws IOException{
+	public JSONObject copy(String id, String parent) throws IOException {
 
 		String fileOrDirToBeCopied = getAbsolutePathFromId(id);
 		parent = getAbsolutePathFromId(parent);
 
 		String[] dirParts = fileOrDirToBeCopied.split(File.separator);
 
-		String newFile = dirParts[dirParts.length-1];
+		String newFile = dirParts[dirParts.length - 1];
 		newFile = parent + File.separator + newFile;
 
-		if(new File(newFile).exists()) throw new FileExistsException("Path already exists: " + newFile);
+		if (new File(newFile).exists())
+			throw new FileExistsException("Path already exists: " + newFile);
 
-		if(new File(fileOrDirToBeCopied).isFile()){
+		if (new File(fileOrDirToBeCopied).isFile()) {
 			FileUtils.copyFile(new File(fileOrDirToBeCopied), new File(newFile));
 		}
 
-		if(new File(fileOrDirToBeCopied).isDirectory()){
+		if (new File(fileOrDirToBeCopied).isDirectory()) {
 			FileUtils.copyDirectory(new File(fileOrDirToBeCopied), new File(newFile));
 		}
 
@@ -151,6 +219,8 @@ public class FileManagerImpl implements FileManager {
 		case "copy_node":
 			result = this.copy(req.getId(), req.getParent());
 			break;
+		case "get_content":
+			result = this.data(req.getId());
 		default:
 			break;
 		}

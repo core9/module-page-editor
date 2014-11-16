@@ -8,7 +8,7 @@ public interface FileManager {
 
 	String[] lst(String id, String with_root);
 
-	void data(String id);
+	JSONObject data(String id) throws IOException;
 
 	JSONObject create(String id, String name, boolean mkdir) throws IOException;
 
