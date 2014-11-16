@@ -1,6 +1,10 @@
 package io.core9.editor.filemanager;
 
 import static org.junit.Assert.assertTrue;
+import io.core9.editor.admin.CouldNotCreateDirectory;
+import io.core9.editor.admin.FileManager;
+import io.core9.editor.admin.FileManagerImpl;
+import io.core9.editor.admin.FileManagerRequest;
 
 import java.io.IOException;
 

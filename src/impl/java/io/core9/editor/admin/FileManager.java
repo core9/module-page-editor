@@ -1,4 +1,4 @@
-package io.core9.editor.filemanager;
+package io.core9.editor.admin;
 
 import java.io.IOException;
 
