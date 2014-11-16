@@ -70,7 +70,7 @@ public class TestFilemanagerBackend {
 		request5.setOperation("get_node");
 		request5.setId("#");
 		String result5 = fm.action(request5);
-		String expected5 = "[{\"children\":false,\"icon\":\"file file-noext\",\"text\":\"New-node\",\"id\":\"\\/New-node-2\\/New-node\",\"type\":\"file\"}]";
+		String expected5 = "[{\"children\":[{\"children\":true,\"icon\":\"folder\",\"text\":\"New-node-2\",\"id\":\"\\/New-node-2\"}],\"icon\":\"folder\",\"text\":\"filemanager\",\"id\":\"\\/\",\"state\":{\"opened\":true,\"disabled\":true}}]";
 		assertTrue(expected5.equals(result5));
 
 
