@@ -44,7 +44,27 @@ public class TestFilemanagerBackend {
 		String expected2 = "{\"id\":\"\\/New-node-2\\/New-node\"}";
 		assertTrue(expected2.equals(result2));
 
-		// /?operation=get_node&id=assets%2Fbootstrap
+		// /?operation=create_node&type=file&id=New-node-2&text=New+node
+		FileManagerRequest request3 = new FileManagerRequest();
+		request3.setOperation("create_node");
+		request3.setId("New-node-2");
+		request3.setName("New+dir-2");
+		request3.setType("default");
+		String result3 = fm.action(request3);
+		String expected3 = "{\"id\":\"\\/New-node-2\\/New-dir-2\"}";
+		assertTrue(expected3.equals(result3));
+
+
+
+		// /?operation=get_node&id=New-node-2
+		FileManagerRequest request4 = new FileManagerRequest();
+		request4.setOperation("get_node");
+		request4.setId("New-node-2");
+		String result4 = fm.action(request4);
+		String expected4 = "[{\"children\":false,\"icon\":\"file file-noext\",\"text\":\"New-node\",\"id\":\"\\/New-node-2\\/New-node\",\"type\":\"file\"}]";
+		assertTrue(expected4.equals(result4));
+
+
 	}
 
 	@Test

@@ -2,11 +2,11 @@ package io.core9.editor.filemanager;
 
 import java.io.IOException;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
 public interface FileManager {
 
-	String[] lst(String id, String with_root);
 
 	JSONObject data(String id) throws IOException;
 
@@ -24,6 +24,8 @@ public interface FileManager {
 	String action(FileManagerRequest request) throws IOException;
 
 	void clear() throws IOException, CouldNotCreateDirectory;
+
+	JSONArray lst(String id, boolean withRoot) throws IOException;
 
 
 }

@@ -3,10 +3,13 @@ package io.core9.editor.filemanager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 import org.apache.commons.io.FileExistsException;
 import org.apache.commons.io.FileUtils;
@@ -32,8 +35,95 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public String[] lst(String id, String with_root) {
-		return null;
+	public JSONArray lst(String id, boolean withRoot) throws IOException {
+/*
+	public function lst($id, $with_root = false) {
+		$dir = $this->path($id);
+		$lst = @scandir($dir);
+		if(!$lst) { throw new Exception('Could not list path: ' . $dir); }
+		$res = array();
+		foreach($lst as $item) {
+			if($item == '.' || $item == '..' || $item === null) { continue; }
+			$tmp = preg_match('([^ a-zа-я-_0-9.]+)ui', $item);
+			if($tmp === false || $tmp === 1) { continue; }
+			if(is_dir($dir . DIRECTORY_SEPARATOR . $item)) {
+				$res[] = array('text' => $item, 'children' => true,  'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon' => 'folder');
+			}
+			else {
+				$res[] = array('text' => $item, 'children' => false, 'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type' => 'file', 'icon' => 'file file-'.substr($item, strrpos($item,'.') + 1));
+			}
+		}
+		if($with_root && $this->id($dir) === '/') {
+			$res = array(array('text' => basename($this->base), 'children' => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened' => true, 'disabled' => true)));
+		}
+		return $res;
+	}
+ */
+
+
+		String dir = getAbsolutePathFromId(id);
+		 Collection<File> lst = FileUtils.listFiles(new File(dir), null, false);
+
+		 JSONArray fileList = new JSONArray();
+
+		 for (File fileObj : lst) {
+			String fileName = getIdFromPath(fileObj.getCanonicalPath());
+			if(FileManagerRequest.isValidFilename(fileName)){
+
+				if(fileObj.isDirectory()) {
+					//$res[] = array('text' => $item, 'children' => true,  'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon' => 'folder');
+					JSONObject directory = new JSONObject();
+					directory.put("text", fileObj.getName());
+					directory.put("children", true);
+					directory.put("id", fileName);
+					directory.put("icon", "folder");
+					fileList.add(directory);
+				}
+				else {
+					//$res[] = array('text' => $item, 'children' => false, 'id' => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type' => 'file', 'icon' => 'file file-'.substr($item, strrpos($item,'.') + 1));
+					JSONObject file = new JSONObject();
+					file.put("text", fileObj.getName());
+					file.put("children", false);
+					file.put("id", fileName);
+					file.put("type", "file");
+					file.put("icon", "file file-" + getFileExtention(fileName));
+					fileList.add(file);
+				}
+
+			}
+
+
+		}
+
+		if(withRoot && getIdFromPath(dir).equals("/")) {
+				//$res = array( array('text' => basename($this->base), 'children' => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened' => true, 'disabled' => true)) );
+
+				JSONArray rootArray = new JSONArray();
+				JSONObject parent = new JSONObject();
+				parent.put("text", new File(base).getName());
+				parent.put("children", fileList);
+				parent.put("id", "/");
+				parent.put("icon", "folder");
+				JSONObject state = new JSONObject();
+				state.put("opened", true);
+				state.put("disabled", true);
+				parent.put("state", state);
+
+				rootArray.add(parent);
+				return rootArray;
+
+			}
+
+		return fileList;
+	}
+
+	private String getFileExtention(String fileName) {
+		String[] fileParts = fileName.split(".");
+		if(fileParts.length == 2){
+			return fileParts[1];
+		}
+		return "noext";
+
 	}
 
 	@Override
@@ -41,9 +131,6 @@ public class FileManagerImpl implements FileManager {
 		JSONObject result = new JSONObject();
 
 		if (id.indexOf(":") != -1) {
-			// $id = array_map(array($this, 'id'), explode(":', $id));
-			// return array('type'=>'multiple', 'content'=> 'Multiple selected:
-			// ' . implode(' ', $id));
 			result.put("type", "multiple");
 			result.put("content", "Multiple selected: ..");
 			return result;
@@ -221,6 +308,10 @@ public class FileManagerImpl implements FileManager {
 			break;
 		case "get_content":
 			result = this.data(req.getId());
+			break;
+		case "get_node":
+			result = this.lst(req.getId(), req.getId().equals("/"));
+			break;
 		default:
 			break;
 		}

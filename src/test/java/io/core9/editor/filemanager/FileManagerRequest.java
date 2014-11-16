@@ -77,13 +77,13 @@ public class FileManagerRequest {
 		return type;
 	}
 
-	private boolean isValidFilename(String id) {
+	public static boolean isValidFilename(String id) {
 		if(id.equals("/")) return true;
 		id = id.replace("/", "");
 		return isValidName(id);
 	}
 
-	private boolean isValidName(String s) {
+	public static boolean isValidName(String s) {
 		return s.matches("^[a-zA-Z0-9-]+$") && s.length() != 0;
 	}
 
