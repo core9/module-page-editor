@@ -305,7 +305,32 @@ public class FileManagerImpl implements FileManager {
 	}
 
 	@Override
-	public void move(String id, String par) {
+	public JSONObject move(String id, String par) throws IOException {
+/*
+ 	public function move($id, $par) {
+		$dir = $this->path($id);
+		$par = $this->path($par);
+		$new = explode(DIRECTORY_SEPARATOR, $dir);
+		$new = array_pop($new);
+		$new = $par . DIRECTORY_SEPARATOR . $new;
+		rename($dir, $new);
+		return array('id' => $this->id($new));
+	}
+ */
+		String dir = getAbsolutePathFromId(id);
+		String parent = getAbsolutePathFromId(par);
+		File orgFile = new File(dir);
+		File newFile = new File(parent);
+		if(orgFile.isDirectory()){
+			FileUtils.moveDirectory(orgFile, newFile);
+		}
+		if(orgFile.isFile()){
+			FileUtils.moveFile(orgFile, newFile);
+		}
+
+		JSONObject result = new JSONObject();
+		result.put("id", getIdFromPath(newFile.getCanonicalPath()));
+		return result;
 	}
 
 	@Override
@@ -358,10 +383,6 @@ public class FileManagerImpl implements FileManager {
 			result = this.lst(req.getId(), req.getId().equals("/"));
 			break;
 		case "rename_node":
-			/*
-			 * 				$node = isset($_GET['id']) && $_GET['id'] !== '#' ? $_GET['id'] : '/';
-				$rslt = $fs->rename($node, isset($_GET['text']) ? $_GET['text'] : '');
-			 */
 			result = this.rename(req.getId(), req.getName());
 			break;
 		case "move_node":
@@ -370,6 +391,7 @@ public class FileManagerImpl implements FileManager {
 				$parn = isset($_GET['parent']) && $_GET['parent'] !== '#' ? $_GET['parent'] : '/';
 				$rslt = $fs->move($node, $parn);
 			 */
+			result = this.move(req.getId(), req.getParent());
 			break;
 		default:
 			break;
