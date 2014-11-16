@@ -4,18 +4,11 @@ import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Map;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
-
-import com.google.common.io.ByteStreams;
 
 @PluginImplementation
 public class EditorAdminServerImpl implements EditorAdminServer {
@@ -23,60 +16,49 @@ public class EditorAdminServerImpl implements EditorAdminServer {
 	@InjectPlugin
 	private Server server;
 
-	private InputStream fileToBinary(String filename) {
-		InputStream res = null;
-		try {
-			res = new FileInputStream(new File(filename));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
+
 
 	@Override
 	public void execute() {
 
 		server.use("/ui-admin/(.*)", new Middleware() {
 
-
 			@Override
 			public void handle(Request req) {
-				String contentType = "";
-				String resourceFile = "";
-				String requestPath = req.getPath().replace("/ui-widgets", "");
 
-				resourceFile = "data/core9-ui-widgets" + requestPath;
+				Map<String, Object> params = req.getParams();
 
+				FileManager fm;
+				FileManagerRequest request = new FileManagerRequest();
+				String result = "";
 				try {
-					contentType = Files.probeContentType(Paths.get(resourceFile));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				InputStream res = null;
-				res = fileToBinary(resourceFile);
-
-				try {
-					if (new File(resourceFile).exists()) {
-						req.getResponse().putHeader("Content-Type", contentType);
-						req.getResponse().putHeader("Content-Length", Integer.toString(res.available()));
-						req.getResponse().sendBinary(ByteStreams.toByteArray(res));
-						req.getResponse().end();
-
-					} else {
-						req.getResponse().setStatusCode(404);
-						req.getResponse().setStatusMessage("File not found");
-						req.getResponse().end();
-					}
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				try {
-					res.close();
-				} catch (IOException e) {
+					fm = new FileManagerImpl("data/filemanager");
+					request.setOperation((String) params.get("operation"));
+					request.setId((String) params.get("id"));
+					request.setName((String) params.get("text"));
+					request.setParent((String) params.get("parent"));
+					request.setType((String) params.get("type"));
+					result = fm.action(request);
+				} catch (CouldNotCreateDirectory e2) {
+					e2.printStackTrace();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+				if (!result.equals("")) {
+					req.getResponse().putHeader("Content-Type", "application/json");
+					req.getResponse().putHeader("Content-Length", Integer.toString(result.length()));
+					req.getResponse().end(result);
+
+				} else {
+					req.getResponse().setStatusCode(404);
+					req.getResponse().setStatusMessage("File not found");
+					req.getResponse().end();
+				}
+
 			}
 
 		});

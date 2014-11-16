@@ -16,6 +16,7 @@ public class FileManagerRequest {
 	private String parent;
 
 	public void setName(String name) throws Exception {
+		if(name == null) return;
 		this.name = URLDecoder.decode(name, "UTF-8");
 		this.name = this.name.replace(" ", "-");
 		if (!isValidName(this.name)) {
@@ -43,6 +44,7 @@ public class FileManagerRequest {
 	}
 
 	public void setParent(String parent) throws Exception {
+		if(name == null) return;
 		this.parent = URLDecoder.decode(parent, "UTF-8");
 		if (this.parent.equals("#") || this.parent == null){
 			this.parent = "/";
@@ -55,6 +57,7 @@ public class FileManagerRequest {
 	}
 
 	public void setType(String type) throws Exception {
+		if(name == null) return;
 		if (!isValidName(type)) {
 			throw new Exception("Invalid name: " + type);
 		}
