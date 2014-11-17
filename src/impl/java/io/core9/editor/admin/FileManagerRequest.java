@@ -44,12 +44,16 @@ public class FileManagerRequest {
 	}
 
 	public void setParent(String parent) throws Exception {
-		if(name == null) return;
-		this.parent = URLDecoder.decode(parent, "UTF-8");
-		if (this.parent.equals("#") || this.parent == null){
+
+		if (parent == null){
 			this.parent = "/";
 			return;
 		}
+		if (parent.equals("#")){
+			this.parent = "/";
+			return;
+		}
+		this.parent = URLDecoder.decode(parent, "UTF-8");
 		this.parent = this.parent.replace(" ", "-");
 		if (!isValidFilename(this.parent)) {
 			throw new Exception("Invalid parent filename: " + this.parent);
@@ -57,7 +61,7 @@ public class FileManagerRequest {
 	}
 
 	public void setType(String type) throws Exception {
-		if(name == null) return;
+		if(type == null) return;
 		if (!isValidName(type)) {
 			throw new Exception("Invalid name: " + type);
 		}
@@ -81,13 +85,16 @@ public class FileManagerRequest {
 	}
 
 	public static boolean isValidFilename(String id) {
+		if(id == null) return false;
 		if(id.equals("/")) return true;
 		id = id.replace("/", "");
 		return isValidName(id);
 	}
 
 	public static boolean isValidName(String s) {
-		return s.matches("^[a-zA-Z0-9-]+$") && s.length() != 0;
+		if(s == null)return false;
+		boolean result = s.matches("^[a-zA-Z0-9-.]+$") && s.length() != 0;
+		return result;
 	}
 
 	public String getParent() {

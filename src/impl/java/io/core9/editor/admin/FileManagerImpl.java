@@ -267,10 +267,12 @@ public class FileManagerImpl implements FileManager {
 		File orgFile = new File(dir);
 		File newFile = new File(parent);
 		if (orgFile.isDirectory()) {
-			FileUtils.moveDirectory(orgFile, newFile);
+			File movedDir = new File(newFile.getCanonicalFile() + File.separator + orgFile.getName());
+			FileUtils.moveDirectory(orgFile, movedDir);
 		}
 		if (orgFile.isFile()) {
-			FileUtils.moveFile(orgFile, newFile);
+			File movedFile = new File(newFile.getCanonicalFile() + File.separator + orgFile.getName());
+			FileUtils.moveFile(orgFile, movedFile);
 		}
 
 		JSONObject result = new JSONObject();
