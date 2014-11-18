@@ -3,10 +3,13 @@ package io.core9.editor.admin;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +21,6 @@ import net.minidev.json.JSONValue;
 import org.apache.commons.io.FileExistsException;
 import org.apache.commons.io.FileUtils;
 
-import scala.util.control.Exception;
 
 @SuppressWarnings("unused")
 public class FileManagerImpl implements FileManager {
@@ -48,9 +50,6 @@ public class FileManagerImpl implements FileManager {
 			if (FileManagerRequest.isValidFilename(fileName)) {
 
 				if (fileObj.isDirectory()) {
-					// $res[] = array('text' => $item, 'children' => true, 'id'
-					// => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'icon'
-					// => 'folder');
 					JSONObject directory = new JSONObject();
 					directory.put("text", fileObj.getName());
 					directory.put("children", true);
@@ -58,10 +57,6 @@ public class FileManagerImpl implements FileManager {
 					directory.put("icon", "folder");
 					fileList.add(directory);
 				} else {
-					// $res[] = array('text' => $item, 'children' => false, 'id'
-					// => $this->id($dir . DIRECTORY_SEPARATOR . $item), 'type'
-					// => 'file', 'icon' => 'file file-'.substr($item,
-					// strrpos($item,'.') + 1));
 					JSONObject file = new JSONObject();
 					file.put("text", fileObj.getName());
 					file.put("children", false);
@@ -76,10 +71,6 @@ public class FileManagerImpl implements FileManager {
 		}
 
 		if (withRoot && getIdFromPath(dir).equals("/")) {
-			// $res = array( array('text' => basename($this->base), 'children'
-			// => $res, 'id' => '/', 'icon'=>'folder', 'state' => array('opened'
-			// => true, 'disabled' => true)) );
-
 			JSONArray rootArray = new JSONArray();
 			JSONObject parent = new JSONObject();
 			parent.put("text", new File(base).getName());
@@ -107,6 +98,13 @@ public class FileManagerImpl implements FileManager {
 		return "noext";
 
 	}
+	
+	private static String readFile(String path, Charset encoding) 
+			  throws IOException 
+			{
+			  byte[] encoded = Files.readAllBytes(Paths.get(path));
+			  return new String(encoded, encoding);
+			}
 
 	@Override
 	public JSONObject data(String id) throws IOException {
@@ -126,7 +124,7 @@ public class FileManagerImpl implements FileManager {
 		}
 
 		if (new File(dir).isFile()) {
-			String[] fileParts = dir.split(".");
+			String[] fileParts = dir.split("\\.");
 			String ext = "";
 			if (fileParts.length == 2) {
 				ext = fileParts[1];
@@ -139,6 +137,8 @@ public class FileManagerImpl implements FileManager {
 				result.put("content", "");// get content
 				break;
 			case "text":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));// get content
+				break;
 			case "md":
 			case "js":
 			case "json":
