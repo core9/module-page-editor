@@ -126,8 +126,8 @@ public class FileManagerImpl implements FileManager {
 		if (new File(dir).isFile()) {
 			String[] fileParts = dir.split("\\.");
 			String ext = "";
-			if (fileParts.length == 2) {
-				ext = fileParts[1];
+			if (fileParts.length >= 2) {
+				ext = fileParts[fileParts.length-1];
 			}
 			result.put("type", ext);
 			result.put("content", "");
