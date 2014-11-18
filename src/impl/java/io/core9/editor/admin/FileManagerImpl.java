@@ -134,23 +134,39 @@ public class FileManagerImpl implements FileManager {
 
 			switch (ext) {
 			case "txt":
-				result.put("content", "");// get content
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
 				break;
 			case "text":
-				result.put("content", readFile(dir, StandardCharsets.UTF_8));// get content
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
 				break;
 			case "md":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "js":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "json":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "css":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "html":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "htm":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "xml":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "c":
 			case "cpp":
 			case "h":
 			case "sql":
 			case "log":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "py":
 			case "rb":
 			case "htaccess":

@@ -26,13 +26,15 @@ public class EditorAdminServerImpl implements EditorAdminServer {
 			@Override
 			public void handle(Request req) {
 
+				String baseDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab";
+				
 				Map<String, Object> params = req.getParams();
 
 				FileManager fm;
 				FileManagerRequest request = new FileManagerRequest();
 				String result = "";
 				try {
-					fm = new FileManagerImpl("data/filemanager");
+					fm = new FileManagerImpl(baseDir);
 					request.setOperation((String) params.get("operation"));
 					request.setId((String) params.get("id"));
 					request.setName((String) params.get("text"));
