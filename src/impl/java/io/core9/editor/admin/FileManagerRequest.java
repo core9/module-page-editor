@@ -12,8 +12,9 @@ public class FileManagerRequest {
 	private String type;
 	private String name;
 	private List<String> operations = new ArrayList<String>(
-		    Arrays.asList("get_node", "get_content", "create_node", "rename_node", "delete_node", "move_node", "copy_node"));
+		    Arrays.asList("get_node", "get_content", "create_node", "rename_node", "delete_node", "move_node", "copy_node", "save_content"));
 	private String parent;
+	private String content;
 
 	public void setName(String name) throws Exception {
 		if(name == null) return;
@@ -99,6 +100,13 @@ public class FileManagerRequest {
 
 	public String getParent() {
 		return parent;
+	}
+
+	public void setContent(String content){
+		this.content = content;
+	}
+	public String getContent() {
+		return content;
 	}
 
 

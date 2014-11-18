@@ -3,6 +3,7 @@ package io.core9.editor.admin;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.CopyOption;
@@ -324,6 +325,15 @@ public class FileManagerImpl implements FileManager {
 		return result;
 
 	}
+	
+	@Override
+	public String save(String id, String content) throws IOException {
+		String file = getAbsolutePathFromId(id);
+		PrintWriter writer = new PrintWriter(file, "UTF-8");
+		writer.println(content);
+		writer.close();
+		return content;
+	}
 
 	@Override
 	public String action(FileManagerRequest req) throws IOException {
@@ -352,6 +362,8 @@ public class FileManagerImpl implements FileManager {
 		case "move_node":
 			result = this.move(req.getId(), req.getParent());
 			break;
+		case "save_content":
+			result = this.save(req.getId(), req.getContent());
 		default:
 			break;
 		}

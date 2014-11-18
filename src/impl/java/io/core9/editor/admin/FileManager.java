@@ -27,5 +27,7 @@ public interface FileManager {
 
 	JSONArray lst(String id, boolean withRoot) throws IOException;
 
+	String save(String id, String content) throws IOException;
+
 
 }
