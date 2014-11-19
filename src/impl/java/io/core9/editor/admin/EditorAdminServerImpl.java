@@ -1,5 +1,10 @@
 package io.core9.editor.admin;
 
+import io.core9.editor.AssetsManager;
+import io.core9.editor.AssetsManagerImpl;
+import io.core9.editor.EditorRequest;
+import io.core9.editor.EditorRequestImpl;
+import io.core9.editor.data.ClientData;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
@@ -23,10 +28,22 @@ public class EditorAdminServerImpl implements EditorAdminServer {
 
 		server.use("/ui-admin/(.*)", new Middleware() {
 
+
+
 			@Override
 			public void handle(Request req) {
 
-				String baseDir = "data/editor/9a8eccd84f9c40c791281139a87da7b645f25fab";
+				String host = req.getVirtualHost().getHostname();
+				
+				EditorRequest editorRequest = new EditorRequestImpl();
+				editorRequest.setClientRepository(ClientData.getRepository());
+				editorRequest.setAbsoluteUrl("http://" + host + req.getPath());
+				
+				AssetsManager assetsManager = new AssetsManagerImpl("data/editor", editorRequest);
+				
+				String clientId = assetsManager.getClientId();
+				
+				String baseDir = "data/editor/" + clientId;
 				
 				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
 				
