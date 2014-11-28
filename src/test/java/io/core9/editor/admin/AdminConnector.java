@@ -46,7 +46,7 @@ public class AdminConnector {
 	}
 
 	private static String getJsonDataForDynamicContentType(String dynamicContentType, String id) throws Exception {
-		String url = "http://easydrain.localhost:8080/admin/content/menus/1JEYT4U07H0TI";
+		String url = "http://easydrain.localhost:8080/admin/content/menus/"  + id;
 		String rawContentTypes = sendGet(url);
 		JSONObject rawTypes = (JSONObject) JSONValue.parseWithException(rawContentTypes);
 
