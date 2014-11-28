@@ -45,6 +45,10 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				String resourceFile = "";
 				String requestPath = req.getPath().replace("/dynamic-blocks", "");
 
+				String[] requestParts = requestPath.split("/");
+
+				String dynamicContentType = requestParts[1];
+				String fileName = requestParts[3];
 
 				resourceFile = "data/dynamic-data" + requestPath;
 
@@ -57,7 +61,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 
 				InputStream res = null;
 
-				String content = getContentOfFile(requestPath);
+				String content = getContentOfFile(requestPath, dynamicContentType, fileName);
 				System.out.println(content);
 
 				res = fileToBinary(resourceFile);
@@ -88,7 +92,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				}
 			}
 
-			private String getContentOfFile(String requestPath) {
+			private String getContentOfFile(String requestPath, String dynamicContentType, String fileName) {
 				String content = "";
 				if(requestPath.endsWith("steps.json")){
 					// is step json
