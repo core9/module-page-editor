@@ -126,7 +126,9 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 				}
 
 				try {
-					res.close();
+					if(res != null){
+						res.close();
+					}
 				} catch (IOException e) {
 				}
 

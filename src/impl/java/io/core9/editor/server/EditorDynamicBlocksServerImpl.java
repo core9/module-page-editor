@@ -58,6 +58,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				InputStream res = null;
 
 				String content = getContentOfFile(requestPath);
+				System.out.println(content);
 
 				res = fileToBinary(resourceFile);
 
@@ -88,17 +89,19 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 			}
 
 			private String getContentOfFile(String requestPath) {
-
+				String content = "";
 				if(requestPath.endsWith("steps.json")){
 					// is step json
+					content = "steps.json";
 				}else if(requestPath.endsWith(".js")){
 					// is js step file
+					content = "step-1.js";
 				}else {
 					// is json data file
-
+					content = "data";
 				}
 
-				return null;
+				return content;
 			}
 
 		});
