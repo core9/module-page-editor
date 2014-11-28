@@ -2,6 +2,11 @@ package io.core9.editor.admin;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Map;
+
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
 import org.junit.Test;
 
 
@@ -36,6 +41,18 @@ public class TestGetDataFromAdminBackend {
 		System.out.println(content);
 	}
 
+	@Test
+	public void testPutJsonDataForDynamicContentType() throws Exception{
+
+		String data = "{\"\":\"\",\"data\":\"{\"meta\":{\"absolute-url\":\"\",\"state\":\"edit\",\"block\":0,\"type\":\"menus\",\"template\":\"\",\"contentid\":\"1JEYT4U07H0TI\"},\"editor\":{\"menus\":[{\"heading\":\"test\",\"items\":[{\"link\":\"test\",\"title\":\"test\"}]},{\"heading\":\"asdfaasd\",\"items\":[{\"link\":\"sdfa\",\"title\":\"asdfddd\"}]}]}}\",\"id\":\"112\"}";
+
+		JSONObject json = (JSONObject) JSONValue.parse(data);
+
+
+		Map<String, Object> postData = null;
+		String content = AdminConnector.updateDynamicContentType(postData);
+		System.out.println(content);
+	}
 
 
 
