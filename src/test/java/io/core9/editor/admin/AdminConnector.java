@@ -20,7 +20,7 @@ public class AdminConnector {
 	private static String getJavascriptStepFile(String dynamicContentType) throws Exception {
 		Map<String, JSONObject> dynamicContentTypeSchemas = getDynamicContentTypeSchemas();
 		JSONObject schema = dynamicContentTypeSchemas.get(dynamicContentType);
-		String result = "var config = {data : 'dynamic-blocks/"+dynamicContentType+"/data/"+dynamicContentType+".json', schema : "+schema+"}function init(step) {Wizard.run(step, config);}";
+		String result = "var config = {\"data\" : \"dynamic-blocks/"+dynamicContentType+"/data/"+dynamicContentType+".json\", \"schema\" : "+schema+"}; function init(step) {Wizard.run(step, config);}";
 		return result;
 	}
 
