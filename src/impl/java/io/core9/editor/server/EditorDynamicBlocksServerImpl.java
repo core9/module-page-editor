@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
@@ -41,6 +42,10 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 
 			@Override
 			public void handle(Request req) {
+				Map<String, Object> params = req.getParams();
+
+				System.out.println(params);
+
 				String contentType = "";
 				String resourceFile = "";
 				String requestPath = req.getPath().replace("/dynamic-blocks", "");
@@ -61,7 +66,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 
 				InputStream res = null;
 
-				String content = getContentOfFile(requestPath, dynamicContentType, fileName);
+				String content = getContentOfFile(requestPath, dynamicContentType, fileName, (String)params.get("id"));
 				System.out.println(content);
 
 				res = fileToBinary(resourceFile);
@@ -92,7 +97,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				}
 			}
 
-			private String getContentOfFile(String requestPath, String dynamicContentType, String fileName) {
+			private String getContentOfFile(String requestPath, String dynamicContentType, String fileName, String id) {
 				String content = "";
 				if(requestPath.endsWith("steps.json")){
 					// is step json

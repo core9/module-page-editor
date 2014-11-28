@@ -6,7 +6,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
+
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
 
 import org.junit.Test;
 
@@ -20,9 +25,9 @@ public class TestGetDataFromAdminBackend {
 
 
 	@Test
-	public void testGetContent() throws Exception{
+	public void testGetStepJson() throws Exception{
 
-		String content = getContentOfFile("/menus/steps/steps.json", "menus", "steps.json");
+		String content = getContentOfFile("/menus/steps/steps.json", "menus", "steps.json", null);
 		System.out.println(content);
 		assertTrue("[{\"label\":\"Step 1\",\"file\":\"dynamic-blocks/menus/steps/step-1.js\"}]".equals(content));
 	}
@@ -31,31 +36,61 @@ public class TestGetDataFromAdminBackend {
 	@Test
 	public void testGetJavascriptStepFile() throws Exception{
 
-		String content = getContentOfFile("/menus/steps/step-1.js", "menus", "step-1.js");
+		String content = getContentOfFile("/menus/steps/step-1.js", "menus", "step-1.js", null);
+		System.out.println(content);
+	}
+
+	@Test
+	public void testGetJsonDataForDynamicContentType() throws Exception{
+
+		String content = getContentOfFile("/menus/data/menus.json", "menus", "menus.json", "1JEYT4U07H0TI");
 		System.out.println(content);
 	}
 
 
+
+
 	private String getJavascriptStepFile(String dynamicContentType) throws Exception {
-
-		Map<String, String> dynamicContentTypeSchemas = getDynamicContentTypeSchemas();
-
-		return null;
+		Map<String, JSONObject> dynamicContentTypeSchemas = getDynamicContentTypeSchemas();
+		JSONObject schema = dynamicContentTypeSchemas.get(dynamicContentType);
+		String result = "var config = {data : 'dynamic-blocks/"+dynamicContentType+"/data/"+dynamicContentType+".json', schema : "+schema+"}function init(step) {Wizard.run(step, config);}";
+		return result;
 	}
 
 
 
 
-	private Map<String, String> getDynamicContentTypeSchemas() throws Exception {
+	private Map<String, JSONObject> getDynamicContentTypeSchemas() throws Exception {
+		Map<String, JSONObject> result = new HashMap<String, JSONObject>();
 		String url = "http://easydrain.localhost:8080/admin/config/content";
 		String rawContentTypes = sendGet(url);
-		return null;
+
+
+		JSONArray rawTypes = (JSONArray) JSONValue.parseWithException(rawContentTypes);
+
+		for(Object type : rawTypes){
+			JSONObject json = (JSONObject) type;
+			JSONObject schema = (JSONObject) json.get("schema");
+			System.out.println(schema);
+			result.put(schema.getAsString("title"), schema);
+		}
+
+		return result;
+	}
+
+	private String getJsonDataForDynamicContentType(String dynamicContentType, String id) throws Exception {
+		String url = "http://easydrain.localhost:8080/admin/content/menus/1JEYT4U07H0TI";
+		String rawContentTypes = sendGet(url);
+		JSONObject rawTypes = (JSONObject) JSONValue.parseWithException(rawContentTypes);
+
+		String result = rawTypes.getAsString(dynamicContentType);
+
+		return result;
 	}
 
 
 	private String sendGet(String url) throws Exception {
 
-		//String url = "http://www.google.com/search?q=mkyong";
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -86,7 +121,7 @@ public class TestGetDataFromAdminBackend {
 
 	}
 
-	private String getContentOfFile(String requestPath, String dynamicContentType, String fileName) throws Exception {
+	private String getContentOfFile(String requestPath, String dynamicContentType, String fileName, String id) throws Exception {
 		String content = "";
 		if(requestPath.endsWith("steps.json")){
 			// is step json
@@ -96,11 +131,14 @@ public class TestGetDataFromAdminBackend {
 			content = getJavascriptStepFile(dynamicContentType);
 		}else {
 			// is json data file
-			content = "data";
+			content = getJsonDataForDynamicContentType(dynamicContentType, id);
 		}
 
 		return content;
 	}
+
+
+
 
 
 
