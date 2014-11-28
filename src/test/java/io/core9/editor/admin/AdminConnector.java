@@ -111,4 +111,12 @@ public class AdminConnector {
 
 
 
+	public static void updateDynamicContentType(Map<String, Object> postData) {
+		// TODO Auto-generated method stub
+		System.out.println(postData);
+	}
+
+
+
+
 }

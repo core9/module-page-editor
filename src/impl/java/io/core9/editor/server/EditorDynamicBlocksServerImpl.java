@@ -29,6 +29,9 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 			public void handle(Request req) {
 				Map<String, Object> params = req.getParams();
 
+				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
+
+
 				System.out.println(params);
 
 				String contentType = "";
@@ -36,6 +39,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				String requestPath = req.getPath().replace("/dynamic-blocks", "");
 
 				if(requestPath.startsWith("/update/")){
+					AdminConnector.updateDynamicContentType(postData);
 					return;
 				}
 
