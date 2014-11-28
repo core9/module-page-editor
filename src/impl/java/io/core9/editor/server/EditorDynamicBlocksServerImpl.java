@@ -56,7 +56,13 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				}
 
 				InputStream res = null;
+
+				String content = getContentOfFile(requestPath);
+
 				res = fileToBinary(resourceFile);
+
+
+
 
 				try {
 					if (new File(resourceFile).exists()) {
@@ -79,6 +85,20 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+
+			private String getContentOfFile(String requestPath) {
+
+				if(requestPath.endsWith("steps.json")){
+					// is step json
+				}else if(requestPath.endsWith(".js")){
+					// is js step file
+				}else {
+					// is json data file
+
+				}
+
+				return null;
 			}
 
 		});
