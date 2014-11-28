@@ -35,6 +35,14 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				String resourceFile = "";
 				String requestPath = req.getPath().replace("/dynamic-blocks", "");
 
+				if(requestPath.startsWith("/update/")){
+					return;
+				}
+
+				//
+
+
+
 				String[] requestParts = requestPath.split("/");
 
 				String dynamicContentType = requestParts[1];
