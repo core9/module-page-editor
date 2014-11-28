@@ -123,14 +123,11 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 						req.getResponse().end();
 					}
 				} catch (IOException e1) {
-					e1.printStackTrace();
 				}
 
 				try {
 					res.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 
 				return result;
@@ -141,7 +138,6 @@ public class FileDataHandlerImpl implements FileDataHandler<FileDataHandlerConfi
 				try {
 					res = new FileInputStream(new File(filename));
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
 				}
 				return res;
 			}

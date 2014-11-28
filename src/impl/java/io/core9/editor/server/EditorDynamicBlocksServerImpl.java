@@ -9,8 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -38,21 +36,18 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 	@Override
 	public void execute() {
 
-		server.use("/site/dynamic-blocks/(.*)", new Middleware() {
+		server.use("/dynamic-blocks/(.*)", new Middleware() {
 
 
 			@Override
 			public void handle(Request req) {
 				String contentType = "";
 				String resourceFile = "";
-				String requestPath = req.getPath().replace("/plugins/editor/static", "");
+				String requestPath = req.getPath().replace("/dynamic-blocks", "");
 
-				URL resource = EditorDynamicBlocksServerImpl.class.getResource("/");
-				try {
-					resourceFile = Paths.get(resource.toURI()).toFile().getPath() + "/editor/assets" + requestPath;
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
+
+				resourceFile = "data/dynamic-data" + requestPath;
+
 
 				try {
 					contentType = Files.probeContentType(Paths.get(resourceFile));
