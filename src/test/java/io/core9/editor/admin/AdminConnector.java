@@ -50,9 +50,13 @@ public class AdminConnector {
 		String rawContentTypes = sendGet(url);
 		JSONObject rawTypes = (JSONObject) JSONValue.parseWithException(rawContentTypes);
 
-		String result = rawTypes.getAsString(dynamicContentType);
+		JSONObject res = new JSONObject();
 
-		return result;
+		Object result = rawTypes.get(dynamicContentType);
+
+		res.put(dynamicContentType, result);
+
+		return res.toJSONString();
 	}
 
 
