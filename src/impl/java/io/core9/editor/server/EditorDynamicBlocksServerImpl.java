@@ -34,9 +34,13 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 
 				System.out.println(params);
 
-				String contentType = "";
-				String resourceFile = "";
+
 				String requestPath = req.getPath().replace("/dynamic-blocks", "");
+
+				String contentType = "application/javascript";
+				if(requestPath.endsWith(".json")){
+					contentType = "application/json";
+				}
 
 				if(requestPath.startsWith("/update/")){
 					AdminConnector.updateDynamicContentType(postData);
@@ -52,13 +56,8 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				String dynamicContentType = requestParts[1];
 				String fileName = requestParts[3];
 
-				resourceFile = "data/dynamic-data" + requestPath;
 
-				try {
-					contentType = Files.probeContentType(Paths.get(resourceFile));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
 
 
 				String content = "";
@@ -69,7 +68,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 				}
 				System.out.println(content);
 
-				if (new File(resourceFile).exists()) {
+				if (!content.equals("")) {
 					req.getResponse().putHeader("Content-Type", contentType);
 					req.getResponse().putHeader("Content-Length", Integer.toString(content.length()));
 					// req.getResponse().sendBinary(ByteStreams.toByteArray(res));
