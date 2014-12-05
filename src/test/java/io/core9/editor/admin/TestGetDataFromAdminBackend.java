@@ -46,6 +46,7 @@ public class TestGetDataFromAdminBackend {
 
 		String data = "{\"\":\"\",\"data\":\"{\"meta\":{\"absolute-url\":\"\",\"state\":\"edit\",\"block\":0,\"type\":\"menus\",\"template\":\"\",\"contentid\":\"1JEYT4U07H0TI\"},\"editor\":{\"menus\":[{\"heading\":\"test\",\"items\":[{\"link\":\"test\",\"title\":\"test\"}]},{\"heading\":\"asdfaasd\",\"items\":[{\"link\":\"sdfa\",\"title\":\"asdfddd\"}]}]}}\",\"id\":\"112\"}";
 
+		@SuppressWarnings("unused")
 		JSONObject json = (JSONObject) JSONValue.parse(data);
 
 

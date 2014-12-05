@@ -1,14 +1,9 @@
 package io.core9.editor.server;
 
-import io.core9.editor.admin.AdminConnector;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 
 import net.xeoh.plugins.base.annotations.PluginImplementation;
@@ -27,8 +22,10 @@ public class EditorABtestServerImpl implements EditorABtestServer {
 
 			@Override
 			public void handle(Request req) {
+				@SuppressWarnings("unused")
 				Map<String, Object> params = req.getParams();
 
+				@SuppressWarnings("unused")
 				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
 
 
