@@ -6,10 +6,14 @@ import io.core9.editor.EditorClientDataHandler;
 import io.core9.editor.EditorClientPlugin;
 import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
+import io.core9.module.auth.AuthenticationPlugin;
+import io.core9.module.auth.User;
+import io.core9.plugin.server.Cookie;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.template.closure.ClosureTemplateEngine;
 import io.core9.plugin.widgets.datahandler.DataHandler;
 import io.core9.plugin.widgets.datahandler.DataHandlerFactoryConfig;
+import io.core9.server.undertow.CookieImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +45,9 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 	@InjectPlugin
 	private ClosureTemplateEngine engine;
 
+	@InjectPlugin
+	private AuthenticationPlugin auth;
+
 
 	private AssetsManager assetsManager;
 	private EditorRequestImpl request;
@@ -68,7 +75,28 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
 
+				Cookie ckie = req.getCookie("CORE9SESSIONID");
 
+				User user = auth.getUser(req, ckie);
+
+				String test = (String) user.getSession().getAttribute("test");
+
+				io.undertow.server.handlers.CookieImpl cookie = new io.undertow.server.handlers.CookieImpl("test", "aaa");
+				if(test == null){
+					user.getSession().setAttribute("test", "a");
+
+					CookieImpl koekie = new CookieImpl(cookie);
+
+					//koekie.g
+
+
+					req.getResponse().addCookie(koekie);
+				}
+
+				System.out.println("user has test : " + test);
+
+
+				System.out.println(cookie);
 
 				String path = req.getPath();
 				String host = req.getHostname();

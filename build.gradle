@@ -64,7 +64,7 @@ dependencies {
   // Authentication
   compile 'io.core9:module-authentication:+'
   compile 'io.core9:module-authentication-standard:+'
-  compile 'io.core9:module-session-persistence:+'
+  //compile 'io.core9:module-session-persistence:+'
 
   // Template engine
   compile 'io.core9:module-template-engine-closure:+'
