@@ -5,15 +5,13 @@ import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.EditorClientDataHandler;
 import io.core9.editor.EditorClientPlugin;
 import io.core9.editor.EditorRequestImpl;
+import io.core9.editor.abtest.ABEngine;
 import io.core9.editor.data.ClientData;
 import io.core9.module.auth.AuthenticationPlugin;
-import io.core9.module.auth.User;
-import io.core9.plugin.server.Cookie;
 import io.core9.plugin.server.request.Request;
 import io.core9.plugin.template.closure.ClosureTemplateEngine;
 import io.core9.plugin.widgets.datahandler.DataHandler;
 import io.core9.plugin.widgets.datahandler.DataHandlerFactoryConfig;
-import io.core9.server.undertow.CookieImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +37,6 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 	private static final String pathPrefix = "data/editor";
 
-	private static final String ABCOOKIE = "abtest";
 
 	@InjectPlugin
 	private EditorClientPlugin editorClientPlugin;
@@ -78,7 +75,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
 
-				String test = getTestVar(req);
+				String test = ABEngine.getTestVars(auth, req);
 				System.out.println("user has test : " + test);
 
 
@@ -125,31 +122,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				return result;
 			}
 
-			private String getTestVar(Request req) {
-				String test = null;
-				Cookie abCookie = req.getCookie(ABCOOKIE);
-				if(abCookie != null){
-					test = abCookie.getValue();
-				}
 
-
-				if(test == null){
-					Cookie ckie = req.getCookie("CORE9SESSIONID");
-					User user = null;
-					if(ckie == null){
-						user = auth.getUser(req);
-					}else{
-						user = auth.getUser(req, ckie);
-					}
-
-					test = (String) user.getSession().getAttribute(ABCOOKIE);
-					if(test == null){
-						user.getSession().setAttribute(ABCOOKIE, "aaa");
-						req.getResponse().addCookie(new CookieImpl(new io.undertow.server.handlers.CookieImpl(ABCOOKIE, "aaa")));
-					}
-				}
-				return test;
-			}
 
 			private String readFile(String path, Charset encoding) {
 				byte[] encoded = null;
