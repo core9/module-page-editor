@@ -22,6 +22,16 @@ public class TestABStorage {
 	}
 
 	@Test
+	public void testCreateTestRequest(){
+		ABTestRequest abTestRequest = new ABTestRequestImpl();
+		abTestRequest.setDomain("easydrain.localhost");
+		abTestRequest.setPath("/path");
+		abTestRequest.setTimeStamp(System.currentTimeMillis() / 1000L);
+		abTestRequest.setABSessionId("ab-session-id");
+		abTestRequest.setGeoLocation(new GeoLocationImpl("geolocation name"));
+	}
+
+	@Test
 	public void testCreateVariationsForTest(){
 		ABTest abTest = getStandardTest();
 
