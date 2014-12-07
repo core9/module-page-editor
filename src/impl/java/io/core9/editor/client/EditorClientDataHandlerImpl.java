@@ -39,6 +39,8 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 	private static final String pathPrefix = "data/editor";
 
+	private static final String ABCOOKIE = "abtest";
+
 	@InjectPlugin
 	private EditorClientPlugin editorClientPlugin;
 
@@ -71,32 +73,15 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 			private Document doc;
 
+
 			@Override
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
 
-				Cookie ckie = req.getCookie("CORE9SESSIONID");
-
-				User user = auth.getUser(req, ckie);
-
-				String test = (String) user.getSession().getAttribute("test");
-
-				io.undertow.server.handlers.CookieImpl cookie = new io.undertow.server.handlers.CookieImpl("test", "aaa");
-				if(test == null){
-					user.getSession().setAttribute("test", "a");
-
-					CookieImpl koekie = new CookieImpl(cookie);
-
-					//koekie.g
-
-
-					req.getResponse().addCookie(koekie);
-				}
-
+				String test = getTestVar(req);
 				System.out.println("user has test : " + test);
 
 
-				System.out.println(cookie);
 
 				String path = req.getPath();
 				String host = req.getHostname();
@@ -138,6 +123,32 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 				//result = getBackupUrl(result, url);
 
 				return result;
+			}
+
+			private String getTestVar(Request req) {
+				String test = null;
+				Cookie abCookie = req.getCookie(ABCOOKIE);
+				if(abCookie != null){
+					test = abCookie.getValue();
+				}
+
+
+				if(test == null){
+					Cookie ckie = req.getCookie("CORE9SESSIONID");
+					User user = null;
+					if(ckie == null){
+						user = auth.getUser(req);
+					}else{
+						user = auth.getUser(req, ckie);
+					}
+
+					test = (String) user.getSession().getAttribute(ABCOOKIE);
+					if(test == null){
+						user.getSession().setAttribute(ABCOOKIE, "aaa");
+						req.getResponse().addCookie(new CookieImpl(new io.undertow.server.handlers.CookieImpl(ABCOOKIE, "aaa")));
+					}
+				}
+				return test;
 			}
 
 			private String readFile(String path, Charset encoding) {
