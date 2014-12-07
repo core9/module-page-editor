@@ -17,4 +17,6 @@ public interface ABTest {
 
 	void setExcludedGeoLocations(List<GeoLocation> locations);
 
+	void addVariation(Variation variation);
+
 }

@@ -21,6 +21,19 @@ public class TestABStorage {
 		assertTrue(storage.getTests().size() == 1);
 	}
 
+	@Test
+	public void testCreateVariationsForTest(){
+		ABTest abTest = getStandardTest();
+
+		Variation variation = new VariationImpl("variation name");
+		MicroVariation microVariation = new MicroVariationImpl("microVariation name");
+		variation.addMicroVariation(microVariation);
+		abTest.addVariation(variation);
+
+		storage.addTest(abTest);
+		assertTrue(storage.getTests().size() == 1);
+	}
+
 	private ABTest getStandardTest(){
 		ABTest abTest = new ABTestImpl("name");
 		abTest.setDomain("easydrain.localhost");

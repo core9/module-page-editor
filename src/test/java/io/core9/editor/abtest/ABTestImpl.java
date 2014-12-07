@@ -1,5 +1,6 @@
 package io.core9.editor.abtest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +13,10 @@ public class ABTestImpl implements ABTest {
 	private String path;
 	private Date startDate;
 	private Date endDate;
-	private List<ABDay> timeRange;
-	private List<GeoLocation> includedLocations;
-	private List<GeoLocation> excludedLocations;
+	private List<ABDay> timeRange = new ArrayList<>();
+	private List<GeoLocation> includedLocations = new ArrayList<>();
+	private List<GeoLocation> excludedLocations = new ArrayList<>();
+	private List<Variation> variationRegistry = new ArrayList<>();
 
 	public ABTestImpl(String name) {
 		this.name = name;
@@ -49,6 +51,11 @@ public class ABTestImpl implements ABTest {
 	@Override
 	public void setExcludedGeoLocations(List<GeoLocation> locations) {
 		this.excludedLocations = locations;
+	}
+
+	@Override
+	public void addVariation(Variation variation) {
+		variationRegistry.add(variation);
 	}
 
 }
