@@ -1,21 +1,12 @@
 package io.core9.editor.abtest;
 
-public class ABStorage {
+import java.util.List;
 
-	private static ABStorage instance = null;
+public interface ABStorage {
 
-	private ABStorage() {
-	}
+	void addTest(ABTest abTest);
 
-	public static ABStorage getInstance() {
-		if (instance == null) {
-			instance = new ABStorage();
-		}
-		return instance;
-	}
+	List<ABTest> getTests();
 
-	public Object getPathVersion(String abSessionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

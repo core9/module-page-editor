@@ -23,7 +23,7 @@ public class ABEngine {
 
 	private static Map<String, Object> getTestVarsFromStorage(String abSessionId, String path) {
 
-		ABStorage storage = ABStorage.getInstance();
+		ABStorage storage = ABStorageImpl.getInstance();
 
 		Map<String, Object> data = new HashMap<String, Object>();
 
@@ -31,8 +31,6 @@ public class ABEngine {
 			// get test vars for this page
 			// update test variation used
 
-
-		data.put("path-version", storage.getPathVersion(abSessionId));
 
 
 		return null;
