@@ -75,7 +75,7 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 			public Map<String, Object> handle(Request req) {
 				Map<String, Object> result = new HashMap<String, Object>();
 
-				String test = ABEngine.getTestVars(auth, req);
+				Map<String, Object> test = ABEngine.getTestVars(auth, req);
 				System.out.println("user has test : " + test);
 
 
@@ -100,13 +100,6 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 					assetsManager.createWorkingDirectory();
 				}
 
-
-
-
-
-
-
-
 				Document document;
 				try {
 					 document = Jsoup.parse(assetsManager.getCachedPage());
@@ -116,8 +109,6 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 				result.put("head", document.head().toString());
 				result.put("body", document.body().toString());
-
-				//result = getBackupUrl(result, url);
 
 				return result;
 			}

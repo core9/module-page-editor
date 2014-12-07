@@ -1,5 +1,7 @@
 package io.core9.editor.abtest;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import io.core9.module.auth.AuthenticationPlugin;
@@ -13,10 +15,27 @@ public class ABEngine {
 	private static final String CORE9SESSIONID = "CORE9SESSIONID";
 	private static final String ABCOOKIE = "CORE9DAT";
 
-	public static String getTestVars(AuthenticationPlugin auth, Request req) {
+	public static Map<String, Object> getTestVars(AuthenticationPlugin auth, Request req) {
 		String abSessionId = getSessionID(auth, req);
-		// attach test data
-		return abSessionId;
+		Map<String, Object> testVars = getTestVarsFromStorage(abSessionId, req.getPath());
+		return testVars;
+	}
+
+	private static Map<String, Object> getTestVarsFromStorage(String abSessionId, String path) {
+
+		ABStorage storage = ABStorage.getInstance();
+
+		Map<String, Object> data = new HashMap<String, Object>();
+
+		// if new to path (test cache)
+			// get test vars for this page
+			// update test variation used
+
+
+		data.put("path-version", storage.getPathVersion(abSessionId));
+
+
+		return null;
 	}
 
 	public static String getSessionID(AuthenticationPlugin auth, Request req) {
