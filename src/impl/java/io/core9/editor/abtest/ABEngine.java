@@ -13,7 +13,6 @@ public class ABEngine {
 	private static final String CORE9SESSIONID = "CORE9SESSIONID";
 	private static final String ABCOOKIE = "CORE9DAT";
 
-
 	public static String getTestVars(AuthenticationPlugin auth, Request req) {
 		String abSessionId = getSessionID(auth, req);
 		// attach test data
@@ -21,27 +20,28 @@ public class ABEngine {
 	}
 
 	public static String getSessionID(AuthenticationPlugin auth, Request req) {
-		String abSessionId = null;
-		String uuid = UUID.randomUUID().toString();
 		Cookie abCookie = req.getCookie(ABCOOKIE);
-		if(abCookie != null){
-			abSessionId = abCookie.getValue();
+		if (abCookie != null) {
+			return abCookie.getValue();
 		}
-		if(abSessionId == null){
-			User user = null;
-			if(req.getCookie(CORE9SESSIONID) == null){
-				user = auth.getUser(req);
-			}else if(req.getCookie(CORE9SESSIONID) != null){
-				user = auth.getUser(req, req.getCookie(CORE9SESSIONID));
-			}
-			abSessionId = (String) user.getSession().getAttribute(ABCOOKIE);
-			if(abSessionId == null){
-				user.getSession().setAttribute(ABCOOKIE, uuid);
-				req.getResponse().addCookie(new CookieImpl(new io.undertow.server.handlers.CookieImpl(ABCOOKIE, uuid).setPath("/")));
-			}
+		String uuid = UUID.randomUUID().toString();
+		String abSessionId = null;
+		User user = getUser(auth, req);
+		abSessionId = (String) user.getSession().getAttribute(ABCOOKIE);
+		if (abSessionId == null) {
+			user.getSession().setAttribute(ABCOOKIE, uuid);
+			req.getResponse().addCookie(new CookieImpl(new io.undertow.server.handlers.CookieImpl(ABCOOKIE, uuid).setPath("/")));
+		} else {
+			req.getResponse().addCookie(new CookieImpl(new io.undertow.server.handlers.CookieImpl(ABCOOKIE, abSessionId).setPath("/")));
 		}
 		return abSessionId;
 	}
 
+	private static User getUser(AuthenticationPlugin auth, Request req) {
+		if (req.getCookie(CORE9SESSIONID) == null) {
+			return auth.getUser(req);
+		}
+		return auth.getUser(req, req.getCookie(CORE9SESSIONID));
+	}
 
 }
