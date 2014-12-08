@@ -8,5 +8,7 @@ public interface ABStorage {
 
 	List<ABTest> getTests();
 
+	String getIdentifier(ABTestRequest request);
+
 
 }

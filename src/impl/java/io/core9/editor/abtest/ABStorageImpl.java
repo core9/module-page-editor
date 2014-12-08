@@ -2,11 +2,12 @@ package io.core9.editor.abtest;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@SuppressWarnings("unused")
 public class ABStorageImpl implements ABStorage{
 
 	private static ABStorage instance = null;
 	private List<ABTest> testRegistry = new ArrayList<ABTest>();
+
 
 	private ABStorageImpl() {
 	}
@@ -30,6 +31,36 @@ public class ABStorageImpl implements ABStorage{
 	@Override
 	public List<ABTest> getTests() {
 		return testRegistry;
+	}
+
+	@Override
+	public String getIdentifier(ABTestRequest request) {
+		return getIdentifiers(request);
+	}
+
+	private String getIdentifiers(ABTestRequest request) {
+        
+		List<ABTest> tests = getTestsFromRequest(request);
+		
+		return null;
+	}
+
+	private List<ABTest> getTestsFromRequest(ABTestRequest request) {
+
+		List<ABTest> result = new ArrayList<ABTest>();
+		
+		for(ABTest test : testRegistry){
+			if(isActiveTest(test, request)){
+				
+			}
+		}
+		
+		return null;
+	}
+
+	private boolean isActiveTest(ABTest test, ABTestRequest request) {
+		ABChecker abChecker = new ABCheckerImpl(test, request);
+		return abChecker.result();
 	}
 
 

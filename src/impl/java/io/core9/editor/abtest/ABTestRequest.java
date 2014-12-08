@@ -12,4 +12,14 @@ public interface ABTestRequest {
 
 	void setGeoLocation(GeoLocation geoLocation);
 
+	String getPath();
+
+	String getDomain();
+
+	long getTimeStamp();
+
+	String getABSessionId();
+
+	GeoLocation getGeoLocation();
+
 }

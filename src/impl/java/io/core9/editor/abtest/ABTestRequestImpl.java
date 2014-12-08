@@ -1,6 +1,5 @@
 package io.core9.editor.abtest;
 
-@SuppressWarnings("unused")
 public class ABTestRequestImpl implements ABTestRequest {
 
 	private String domain;
@@ -32,6 +31,34 @@ public class ABTestRequestImpl implements ABTestRequest {
 	@Override
 	public void setGeoLocation(GeoLocation geoLocation) {
 		this.geoLocation = geoLocation;
+	}
+	
+	//
+	
+	
+	@Override
+	public String getDomain() {
+		return domain;
+	}
+
+	@Override
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public long getTimeStamp() {
+		 return timestamp;
+	}
+
+	@Override
+	public  String getABSessionId() {
+		return abSessionId;
+	}
+
+	@Override
+	public  GeoLocation getGeoLocation() {
+		return geoLocation;
 	}
 
 }

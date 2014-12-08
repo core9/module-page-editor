@@ -1,6 +1,6 @@
 package io.core9.editor.abtest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,16 +22,6 @@ public class TestABStorage {
 	}
 
 	@Test
-	public void testCreateTestRequest(){
-		ABTestRequest abTestRequest = new ABTestRequestImpl();
-		abTestRequest.setDomain("easydrain.localhost");
-		abTestRequest.setPath("/path");
-		abTestRequest.setTimeStamp(System.currentTimeMillis() / 1000L);
-		abTestRequest.setABSessionId("ab-session-id");
-		abTestRequest.setGeoLocation(new GeoLocationImpl("geolocation name"));
-	}
-
-	@Test
 	public void testCreateVariationsForTest(){
 		ABTest abTest = getStandardTest();
 
@@ -42,6 +32,38 @@ public class TestABStorage {
 
 		storage.addTest(abTest);
 		assertTrue(storage.getTests().size() == 1);
+	}
+	
+	@Test
+	public void testGetTestIdentifier(){
+		ABTestRequest request = getStandardABRequest();
+		
+		
+		ABTest abTest = getStandardTest();
+
+		Variation variation = new VariationImpl("variation name");
+		MicroVariation microVariation = new MicroVariationImpl("microVariation name");
+		variation.addMicroVariation(microVariation);
+		abTest.addVariation(variation);
+
+		storage.addTest(abTest);
+		
+		String abIdentifier = storage.getIdentifier(request);
+		
+		System.out.println(abIdentifier);
+		
+	}
+	
+	
+	
+	private ABTestRequest getStandardABRequest(){
+		ABTestRequest abTestRequest = new ABTestRequestImpl();
+		abTestRequest.setDomain("easydrain.localhost");
+		abTestRequest.setPath("/path");
+		abTestRequest.setTimeStamp(System.currentTimeMillis() / 1000L);
+		abTestRequest.setABSessionId("ab-session-id");
+		abTestRequest.setGeoLocation(new GeoLocationImpl("geolocation name"));
+		return abTestRequest;
 	}
 
 	private ABTest getStandardTest(){
