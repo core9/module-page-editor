@@ -19,16 +19,16 @@ promise.get('../clients/easydrain/wizards/video/data/video.json').then(
 							  "properties": {
 							    "url": {
 							      "type": "string",
-							      "default": "http://youtu.be/kDfw4yt554g",
+							      "default": "http://youtu.be/kDfw4yt554g"
 							    },
 							    "height": {
 							      "type": "string",
-							      "default": "315",
+							      "default": "315"
 							    },
 							    "width": {
 								      "type": "string",
-								      "default": "560",
-								},
+								      "default": "560"
+								}
 							  }
 						},
 						// Seed the form with a starting value
