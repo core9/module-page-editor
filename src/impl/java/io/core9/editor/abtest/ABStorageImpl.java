@@ -39,23 +39,23 @@ public class ABStorageImpl implements ABStorage{
 	}
 
 	private String getIdentifiers(ABTestRequest request) {
-        
+
 		List<ABTest> tests = getTestsFromRequest(request);
-		
+
 		return null;
 	}
 
 	private List<ABTest> getTestsFromRequest(ABTestRequest request) {
 
 		List<ABTest> result = new ArrayList<ABTest>();
-		
+
 		for(ABTest test : testRegistry){
 			if(isActiveTest(test, request)){
-				
+				result.add(test);
 			}
 		}
-		
-		return null;
+
+		return result;
 	}
 
 	private boolean isActiveTest(ABTest test, ABTestRequest request) {
