@@ -5,6 +5,7 @@ import java.util.List;
 
 public class ABDayImpl implements ABDay {
 
+	@SuppressWarnings("unused")
 	private Date date;
 	private List<ABTimeRange> timeRangesOnDay;
 
@@ -12,8 +13,14 @@ public class ABDayImpl implements ABDay {
 		this.date = date;
 	}
 
+
 	@Override
-	public void setTimeRanges(List<ABTimeRange> timeRangesOnDay) {
+	public List<ABTimeRange> getTimeRangesOnDay() {
+		return timeRangesOnDay;
+	}
+
+	@Override
+	public void setTimeRangesOnDay(List<ABTimeRange> timeRangesOnDay) {
 		this.timeRangesOnDay = timeRangesOnDay;
 	}
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface ABDay {
 
-	void setTimeRanges(List<ABTimeRange> timeRangesOnDay);
+	void setTimeRangesOnDay(List<ABTimeRange> timeRangesOnDay);
+
+	List<ABTimeRange> getTimeRangesOnDay();
 
 }

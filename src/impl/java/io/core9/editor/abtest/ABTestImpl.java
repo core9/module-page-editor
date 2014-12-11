@@ -16,7 +16,7 @@ public class ABTestImpl implements ABTest {
 	private List<ABDay> timeRange = new ArrayList<>();
 	private List<GeoLocation> includedLocations = new ArrayList<>();
 	private List<GeoLocation> excludedLocations = new ArrayList<>();
-	private List<Variation> variationRegistry = new ArrayList<>();
+	private List<ABTest> testRegistry = new ArrayList<>();
 
 	public ABTestImpl(String name) {
 		this.name = name;
@@ -54,8 +54,14 @@ public class ABTestImpl implements ABTest {
 	}
 
 	@Override
-	public void addVariation(Variation variation) {
-		variationRegistry.add(variation);
+	public void addTest(ABTest abTest) {
+		testRegistry.add(abTest);
 	}
+
+	@Override
+	public List<ABTest> getTests(){
+		return testRegistry;
+	}
+
 
 }

@@ -25,37 +25,33 @@ public class TestABStorage {
 	public void testCreateVariationsForTest(){
 		ABTest abTest = getStandardTest();
 
-		Variation variation = new VariationImpl("variation name");
-		MicroVariation microVariation = new MicroVariationImpl("microVariation name");
-		variation.addMicroVariation(microVariation);
-		abTest.addVariation(variation);
+		ABTest abTest1 = getStandardTest();
+
+		abTest.addTest(abTest1);
 
 		storage.addTest(abTest);
 		assertTrue(storage.getTests().size() == 1);
 	}
-	
+
 	@Test
 	public void testGetTestIdentifier(){
 		ABTestRequest request = getStandardABRequest();
-		
-		
+
+
 		ABTest abTest = getStandardTest();
 
-		Variation variation = new VariationImpl("variation name");
-		MicroVariation microVariation = new MicroVariationImpl("microVariation name");
-		variation.addMicroVariation(microVariation);
-		abTest.addVariation(variation);
+
 
 		storage.addTest(abTest);
-		
+
 		String abIdentifier = storage.getIdentifier(request);
-		
+
 		System.out.println(abIdentifier);
-		
+
 	}
-	
-	
-	
+
+
+
 	private ABTestRequest getStandardABRequest(){
 		ABTestRequest abTestRequest = new ABTestRequestImpl();
 		abTestRequest.setDomain("easydrain.localhost");
@@ -76,7 +72,7 @@ public class TestABStorage {
 		List<ABDay> timeRangeOnDays = new ArrayList<ABDay>();
 		ABDay abDay = new ABDayImpl(new Date());
 		List<ABTimeRange> timeRangesOnDay = new ArrayList<>();
-		abDay.setTimeRanges(timeRangesOnDay);
+		abDay.setTimeRangesOnDay(timeRangesOnDay);
 		abTest.setTimeRange(timeRangeOnDays);
 		List<GeoLocation> locations = new ArrayList<>();
 		abTest.setIncludedGeoLocations(locations);
