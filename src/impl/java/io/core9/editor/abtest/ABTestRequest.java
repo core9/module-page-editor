@@ -22,4 +22,6 @@ public interface ABTestRequest {
 
 	GeoLocation getGeoLocation();
 
+	void setProtocol(String protocol);
+
 }

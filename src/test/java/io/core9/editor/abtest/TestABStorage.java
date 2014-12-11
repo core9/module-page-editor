@@ -54,11 +54,14 @@ public class TestABStorage {
 
 	private ABTestRequest getStandardABRequest(){
 		ABTestRequest abTestRequest = new ABTestRequestImpl();
+		abTestRequest.setProtocol("http");
 		abTestRequest.setDomain("easydrain.localhost");
 		abTestRequest.setPath("/path");
 		abTestRequest.setTimeStamp(System.currentTimeMillis() / 1000L);
 		abTestRequest.setABSessionId("ab-session-id");
-		abTestRequest.setGeoLocation(new GeoLocationImpl("geolocation name"));
+		GeoLocation location = new GeoLocationImpl("geolocation name");
+		location.setIpAddress("176.45.34.22");
+		abTestRequest.setGeoLocation(location);
 		return abTestRequest;
 	}
 

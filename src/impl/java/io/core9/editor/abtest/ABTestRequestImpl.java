@@ -7,6 +7,7 @@ public class ABTestRequestImpl implements ABTestRequest {
 	private long timestamp;
 	private String abSessionId;
 	private GeoLocation geoLocation;
+	private String protocol;
 
 	@Override
 	public void setDomain(String domain) {
@@ -32,10 +33,10 @@ public class ABTestRequestImpl implements ABTestRequest {
 	public void setGeoLocation(GeoLocation geoLocation) {
 		this.geoLocation = geoLocation;
 	}
-	
+
 	//
-	
-	
+
+
 	@Override
 	public String getDomain() {
 		return domain;
@@ -59,6 +60,11 @@ public class ABTestRequestImpl implements ABTestRequest {
 	@Override
 	public  GeoLocation getGeoLocation() {
 		return geoLocation;
+	}
+
+	@Override
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
 	}
 
 }
