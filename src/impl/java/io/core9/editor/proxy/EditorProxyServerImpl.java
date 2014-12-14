@@ -4,10 +4,16 @@ import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
 
+import java.io.IOException;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import net.xeoh.plugins.base.annotations.PluginImplementation;
 import net.xeoh.plugins.base.annotations.injections.InjectPlugin;
 
+@PluginImplementation
 public class EditorProxyServerImpl implements EditorProxyServer{
 
 	@InjectPlugin
@@ -28,11 +34,27 @@ public class EditorProxyServerImpl implements EditorProxyServer{
 
 
 
+				String url = "http://localhost.fopshop.nl:8090/ov/carnaval/QE74NAWWHET3";
+				Document doc = null;
+				try {
+					doc = Jsoup.connect(url).get();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 
 
 
-				String content = "";
+				String content = doc.toString();
+
+				String testData = "<article class=\"core9-block smallphoto right\" data-type=\"smallphoto\">";
+						testData += "<div>";
+						testData += "<img src=\"http://www.easydrain.nl/media/wysiwyg/Homepage/About/Refences/markthal-rotterdam-01.jpg\">";
+						testData += "</div>";
+						testData += "</article>";
+
+				content = content.replace("</body>", testData + "<script src=\"/ui-widgets/widgets/inpage-context-menu/child/context-menu.js\"></script></body>");
 
 
 				if (!content.equals("")) {
