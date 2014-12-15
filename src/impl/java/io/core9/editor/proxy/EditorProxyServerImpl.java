@@ -48,13 +48,16 @@ public class EditorProxyServerImpl implements EditorProxyServer{
 
 				String content = doc.toString();
 
-				String testData = "<article class=\"core9-block smallphoto right\" data-type=\"smallphoto\">";
+				String testData = "<main role=\"main\" id=\"main-section\">";
+						testData += "<article class=\"core9-block smallphoto right\" data-type=\"smallphoto\">";
 						testData += "<div>";
 						testData += "<img src=\"http://www.easydrain.nl/media/wysiwyg/Homepage/About/Refences/markthal-rotterdam-01.jpg\">";
 						testData += "</div>";
 						testData += "</article>";
+						testData += "</main>";
 
-				content = content.replace("</body>", testData + "<script src=\"/ui-widgets/widgets/inpage-context-menu/child/context-menu.js\"></script></body>");
+				content = content.replace("base.js", "base2.js");
+				content = content.replace("</body>", testData + "<br><script src=\"http://easydrain.localhost:8080/ui-widgets/widgets/inpage-context-menu/child/context-menu.js\"></script></body>");
 
 
 				if (!content.equals("")) {
