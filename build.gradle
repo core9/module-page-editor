@@ -46,6 +46,8 @@ dependencies {
   compile 'org.apache.httpcomponents:httpclient:4.3.6'
   compile 'com.maxmind.geoip:geoip-api:1.2.14'
 
+  compile 'com.googlecode.jctree:jctree:2.0.0'
+
 
 
   testCompile 'junit:junit:4.11'
