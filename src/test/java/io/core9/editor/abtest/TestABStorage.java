@@ -21,14 +21,14 @@ public class TestABStorage {
 
 	@Test
 	public void testCreateTest(){
-		ABTestImpl abTest = getStandardTest();
+		ABTest abTest = getStandardTest();
 		storage.addTest(abTest);
 		assertTrue(storage.getTests().size() == 1);
 	}
 
 	@Test
 	public void testGetJsonTest() throws JsonParseException, JsonMappingException, IOException{
-		ABTestImpl abTest = getStandardTest();
+		ABTest abTest = getStandardTest();
 		String json = abTest.toString();
 		System.out.println(json);
 
@@ -37,15 +37,16 @@ public class TestABStorage {
 		Object res = mapper.readValue(json, Object.class);
 
 
+
 		System.out.println(res);
 	}
 
 
 	@Test
 	public void testCreateVariationsForTest(){
-		ABTestImpl abTest = getStandardTest();
+		ABTest abTest = getStandardTest();
 
-		ABTestImpl abTest1 = getStandardTest();
+		ABTest abTest1 = getStandardTest();
 
 		abTest.addTest(abTest1);
 
@@ -58,7 +59,7 @@ public class TestABStorage {
 		ABTestRequest request = getStandardABRequest();
 
 
-		ABTestImpl abTest = getStandardTest();
+		ABTest abTest = getStandardTest();
 
 
 
@@ -87,8 +88,8 @@ public class TestABStorage {
 		return abTestRequest;
 	}
 
-	private ABTestImpl getStandardTest(){
-		ABTestImpl abTest = new ABTestImpl();
+	private ABTest getStandardTest(){
+		ABTest abTest = new ABTestImpl();
 		abTest.setName("name");
 		abTest.setDomain("easydrain.localhost");
 		abTest.setPath("/path");
@@ -105,18 +106,18 @@ public class TestABStorage {
 		abTest.setIncludedGeoLocations(locations);
 		abTest.setExcludedGeoLocations(locations);
 
-		ABTestImpl abTest2 = new ABTestImpl();
+		ABTest abTest2 = new ABTestImpl();
 		abTest2.setName("name");
 		abTest2.setDomain("easydrain.localhost");
 		abTest2.setPath("/path");
 		abTest.addTest(abTest2);
 
-		ABTestImpl abTest3 = new ABTestImpl();
+		ABTest abTest3 = new ABTestImpl();
 		abTest3.setName("name");
 		abTest3.setDomain("easydrain.localhost");
 		abTest3.setPath("/path");
 
-		ABTestImpl abTest31 = new ABTestImpl();
+		ABTest abTest31 = new ABTestImpl();
 		abTest31.setName("name");
 		abTest31.setDomain("easydrain.localhost");
 		abTest31.setPath("/path");
