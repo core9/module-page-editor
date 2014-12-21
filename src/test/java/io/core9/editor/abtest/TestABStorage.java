@@ -106,7 +106,7 @@ public class TestABStorage {
 		ABTest abTest31 = new ABTestImpl("name");
 		abTest31.setDomain("easydrain.localhost");
 		abTest31.setPath("/path");
-		abTest.addTest(abTest31);
+		abTest3.addTest(abTest31);
 		abTest.addTest(abTest3);
 
 		return abTest;
