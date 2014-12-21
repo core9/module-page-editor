@@ -45,13 +45,27 @@ A/B rule format
       key : "http://easydrain.localhost/p/scraper/nl",
       tests : {[
         {
+          id:23412
           request:xmas,
           ua:ipad,
-          geo:nl
+          geo:nl,
+          active:1,
+          period{
+            start:23534253,
+            end:88979080
+          },
+          percentage:60
         },{
-          request:xmas,
+          id:789780
+          request:pre-xmas,
           ua:ipad,
-          geo:nl
+          geo:de,
+          active:0,
+          period:{
+            start:23534253,
+            end:88979080
+          },
+          percentage:30
         }
       ]}
     }
