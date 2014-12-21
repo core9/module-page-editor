@@ -34,6 +34,12 @@ public class ABTestRequestImpl implements ABTestRequest {
 		this.geoLocation = geoLocation;
 	}
 
+	@Override
+	public  GeoLocation getGeoLocation() {
+		return geoLocation;
+	}
+
+
 	//
 
 
@@ -57,14 +63,15 @@ public class ABTestRequestImpl implements ABTestRequest {
 		return abSessionId;
 	}
 
-	@Override
-	public  GeoLocation getGeoLocation() {
-		return geoLocation;
-	}
+
 
 	@Override
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
+	}
+	@Override
+	public String getProtocol() {
+		return protocol;
 	}
 
 }

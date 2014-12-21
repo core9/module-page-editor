@@ -24,4 +24,6 @@ public interface ABTestRequest {
 
 	void setProtocol(String protocol);
 
+	String getProtocol();
+
 }

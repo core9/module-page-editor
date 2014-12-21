@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@SuppressWarnings("unused")
+import net.minidev.json.JSONObject;
+import net.minidev.json.JSONValue;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 public class ABTestImpl implements ABTest {
 
 
+	private boolean active;
 	private String name;
 	private String domain;
 	private String path;
@@ -19,7 +25,7 @@ public class ABTestImpl implements ABTest {
 	private List<ABTest> testRegistry = new ArrayList<>();
 
 	public ABTestImpl(String name) {
-		this.name = name;
+		this.setName(name);
 	}
 
 	@Override
@@ -28,15 +34,21 @@ public class ABTestImpl implements ABTest {
 	}
 
 	@Override
+	public String getDomain() {
+		return domain;
+	}
+
+	@Override
 	public void setPath(String path) {
 		this.path = path;
 	}
 
 	@Override
-	public void setDateRange(Date startDate, Date endDate) {
-		this.startDate = startDate;
-		this.endDate = endDate;
+	public String getPath() {
+		return path;
 	}
+
+
 
 	@Override
 	public void setTimeRange(List<ABDay> timeRange) {
@@ -44,13 +56,18 @@ public class ABTestImpl implements ABTest {
 	}
 
 	@Override
+	public List<ABDay> getTimeRange() {
+		return timeRange;
+	}
+
+	@Override
 	public void setIncludedGeoLocations(List<GeoLocation> locations) {
-		this.includedLocations = locations;
+		this.setIncludedLocations(locations);
 	}
 
 	@Override
 	public void setExcludedGeoLocations(List<GeoLocation> locations) {
-		this.excludedLocations = locations;
+		this.setExcludedLocations(locations);
 	}
 
 	@Override
@@ -63,5 +80,75 @@ public class ABTestImpl implements ABTest {
 		return testRegistry;
 	}
 
+	@Override
+	public JSONObject toJson(){
+
+		Gson gson = new Gson();
+		JsonElement json = gson.toJsonTree(this);
+
+		String result = gson.toJson(json);
+
+		return  (JSONObject) JSONValue.parse(result);
+	}
+
+	@Override
+	public boolean isActive() {
+		return active;
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	@Override
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	@Override
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	@Override
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	@Override
+	public List<GeoLocation> getIncludedLocations() {
+		return includedLocations;
+	}
+
+	@Override
+	public void setIncludedLocations(List<GeoLocation> includedLocations) {
+		this.includedLocations = includedLocations;
+	}
+
+	@Override
+	public List<GeoLocation> getExcludedLocations() {
+		return excludedLocations;
+	}
+
+	@Override
+	public void setExcludedLocations(List<GeoLocation> excludedLocations) {
+		this.excludedLocations = excludedLocations;
+	}
 
 }

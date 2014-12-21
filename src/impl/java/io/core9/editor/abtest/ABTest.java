@@ -3,13 +3,14 @@ package io.core9.editor.abtest;
 import java.util.Date;
 import java.util.List;
 
+import net.minidev.json.JSONObject;
+
 public interface ABTest {
 
 	void setDomain(String domain);
 
 	void setPath(String path);
 
-	void setDateRange(Date startDate, Date endDate);
 
 	void setTimeRange(List<ABDay> timeRange);
 
@@ -20,5 +21,37 @@ public interface ABTest {
 	void addTest(ABTest abTest);
 
 	List<ABTest> getTests();
+
+	JSONObject toJson();
+
+	String getPath();
+
+	String getDomain();
+
+	List<ABDay> getTimeRange();
+
+	boolean isActive();
+
+	void setActive(boolean active);
+
+	String getName();
+
+	void setName(String name);
+
+	Date getStartDate();
+
+	void setStartDate(Date startDate);
+
+	Date getEndDate();
+
+	void setEndDate(Date endDate);
+
+	List<GeoLocation> getIncludedLocations();
+
+	void setIncludedLocations(List<GeoLocation> includedLocations);
+
+	List<GeoLocation> getExcludedLocations();
+
+	void setExcludedLocations(List<GeoLocation> excludedLocations);
 
 }

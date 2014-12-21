@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import net.minidev.json.JSONObject;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +22,14 @@ public class TestABStorage {
 		storage.addTest(abTest);
 		assertTrue(storage.getTests().size() == 1);
 	}
+
+	@Test
+	public void testGetJsonTest(){
+		ABTest abTest = getStandardTest();
+		JSONObject json = abTest.toJson();
+		System.out.println(json);
+	}
+
 
 	@Test
 	public void testCreateVariationsForTest(){
@@ -62,6 +72,8 @@ public class TestABStorage {
 		GeoLocation location = new GeoLocationImpl("geolocation name");
 		location.setIpAddress("176.45.34.22");
 		abTestRequest.setGeoLocation(location);
+
+
 		return abTestRequest;
 	}
 
@@ -71,7 +83,8 @@ public class TestABStorage {
 		abTest.setPath("/path");
 		Date startDate = new Date();
 		Date endDate = new Date();
-		abTest.setDateRange(startDate, endDate);
+		abTest.setStartDate(startDate);
+		abTest.setEndDate(endDate);
 		List<ABDay> timeRangeOnDays = new ArrayList<ABDay>();
 		ABDay abDay = new ABDayImpl(new Date());
 		List<ABTimeRange> timeRangesOnDay = new ArrayList<>();
@@ -80,6 +93,17 @@ public class TestABStorage {
 		List<GeoLocation> locations = new ArrayList<>();
 		abTest.setIncludedGeoLocations(locations);
 		abTest.setExcludedGeoLocations(locations);
+
+		ABTest abTest2 = new ABTestImpl("name");
+		abTest2.setDomain("easydrain.localhost");
+		abTest2.setPath("/path");
+		abTest.addTest(abTest2);
+
+		ABTest abTest3 = new ABTestImpl("name");
+		abTest3.setDomain("easydrain.localhost");
+		abTest3.setPath("/path");
+		abTest.addTest(abTest3);
+
 		return abTest;
 	}
 
