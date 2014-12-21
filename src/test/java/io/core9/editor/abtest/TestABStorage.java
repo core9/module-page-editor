@@ -2,15 +2,18 @@ package io.core9.editor.abtest;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.minidev.json.JSONObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestABStorage {
 
@@ -18,24 +21,31 @@ public class TestABStorage {
 
 	@Test
 	public void testCreateTest(){
-		ABTest abTest = getStandardTest();
+		ABTestImpl abTest = getStandardTest();
 		storage.addTest(abTest);
 		assertTrue(storage.getTests().size() == 1);
 	}
 
 	@Test
-	public void testGetJsonTest(){
-		ABTest abTest = getStandardTest();
-		JSONObject json = abTest.toJson();
+	public void testGetJsonTest() throws JsonParseException, JsonMappingException, IOException{
+		ABTestImpl abTest = getStandardTest();
+		String json = abTest.toString();
 		System.out.println(json);
+
+
+		ObjectMapper mapper = new ObjectMapper();
+		Object res = mapper.readValue(json, Object.class);
+
+
+		System.out.println(res);
 	}
 
 
 	@Test
 	public void testCreateVariationsForTest(){
-		ABTest abTest = getStandardTest();
+		ABTestImpl abTest = getStandardTest();
 
-		ABTest abTest1 = getStandardTest();
+		ABTestImpl abTest1 = getStandardTest();
 
 		abTest.addTest(abTest1);
 
@@ -48,7 +58,7 @@ public class TestABStorage {
 		ABTestRequest request = getStandardABRequest();
 
 
-		ABTest abTest = getStandardTest();
+		ABTestImpl abTest = getStandardTest();
 
 
 
@@ -77,8 +87,9 @@ public class TestABStorage {
 		return abTestRequest;
 	}
 
-	private ABTest getStandardTest(){
-		ABTest abTest = new ABTestImpl("name");
+	private ABTestImpl getStandardTest(){
+		ABTestImpl abTest = new ABTestImpl();
+		abTest.setName("name");
 		abTest.setDomain("easydrain.localhost");
 		abTest.setPath("/path");
 		Date startDate = new Date();
@@ -94,16 +105,19 @@ public class TestABStorage {
 		abTest.setIncludedGeoLocations(locations);
 		abTest.setExcludedGeoLocations(locations);
 
-		ABTest abTest2 = new ABTestImpl("name");
+		ABTestImpl abTest2 = new ABTestImpl();
+		abTest2.setName("name");
 		abTest2.setDomain("easydrain.localhost");
 		abTest2.setPath("/path");
 		abTest.addTest(abTest2);
 
-		ABTest abTest3 = new ABTestImpl("name");
+		ABTestImpl abTest3 = new ABTestImpl();
+		abTest3.setName("name");
 		abTest3.setDomain("easydrain.localhost");
 		abTest3.setPath("/path");
 
-		ABTest abTest31 = new ABTestImpl("name");
+		ABTestImpl abTest31 = new ABTestImpl();
+		abTest31.setName("name");
 		abTest31.setDomain("easydrain.localhost");
 		abTest31.setPath("/path");
 		abTest3.addTest(abTest31);

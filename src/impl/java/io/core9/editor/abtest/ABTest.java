@@ -3,8 +3,6 @@ package io.core9.editor.abtest;
 import java.util.Date;
 import java.util.List;
 
-import net.minidev.json.JSONObject;
-
 public interface ABTest {
 
 	void setDomain(String domain);
@@ -22,7 +20,6 @@ public interface ABTest {
 
 	List<ABTest> getTests();
 
-	JSONObject toJson();
 
 	String getPath();
 

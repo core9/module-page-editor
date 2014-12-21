@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class ABTestImpl implements ABTest {
 
@@ -24,9 +22,7 @@ public class ABTestImpl implements ABTest {
 	private List<GeoLocation> excludedLocations = new ArrayList<>();
 	private List<ABTest> testRegistry = new ArrayList<>();
 
-	public ABTestImpl(String name) {
-		this.setName(name);
-	}
+
 
 	@Override
 	public void setDomain(String domain) {
@@ -81,14 +77,18 @@ public class ABTestImpl implements ABTest {
 	}
 
 	@Override
-	public JSONObject toJson(){
+	public String toString(){
 
-		Gson gson = new Gson();
-		JsonElement json = gson.toJsonTree(this);
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json = null;
+		try {
+			json = ow.writeValueAsString(this);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		String result = gson.toJson(json);
-
-		return  (JSONObject) JSONValue.parse(result);
+		return  json;
 	}
 
 	@Override
