@@ -1,4 +1,4 @@
-package io.core9.editor.abtest;
+package io.core9.editor.abtest.entities;
 
 import java.util.List;
 

@@ -1,6 +1,15 @@
 package io.core9.editor.abtest;
 
 import static org.junit.Assert.assertTrue;
+import io.core9.editor.abtest.entities.ABDay;
+import io.core9.editor.abtest.entities.ABDayImpl;
+import io.core9.editor.abtest.entities.ABTest;
+import io.core9.editor.abtest.entities.ABTestImpl;
+import io.core9.editor.abtest.entities.ABTestRequest;
+import io.core9.editor.abtest.entities.ABTestRequestImpl;
+import io.core9.editor.abtest.entities.ABTimeRange;
+import io.core9.editor.abtest.entities.GeoLocation;
+import io.core9.editor.abtest.entities.GeoLocationImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;

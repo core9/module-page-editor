@@ -1,5 +1,8 @@
 package io.core9.editor.abtest;
 
+import io.core9.editor.abtest.entities.ABTest;
+import io.core9.editor.abtest.entities.ABTestRequest;
+
 import java.util.List;
 
 public interface ABStorage {
