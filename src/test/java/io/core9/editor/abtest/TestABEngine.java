@@ -9,7 +9,6 @@ import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.client.ClientRepositoryImpl;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Test;
 
 public class TestABEngine {
