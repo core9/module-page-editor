@@ -32,10 +32,10 @@ public class TestABEngine {
 	private void setUpRequest() {
 		clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
-		clientRepository.addDomain("localhost", "easydrain");
+		clientRepository.addDomain("easydrain.localhost", "easydrain");
 		request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
-		request.setAbsoluteUrl("http://localhost:8080/easydrain");
+		request.setAbsoluteUrl("http://easydrain.localhost:8080/p/scraper/nl");
 	}
 
 	@After
@@ -43,10 +43,10 @@ public class TestABEngine {
 
 		ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
 		clientRepository.addDomain("www.easydrain.nl", "easydrain");
-		clientRepository.addDomain("localhost", "easydrain");
+		clientRepository.addDomain("easydrain.localhost", "easydrain");
 		EditorRequest request = new EditorRequestImpl();
 		request.setClientRepository(clientRepository);
-		request.setAbsoluteUrl("http://localhost:8080/easydrain");
+		request.setAbsoluteUrl("http://easydrain.localhost:8080/p/scraper/nl");
 		AssetsManager assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.deleteWorkingDirectory();
 		assertFalse(assetsManager.checkWorkingDirectory());
@@ -56,7 +56,6 @@ public class TestABEngine {
 
 	public void setUpSiteEnvironment(){
 		setupWorkingDirectory();
-		request.setAbsoluteUrl("http://localhost:8080/site/data/?page=/easydrain&state=edit-block-0-type-icon");
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		assetsManager.createSiteDirectory();
 		assetsManager.clonePublicSiteFromGit(httpsRepositoryUrl);
@@ -68,6 +67,10 @@ public class TestABEngine {
 		setUpSiteEnvironment();
 
 		String path = assetsManager.getPageTemplatePath();
+
+		TestManager testManager = new TestManagerImpl();
+		String rootDir = path.replace("template.html", "");
+		testManager.setTestRootDir(rootDir);
 
 		System.out.println(path);
 
