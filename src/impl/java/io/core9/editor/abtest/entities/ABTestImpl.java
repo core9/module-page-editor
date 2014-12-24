@@ -1,5 +1,7 @@
 package io.core9.editor.abtest.entities;
 
+import io.core9.editor.abtest.TestProperties;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,7 @@ public class ABTestImpl implements ABTest {
 	private List<GeoLocation> includedLocations = new ArrayList<>();
 	private List<GeoLocation> excludedLocations = new ArrayList<>();
 	private List<ABTest> testRegistry = new ArrayList<>();
+	private TestProperties testProperties;
 
 
 
@@ -149,6 +152,11 @@ public class ABTestImpl implements ABTest {
 	@Override
 	public void setExcludedLocations(List<GeoLocation> excludedLocations) {
 		this.excludedLocations = excludedLocations;
+	}
+
+	@Override
+	public void setTestProperties(TestProperties testProperties) {
+		this.testProperties = testProperties;
 	}
 
 }

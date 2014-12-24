@@ -1,5 +1,7 @@
 package io.core9.editor.abtest.entities;
 
+import io.core9.editor.abtest.TestProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -50,5 +52,8 @@ public interface ABTest {
 	List<GeoLocation> getExcludedLocations();
 
 	void setExcludedLocations(List<GeoLocation> excludedLocations);
+
+	void setTestProperties(TestProperties testProperties);
+
 
 }
