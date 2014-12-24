@@ -55,5 +55,17 @@ public interface ABTest {
 
 	void setTestProperties(TestProperties testProperties);
 
+	String getVersion();
+
+	void setVersion(String version);
+
+	String getUserAgent();
+
+	void setUserAgent(String userAgent);
+
+	Double getPercentage();
+
+	void setPercentage(Double percentage);
+
 
 }

@@ -27,6 +27,7 @@ public class TestABEngine {
 	private static final String pathPrefix = "data/test-editor-variations";
 	private AssetsManager assetsManager;
 	private EditorRequest request;
+	@SuppressWarnings("unused")
 	private String clientId = "9a8eccd84f9c40c791281139a87da7b645f25fab";
 	private ClientRepositoryImpl clientRepository;
 	private String httpsRepositoryUrl = "https://github.com/jessec/site-core9.git";
@@ -143,6 +144,7 @@ public class TestABEngine {
 		ABTest abTest = getStandardTest();
 
 		testManager.addTest(abTest);
+		testManager.saveTests();
 	}
 
 }

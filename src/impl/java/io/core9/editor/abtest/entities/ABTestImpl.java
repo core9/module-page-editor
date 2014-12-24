@@ -13,6 +13,9 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 public class ABTestImpl implements ABTest {
 
 
+	private String userAgent;
+	private Double percentage;
+	private String version;
 	private boolean active;
 	private String name;
 	private String domain;
@@ -157,6 +160,36 @@ public class ABTestImpl implements ABTest {
 	@Override
 	public void setTestProperties(TestProperties testProperties) {
 		this.testProperties = testProperties;
+	}
+
+	@Override
+	public String getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	@Override
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	@Override
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	@Override
+	public Double getPercentage() {
+		return percentage;
+	}
+
+	@Override
+	public void setPercentage(Double percentage) {
+		this.percentage = percentage;
 	}
 
 }

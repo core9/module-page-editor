@@ -1,5 +1,7 @@
 package io.core9.editor.abtest;
 
+import io.core9.editor.abtest.entities.ABTest;
+
 public interface TestManager {
 
 	void setTestRootDir(String rootDir);
@@ -7,5 +9,9 @@ public interface TestManager {
 	void createVariationDirectories();
 
 	void setSiteRootDir(String docRoot);
+
+	void addTest(ABTest abTest);
+
+	void saveTests();
 
 }

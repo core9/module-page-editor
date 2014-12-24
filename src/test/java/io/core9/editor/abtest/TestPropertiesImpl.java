@@ -4,10 +4,11 @@ import java.util.List;
 
 public class TestPropertiesImpl implements TestProperties {
 
+	private List<String> propertyOrder;
+
 	@Override
 	public void setOrder(List<String> propertyOrder) {
-		// TODO Auto-generated method stub
-
+		this.propertyOrder = propertyOrder;
 	}
 
 

@@ -44,8 +44,14 @@ public class TestManagerImpl implements TestManager {
 		this.siteRootDir = siteRootDir;
 	}
 
+	@Override
 	public void addTest(ABTest abTest) {
 		abTestRegistry.put(abTest.getName(), abTest);
+	}
+
+	@Override
+	public void saveTests() {
+
 	}
 
 }
