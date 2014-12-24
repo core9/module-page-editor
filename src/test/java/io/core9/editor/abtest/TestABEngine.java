@@ -136,10 +136,7 @@ public class TestABEngine {
 		List<String> propertyOrder = new ArrayList<>();
 		propertyOrder.add(TestProperty.VERSION.getCode());
 		propertyOrder.add(TestProperty.USER_AGENT.getCode());
-		propertyOrder.add(TestProperty.GEO_LOCATION.getCode());
 		propertyOrder.add(TestProperty.REQUEST.getCode());
-		propertyOrder.add(TestProperty.PERIOD.getCode());
-		propertyOrder.add(TestProperty.PERCENTAGE.getCode());
 
 		testProperties.setPropertyOrder(propertyOrder);
 

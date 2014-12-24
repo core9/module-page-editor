@@ -2,7 +2,7 @@ package io.core9.editor.abtest;
 
 public enum TestProperty {
 
-	VERSION("version"), USER_AGENT("userAgent"), REQUEST("request"), GEO_LOCATION("geo"), PERIOD("period"), PERCENTAGE("percentage");
+	VERSION("version"), USER_AGENT("userAgent"), REQUEST("request");
 	private String code;
 
 	private TestProperty(String c) {
