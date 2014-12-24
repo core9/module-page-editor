@@ -5,6 +5,7 @@ import io.core9.editor.abtest.entities.ABTestRequest;
 
 public class ABCheckerImpl implements ABChecker {
 
+	@SuppressWarnings("unused")
 	private ABTest test;
 	private ABTestRequest request;
 
@@ -21,7 +22,7 @@ public class ABCheckerImpl implements ABChecker {
 
 	private void checkIfTestMachesRequest() {
 		if(!request.getPath().equals(request.getPath())){
-			
+
 		}
 	}
 
