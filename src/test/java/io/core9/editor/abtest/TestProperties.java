@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface TestProperties {
 
-	void setOrder(List<String> propertyOrder);
+
+	List<String> getPropertyOrder();
+
+	void setPropertyOrder(List<String> propertyOrder);
 
 }

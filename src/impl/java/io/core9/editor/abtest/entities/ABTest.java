@@ -1,6 +1,5 @@
 package io.core9.editor.abtest.entities;
 
-import io.core9.editor.abtest.TestProperties;
 
 import java.util.Date;
 import java.util.List;
@@ -53,8 +52,6 @@ public interface ABTest {
 
 	void setExcludedLocations(List<GeoLocation> excludedLocations);
 
-	void setTestProperties(TestProperties testProperties);
-
 	String getVersion();
 
 	void setVersion(String version);
@@ -66,6 +63,10 @@ public interface ABTest {
 	Double getPercentage();
 
 	void setPercentage(Double percentage);
+
+	void setRequest(String request);
+
+	String getRequest();
 
 
 }

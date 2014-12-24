@@ -31,7 +31,7 @@ public class TestABEngine {
 	private String clientId = "9a8eccd84f9c40c791281139a87da7b645f25fab";
 	private ClientRepositoryImpl clientRepository;
 	private String httpsRepositoryUrl = "https://github.com/jessec/site-core9.git";
-	private TestManagerImpl testManager;
+	private TestManager testManager;
 
 	private void setupWorkingDirectory() {
 		setUpRequest();
@@ -80,7 +80,7 @@ public class TestABEngine {
 		String path = assetsManager.getPageTemplatePath();
 		String docRoot = assetsManager.getSiteDirectory();
 
-		TestManager testManager = new TestManagerImpl();
+		testManager = new TestManagerImpl();
 		String rootDir = path.replace("template.html", "");
 		testManager.setTestRootDir(rootDir);
 		testManager.setSiteRootDir(docRoot);
@@ -108,6 +108,7 @@ public class TestABEngine {
 		abTest.setName("name");
 		abTest.setDomain("easydrain.localhost");
 		abTest.setPath("/p/scraper/nl");
+		abTest.setRequest("");
 		Date startDate = new Date();
 		Date endDate = new Date();
 		abTest.setStartDate(startDate);
@@ -120,19 +121,6 @@ public class TestABEngine {
 		List<GeoLocation> locations = new ArrayList<>();
 		abTest.setIncludedGeoLocations(locations);
 		abTest.setExcludedGeoLocations(locations);
-		TestProperties testProperties = new TestPropertiesImpl();
-
-		List<String> propertyOrder = new ArrayList<>();
-		propertyOrder.add(TestProperty.VERSION.getCode());
-		propertyOrder.add(TestProperty.USER_AGENT.getCode());
-		propertyOrder.add(TestProperty.GEO_LOCATION.getCode());
-		propertyOrder.add(TestProperty.REQUEST.getCode());
-		propertyOrder.add(TestProperty.PERIOD.getCode());
-		propertyOrder.add(TestProperty.PERCENTAGE.getCode());
-
-		testProperties.setOrder(propertyOrder);
-
-		abTest.setTestProperties(testProperties);
 
 		return abTest;
 	}
@@ -143,8 +131,26 @@ public class TestABEngine {
 
 		ABTest abTest = getStandardTest();
 
+		TestProperties testProperties = new TestPropertiesImpl();
+
+		List<String> propertyOrder = new ArrayList<>();
+		propertyOrder.add(TestProperty.VERSION.getCode());
+		propertyOrder.add(TestProperty.USER_AGENT.getCode());
+		propertyOrder.add(TestProperty.GEO_LOCATION.getCode());
+		propertyOrder.add(TestProperty.REQUEST.getCode());
+		propertyOrder.add(TestProperty.PERIOD.getCode());
+		propertyOrder.add(TestProperty.PERCENTAGE.getCode());
+
+		testProperties.setPropertyOrder(propertyOrder);
+
+		testManager.setTestProperties(testProperties);
+
+
 		testManager.addTest(abTest);
 		testManager.saveTests();
+
+		System.out.println("tests saved");
+
 	}
 
 }

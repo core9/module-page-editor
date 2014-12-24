@@ -14,4 +14,6 @@ public interface TestManager {
 
 	void saveTests();
 
+	void setTestProperties(TestProperties testProperties);
+
 }

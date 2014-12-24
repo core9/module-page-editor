@@ -6,8 +6,15 @@ public class TestPropertiesImpl implements TestProperties {
 
 	private List<String> propertyOrder;
 
+
+
 	@Override
-	public void setOrder(List<String> propertyOrder) {
+	public List<String> getPropertyOrder() {
+		return propertyOrder;
+	}
+
+	@Override
+	public void setPropertyOrder(List<String> propertyOrder) {
 		this.propertyOrder = propertyOrder;
 	}
 
