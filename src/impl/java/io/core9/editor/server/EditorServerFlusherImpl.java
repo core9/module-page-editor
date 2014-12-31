@@ -1,5 +1,7 @@
 package io.core9.editor.server;
 
+import java.util.Map;
+
 import io.core9.editor.client.ClientRepositoryImpl;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
@@ -21,7 +23,7 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 			@Override
 			public void handle(Request req) {
 
-
+				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
 
 
 			}
