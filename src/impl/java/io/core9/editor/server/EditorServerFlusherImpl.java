@@ -16,6 +16,17 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 
 	@Override
 	public void execute() {
+		
+		server.use("/plugins/editor/backup(.*)", new Middleware() {
+			@Override
+			public void handle(Request req) {
+
+
+
+
+			}
+		});
+		
 
 		server.use("/plugins/editor/flush(.*)", new Middleware() {
 			@Override
