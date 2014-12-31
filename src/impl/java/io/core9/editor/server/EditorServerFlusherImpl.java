@@ -23,10 +23,26 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 			@Override
 			public void handle(Request req) {
 
-				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
-
+			
+				
+				CommitClientSiteEnvironment(req);
 
 			}
+			
+			private void CommitClientSiteEnvironment(Request req) {
+				
+				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
+				
+				String host = req.getVirtualHost().getHostname();
+				req.getResponse().end("also possible /plugins/editor/flush?page=/scraper/nl&flush=template : " + host);
+				BlockTool blockTool = new CommitClientSiteEnvironment();
+				JSONObject data = new JSONObject();
+				data.put("host", ClientRepositoryImpl.cleanHost(host));
+				data.put("url", "http://" + host + req.getPath());
+				//blockTool.setData("data/editor", data);
+			}
+			
+			
 		});
 		
 
