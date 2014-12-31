@@ -28,7 +28,10 @@ public class CommitClientSiteEnvironment implements BlockTool {
 		request.setClientRepository(ClientData.getRepository());
 		request.setAbsoluteUrl(data.getAsString("url"));
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
-		if (!assetsManager.checkWorkingDirectory()) {
+		
+		System.out.println("pause");
+		
+/*		if (!assetsManager.checkWorkingDirectory()) {
 			assetsManager.createWorkingDirectory();
 		}
 		assetsManager.deleteClientDirectory();
@@ -41,7 +44,7 @@ public class CommitClientSiteEnvironment implements BlockTool {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	@Override

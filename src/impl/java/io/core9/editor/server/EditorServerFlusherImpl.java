@@ -39,7 +39,8 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 				JSONObject data = new JSONObject();
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
-				//blockTool.setData("data/editor", data);
+				data.putAll(postData);
+				blockTool.setData("data/editor", data);
 			}
 			
 			

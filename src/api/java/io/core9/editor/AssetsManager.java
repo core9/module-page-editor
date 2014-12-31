@@ -62,4 +62,7 @@ public interface AssetsManager {
 
 	String getPageCachedTemplate();
 
+	void commitPublicSiteToGit(String httpsRepositoryUrl, String user,
+			String password);
+
 }

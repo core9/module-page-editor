@@ -122,6 +122,11 @@ public class AssetsManagerImpl implements AssetsManager {
 	public void clonePublicSiteFromGit(String httpsRepositoryUrl) {
 		GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteDirectory());
 	}
+	
+	@Override
+	public void commitPublicSiteToGit(String httpsRepositoryUrl, String user, String password) {
+		//GitHandlerImpl.clonePublicGitRepository(httpsRepositoryUrl, getSiteDirectory());
+	}
 
 	@Override
 	public String getSiteConfigFile() {
