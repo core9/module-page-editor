@@ -6,4 +6,10 @@ public interface GitHandler {
 
 	void init();
 
+	void push();
+
+	void setUser(String user);
+
+	void setPassword(String password);
+
 }

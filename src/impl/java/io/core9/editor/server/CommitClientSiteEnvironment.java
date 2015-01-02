@@ -29,22 +29,11 @@ public class CommitClientSiteEnvironment implements BlockTool {
 		request.setAbsoluteUrl(data.getAsString("url"));
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
 		
-		System.out.println("pause");
+
 		
-/*		if (!assetsManager.checkWorkingDirectory()) {
-			assetsManager.createWorkingDirectory();
-		}
-		assetsManager.deleteClientDirectory();
-		assetsManager.createClientDirectory();
-		assetsManager.clonePublicSiteFromGit(ClientData.getRepository().getSiteRepository(assetsManager.getClientId()));
-		try {
-			List<String> blockRepos = ClientData.getRepository().getBlockRepository(assetsManager.getClientId());
-			for(String repo : blockRepos){
-				assetsManager.cloneBlocksFromGit(repo);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}*/
+		assetsManager.commitPublicSiteToGit(assetsManager.getSiteDirectory(), data.getAsString("siterepo"), data.getAsString("user"), data.getAsString("password"));
+		
+
 	}
 
 	@Override

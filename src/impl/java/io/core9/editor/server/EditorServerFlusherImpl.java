@@ -2,7 +2,9 @@ package io.core9.editor.server;
 
 import java.util.Map;
 
+import io.core9.editor.ClientRepository;
 import io.core9.editor.client.ClientRepositoryImpl;
+import io.core9.editor.data.ClientData;
 import io.core9.plugin.server.Server;
 import io.core9.plugin.server.handler.Middleware;
 import io.core9.plugin.server.request.Request;
@@ -37,6 +39,12 @@ public class EditorServerFlusherImpl implements EditorServerFlusher {
 				req.getResponse().end("also possible /plugins/editor/flush?page=/scraper/nl&flush=template : " + host);
 				BlockTool blockTool = new CommitClientSiteEnvironment();
 				JSONObject data = new JSONObject();
+				
+				ClientRepository repo = ClientData.getRepository();
+				String client = repo.getClientForDomain(host);
+				data.put("user", postData.get("user"));
+				data.put("password", postData.get("password"));
+				data.put("siterepo", repo.getSiteRepository(client));
 				data.put("host", ClientRepositoryImpl.cleanHost(host));
 				data.put("url", "http://" + host + req.getPath());
 				data.putAll(postData);
