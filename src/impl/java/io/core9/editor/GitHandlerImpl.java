@@ -52,7 +52,7 @@ public class GitHandlerImpl implements GitHandler {
 		GitHandler git = new GitHandlerImpl(httpsRepositoryUrl, repoDir);
 		git.setUser(user);
 		git.setPassword(password);
-		git.init();
+		//git.init();
 		git.push();
 		
 	}
