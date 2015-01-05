@@ -76,7 +76,7 @@ dependencies {
   compile 'io.core9:module-features:+'
 
   // Git
-  //compile 'io.core9:module-git:+'
+  compile 'io.core9:module-git:+'
 
   // Widgets
   compile 'io.core9:module-widgets:+'
