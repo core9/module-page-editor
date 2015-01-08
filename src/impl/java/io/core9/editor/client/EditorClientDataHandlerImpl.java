@@ -82,11 +82,12 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 				String path = req.getPath();
 				String host = req.getHostname();
-				if(!path.startsWith("/p/scraper/nl") && host.indexOf("easydrain") != -1){
+				//FIXME weird piece of code
+/*				if(!path.startsWith("/p/scraper/nl") && host.indexOf("easydrain") != -1){
 					result.put("head", "");
 					result.put("body", "");
 					return result;
-				}
+				}*/
 
 
 				request = new EditorRequestImpl();
