@@ -55,7 +55,7 @@ public class FileManagerImpl implements FileManager {
 					directory.put("text", fileObj.getName());
 					directory.put("children", true);
 					directory.put("id", fileName);
-					directory.put("icon", "folder");
+					directory.put("icon", "folder folder-" + getDirectoryExtention(fileName));
 					fileList.add(directory);
 				} else {
 					JSONObject file = new JSONObject();
@@ -89,6 +89,11 @@ public class FileManagerImpl implements FileManager {
 		}
 
 		return fileList;
+	}
+
+	private String getDirectoryExtention(String fileName) {
+		System.out.println(fileName);
+		return "";
 	}
 
 	private String getFileExtention(String fileName) {
