@@ -1,0 +1,77 @@
+{namespace io.core9.editor}
+
+/**
+ * @param vhost
+ * @param page
+ */
+{template .editor}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Core9 page editor</title>
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script>
+{literal}
+var EditorConfig = {
+            baseUrl : 'http://{/literal}{$vhost}{literal}/',
+            pageUrl : 'http://{/literal}{$vhost}{$page}{literal}',
+            widgets : 'http://{/literal}{$vhost}{literal}/site/assets/json/widgets.json'
+}
+
+{/literal};
+</script>
+</head>
+<body>
+  <header>
+    <div id="variants" style="float: right; width: 20px; height: 20px; background-color: red; margin-right: 20px;"></div>
+    <div id="placeholder-page-selector"></div>
+  </header>
+
+
+  <div id="modal"></div>
+
+  <div id="delete-form"
+    style="display: none; position: fixed; top: 100px; background-color: #fff; z-index: 9999; width: 768px; left: 50%; margin-left: -384px; padding: 20px;"
+  >
+    <p>Weet u zeker dat u dit block wilt verwijderen?</p>
+    <button class="delete-block" style="">bevestig</button>
+  </div>
+
+  <div class="modal fade" id="wizard-wrapper">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+          Blok bewerken
+        </div>
+        <div class="modal-body">
+          <div id="tab-container">
+            <ul id="tab-ul">
+              <li class="step"><a href="javascript:Wizard.restoreUrl();">Maak keuze</a>
+                <div id="choose-div" class="main-container form-container">
+                  <input type="text" id="data-list" list="widgets">
+                  <datalist id="widgets">
+                  </datalist>
+                  <button class="btn btn-success" id="choose-button">Selecteer</button>
+                  <button class="btn btn-danger" onclick="location.reload();">Reset</button>
+                  <button class="btn btn-success close-modal" style="float: right;" onclick="location = location.href.replace(location.hash , "");">Sluiten</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div> <!-- END MODAL -->
+
+  <div style="margin-top: 0px; text-align: right;">
+    <iframe id="iframe" src="http://{$vhost}{$page}" width="100%" scrolling="no" frameBorder="0"></iframe>
+  </div>
+
+<script src="/ui-widgets/editor/js/editor.load.js"></script>
+</body>
+</html>
+{/template}

@@ -8,4 +8,8 @@ public interface Block {
 
 	Element getElement();
 
+	BlockData getBlockData();
+
+	void addBlockData(BlockData blockData);
+
 }

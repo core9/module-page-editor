@@ -14,16 +14,47 @@ repositories {
   jcenter()
 }
 
+repositories {
+  flatDir {
+    dirs 'libs'
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+compileJava {
+  options.compilerArgs << '-parameters'
+  //options.fork = true
+  //options.forkOptions.executable = 'javac'
+}
+
+
 task wrapper(type: Wrapper) {
   gradleVersion = '1.12'
 }
+
 
 dependencies {
   // project dependencies
 
   compile 'org.jsoup:jsoup:1.7.3'
   compile 'com.google.jimfs:jimfs:1.0'
+  compile 'com.google.code.gson:gson:2.3'
+  compile 'commons-io:commons-io:2.4'
+  compile 'org.apache.httpcomponents:httpclient:4.3.6'
+  compile 'com.maxmind.geoip:geoip-api:1.2.14'
 
+  compile 'com.googlecode.jctree:jctree:2.0.0'
+
+
+
+  testCompile 'junit:junit:4.11'
+
+
+  compile 'io.core9:module-widgets-scraper-api:+'
+  compile 'io.core9:module-widgets-scraper:+'
 
   // Core
   compile 'io.core9:core:+'
@@ -36,6 +67,7 @@ dependencies {
   // Authentication
   compile 'io.core9:module-authentication:+'
   compile 'io.core9:module-authentication-standard:+'
+  //compile 'io.core9:module-session-persistence:+'
 
   // Template engine
   compile 'io.core9:module-template-engine-closure:+'

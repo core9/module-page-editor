@@ -1,0 +1,16 @@
+{
+  "data":{
+    "width":"560",
+    "title":"title",
+    "url":"http:\/\/youtu.be\/kDfw4yt554g",
+    "content":"content",
+    "height":"315"
+  },
+  "meta":{
+    "template":"site\/blocks\/block-video\/smallphoto\/tpl\/site-block-smallphoto.soy",
+    "block":"6",
+    "state":"edit",
+    "absolute-url":"http:\/\/localhost:8080\/nl",
+    "type":"smallphoto"
+  }
+}

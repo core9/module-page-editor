@@ -1,29 +1,41 @@
 package io.core9.editor;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import io.core9.editor.client.ClientRepositoryImpl;
+import io.core9.editor.data.ClientData;
+import io.core9.editor.server.BlockImpl;
 
 import java.io.File;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Parser;
 import org.junit.Test;
 
 public class TestPageParser {
 
-	private String blockClassName;
-	private Parser parser;
-	private List<Block> blocks;
+	private static final String pathPrefix = "data/test-editor";
+	private AssetsManager assetsManager;
+	private EditorRequest request;
+	private ClientRepositoryImpl clientRepository;
+
+	private String blockClassName = ".block";
+	private String blockContainer = "#main-section";
+	private PageParser parser;
+	private String fullHtmlTestPage = "data/test-editor/9a8eccd84f9c40c791281139a87da7b645f25fab/site/pages/localhost/test/template.html";
 
 	public void setupBlocksFromPage() {
-		blockClassName = ".block";
-		URL url = this.getClass().getResource("/editor/front-page.html");
-		File testPage = new File(url.getFile());
+		setupWorkingDirectory();
+
+		File testPage = new File(fullHtmlTestPage);
 		assertTrue(testPage.exists());
-		parser = new PageParserImpl(testPage, blockClassName);
-		blocks = parser.getBlocks();
+		parser = new PageParserImpl(testPage, blockContainer, blockClassName);
+		List<Block> blocks = parser.getBlocks();
 		assertTrue(blocks.size() > 1);
 	}
 
@@ -59,7 +71,7 @@ public class TestPageParser {
 	@Test
 	public void testIfSavedFileIsRestoredCorrect() {
 		setupBlocksFromPage();
-		Path file = FileUtils.getFile("/fooo", "new-front-page.html");
+		Path file = FileUtils.getFile("/fooo", "template.html");
 		String originalContent = parser.getOriginalFile();
 		file = FileUtils.writeToFile(file, originalContent);
 		String content = FileUtils.readPathToString(file);
@@ -102,7 +114,6 @@ public class TestPageParser {
 		assertTrue(findBlockContaining("3 block", content) == 4);
 	}
 
-
 	@Test
 	public void testAssemblePageFromBlocksAfterInsertBlock() {
 		setupBlocksFromPage();
@@ -133,27 +144,91 @@ public class TestPageParser {
 		String content = parser.getPage();
 		assertTrue(!originalContent.equals(content));
 		assertTrue(findBlockContaining("1 block", content) == 0);
-		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but block 4 since it is a list
+		assertTrue(findBlockContaining("4 block", content) == 0); // not 3 but
+																	// block 4
+																	// since it
+																	// is a list
 	}
 
+	@Test
+	public void testAssemblePageFromBlocksAfterDeletingAllBlocks() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteAllBlocks();
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		assertAllBlocksAreDeleted(content);
 
+	}
+
+	//@Test DUE TO REFACTOR TESTS
+	public void testAddBlockToEmptyContainer() {
+		setupBlocksFromPage();
+		String originalContent = parser.getOriginalFile();
+		parser.deleteAllBlocks();
+		String content = parser.getPage();
+		assertTrue(!originalContent.equals(content));
+		assertAllBlocksAreDeleted(content);
+		String string = "<figure class=\"5 block\"><img src=\"placeholders/txt_(620x430).jpg\"></figure>";
+		Element element = Jsoup.parse(string, "", Parser.xmlParser());
+		Block block = new BlockImpl();
+		block.addElement(element);
+		parser.insertBlock(0, block);
+		String newContent = parser.getPage();
+		assertTrue(findBlockContaining("5 block", newContent) == 1);
+	}
+
+	private void assertAllBlocksAreDeleted(String content) {
+		assertTrue(findBlockContaining("1 block", content) == 0);
+		assertTrue(findBlockContaining("2 block", content) == 0);
+		assertTrue(findBlockContaining("3 block", content) == 0);
+		assertTrue(findBlockContaining("4 block", content) == 0);
+		assertTrue(findBlockContaining("5 block", content) == 0);
+		assertTrue(findBlockContaining("6 block", content) == 0);
+		assertTrue(findBlockContaining("7 block", content) == 0);
+	}
 
 	private int findBlockContaining(String string, String content) {
-        Pattern pattern = Pattern.compile(string.toLowerCase());
-        Matcher  matcher = pattern.matcher(content.toLowerCase());
-        int count = 0;
-        while (matcher.find())
-            count++;
-        return count;
+		Pattern pattern = Pattern.compile(string.toLowerCase());
+		Matcher matcher = pattern.matcher(content.toLowerCase());
+		int count = 0;
+		while (matcher.find())
+			count++;
+		return count;
 	}
 
-	private boolean isEqual(String originalContent, String content){
+	private boolean isEqual(String originalContent, String content) {
 		return originalContent.replaceAll("\\s+", "").trim().equals(content.replaceAll("\\s+", "").trim());
 	}
 
 	@SuppressWarnings("unused")
-	private void printContent(String originalContent, String content){
+	private void printContent(String originalContent, String content) {
 		System.out.println(originalContent);
 		System.out.println(content);
+	}
+
+	private void setupWorkingDirectory() {
+		setUpRequest();
+		assetsManager = new AssetsManagerImpl(pathPrefix, request);
+		assetsManager.deleteWorkingDirectory();
+		assertFalse(assetsManager.checkWorkingDirectory());
+		assetsManager.createWorkingDirectory();
+		assertTrue(assetsManager.checkWorkingDirectory());
+		assetsManager.deleteClientDirectory();
+		assetsManager.createClientDirectory();
+		String clientId = assetsManager.getClientId();
+		ClientRepository repository = ClientData.getRepository();
+		String siteRepoUrl = repository.getSiteRepository(clientId);
+		assetsManager.clonePublicSiteFromGit(siteRepoUrl);
+	}
+
+	private void setUpRequest() {
+		clientRepository = new ClientRepositoryImpl();
+		clientRepository.addDomain("www.easydrain.nl", "easydrain");
+		clientRepository.addDomain("localhost", "easydrain");
+		clientRepository.addSiteRepository("easydrain", "https://github.com/jessec/site-core9.git");
+		request = new EditorRequestImpl();
+		request.setClientRepository(clientRepository);
+		request.setAbsoluteUrl("http://localhost:8080/nl");
 	}
 }
