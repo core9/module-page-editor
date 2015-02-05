@@ -40,6 +40,12 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// System.out.println("Content: " + content.toString());
 		return content.toString();//.substring(0, content.toString().length() - 2);
 	}
