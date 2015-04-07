@@ -166,6 +166,9 @@ public class FileManagerImpl implements FileManager {
 			case "xml":
 				result.put("content", readFile(dir, StandardCharsets.UTF_8));
 				break;
+			case "soy":
+				result.put("content", readFile(dir, StandardCharsets.UTF_8));
+				break;
 			case "c":
 			case "cpp":
 			case "h":
