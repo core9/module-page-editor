@@ -100,6 +100,12 @@ public class EditorServerPluginImpl implements EditorServerPlugin {
 		return null;
 	}
 
+	@Override
+	public String retrieveCollectionOverride() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

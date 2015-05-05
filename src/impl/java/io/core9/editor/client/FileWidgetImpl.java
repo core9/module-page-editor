@@ -73,4 +73,10 @@ public class FileWidgetImpl implements FileWidget {
 		return null;
 	}
 
+	@Override
+	public String retrieveCollectionOverride() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -4,10 +4,6 @@ import io.core9.editor.AssetsManager;
 import io.core9.editor.AssetsManagerImpl;
 import io.core9.editor.EditorRequestImpl;
 import io.core9.editor.data.ClientData;
-
-import java.io.FileNotFoundException;
-import java.util.List;
-
 import net.minidev.json.JSONObject;
 
 public class CommitClientSiteEnvironment implements BlockTool {
@@ -28,11 +24,11 @@ public class CommitClientSiteEnvironment implements BlockTool {
 		request.setClientRepository(ClientData.getRepository());
 		request.setAbsoluteUrl(data.getAsString("url"));
 		assetsManager = new AssetsManagerImpl(pathPrefix, request);
-		
 
-		
+
+
 		assetsManager.commitPublicSiteToGit(assetsManager.getSiteDirectory(), data.getAsString("siterepo"), data.getAsString("user"), data.getAsString("password"));
-		
+
 
 	}
 

@@ -23,7 +23,7 @@ public class EditorDynamicBlocksServerImpl implements EditorDynamicBlocksServer 
 
 			@Override
 			public void handle(Request req) {
-				Map<String, Object> params = req.getParams();
+				Map<String, String> params = req.getParams();
 
 				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
 

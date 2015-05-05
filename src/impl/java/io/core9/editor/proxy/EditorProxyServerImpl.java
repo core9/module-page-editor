@@ -27,7 +27,7 @@ public class EditorProxyServerImpl implements EditorProxyServer{
 			@Override
 			public void handle(Request req) {
 				@SuppressWarnings("unused")
-				Map<String, Object> params = req.getParams();
+				Map<String, String> params = req.getParams();
 
 				@SuppressWarnings("unused")
 				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();

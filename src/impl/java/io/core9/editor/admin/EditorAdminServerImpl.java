@@ -34,22 +34,22 @@ public class EditorAdminServerImpl implements EditorAdminServer {
 			public void handle(Request req) {
 
 				String host = req.getVirtualHost().getHostname();
-				
+
 				EditorRequest editorRequest = new EditorRequestImpl();
 				editorRequest.setClientRepository(ClientData.getRepository());
 				editorRequest.setAbsoluteUrl("http://" + host + req.getPath());
-				
+
 				AssetsManager assetsManager = new AssetsManagerImpl("data/editor", editorRequest);
-				
+
 				String clientId = assetsManager.getClientId();
-				
+
 				String baseDir = "data/editor/" + clientId;
-				
+
 				Map<String, Object> postData = req.getBodyAsMap().toBlocking().last();
-				
-				
-				
-				Map<String, Object> params = req.getParams();
+
+
+
+				Map<String, String> params = req.getParams();
 
 				FileManager fm;
 				FileManagerRequest request = new FileManagerRequest();
