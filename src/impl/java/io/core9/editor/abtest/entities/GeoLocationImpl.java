@@ -4,6 +4,7 @@ public class GeoLocationImpl implements GeoLocation {
 
 	@SuppressWarnings("unused")
 	private String name;
+	@SuppressWarnings("unused")
 	private String ipAddress;
 
 	public GeoLocationImpl(String name) {

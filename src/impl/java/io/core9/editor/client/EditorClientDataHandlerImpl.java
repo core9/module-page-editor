@@ -80,7 +80,9 @@ public class EditorClientDataHandlerImpl implements EditorClientDataHandler<Edit
 
 
 
+				@SuppressWarnings("unused")
 				String path = req.getPath();
+				@SuppressWarnings("unused")
 				String host = req.getHostname();
 				//FIXME weird piece of code
 /*				if(!path.startsWith("/p/scraper/nl") && host.indexOf("easydrain") != -1){

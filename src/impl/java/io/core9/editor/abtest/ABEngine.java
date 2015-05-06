@@ -23,8 +23,10 @@ public class ABEngine {
 
 	private static Map<String, Object> getTestVarsFromStorage(String abSessionId, String path) {
 
+		@SuppressWarnings("unused")
 		ABStorage storage = ABStorageImpl.getInstance();
 
+		@SuppressWarnings("unused")
 		Map<String, Object> data = new HashMap<String, Object>();
 
 		// if new to path (test cache)
